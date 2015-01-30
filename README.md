@@ -38,7 +38,7 @@ Put all the files under a *new-folder*
 > /path/to/galaxy-dist/tools/*new-folder*
 
 Change the file *tool_conf.xml.sample* to be:
-'''xml
+```xml
 <?xml version='1.0' encoding='utf-8'?>
 <toolbox>
   <section id="*new-folder*" name="Section Name">
@@ -47,7 +47,7 @@ Change the file *tool_conf.xml.sample* to be:
   </section>
   [...]
 </toolbox>
-'''
+```
 
 ### Todo's
 
