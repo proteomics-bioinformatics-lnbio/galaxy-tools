@@ -1,0 +1,17 @@
+<?xml version="."?>
+<tool id="log2" name="Log2transform" version="." hidden="false">
+  <description>Test executing a simple R script and return log2 transformed data</description>
+  <command interpreter="Rscript">log2_transf.r --infilename=$infilename --outfilename=$outfilename</command>
+  <inputs>
+    <param name="infilename" type="data" format="tabular" label="Source file to log transform"/>
+  </inputs>
+  <outputs>
+    <data format="text" name="outfilename"/>
+  </outputs>
+ 
+  <help>
+**What it does**
+ 
+This tool executes a test R script to Log2 transform data.
+  </help>
+</tool>

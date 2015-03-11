@@ -1,0 +1,5 @@
+uniprot_id	protein_name	modification_position	modification_description	reference
+P10599	Thioredoxin	62	S-nitrosocysteine	http://www.ncbi.nlm.nih.gov/pubmed/17260951
+P10599	Thioredoxin	69	S-nitrosocysteine	http://www.ncbi.nlm.nih.gov/pubmed/17260951
+P10599	Thioredoxin	73	S-nitrosocysteine; alternate	http://www.ncbi.nlm.nih.gov/pubmed/16408020
+P10599	Thioredoxin	73	S-nitrosocysteine; alternate	http://www.ncbi.nlm.nih.gov/pubmed/17606900

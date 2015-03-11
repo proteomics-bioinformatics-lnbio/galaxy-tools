@@ -1,0 +1,89 @@
+<tool id="descript" name="Description" version="1" force_history_refresh="True">
+  <description></description>
+  <command interpreter="perl">
+    description.pl
+    $input
+    $out1 $out1.id $__new_file_path__
+    ${tax}
+    #for $s in $series
+        #if $s.series_type['type'] == "id"
+	    "id,"${s.series_type.id_col}","${s.series_type.id_source}
+	#else
+	    ${s.series_type.valopt}","${s.series_type.cols}
+	#end if
+    #end for
+    #for $t in $sample
+        "sp,"${t.sset}","${t.spname}
+    #end for
+    #for $t in $class
+        "cl,"${t.cset}","${t.clname}
+    #end for
+  </command>
+  <inputs>
+    <param format="tabular" name="input" type="data" label="Upload a table from Get Data menu"/>
+    <param type="text" name="tax" label="Taxonomy id" help="Avoid using special characters (\/?!*, etc)">
+      <validator type="regex" message="Oops! Tax id in wrong format. Please, check help for more information.">^[-_A-Za-z0-9]*$</validator>
+    </param>
+    <repeat name="series" title="data category">
+      <conditional name="series_type">
+	<param name="type" type="select" label="Series type">
+	  <option value="val" selected="true">Value</option>
+	  <option value="id">ID</option>
+	</param>
+	<when value="val">
+	  <param name="cols" type="text" label="Columns" help="Column interval must be hifen separated (e.g. 1-4)">
+	    <validator type="regex" message="Oops! Set of columns in wrong format. Please, check help for more information.">^[1-9][0-9]*-[1-9][0-9]*$</validator>
+	  </param>
+	  <param name="valopt" type="select" display="radio" label="Type">
+	    <option value="intensity">Intensity</option>
+	    <option value="speccount">Spectral Count</option>
+	    <option value="foldchange">Fold Change</option>
+	    <option value="logratio">Log Ratio</option>
+	    <option value="pvalue">p-value</option>
+	  </param>
+	</when>
+	<when value="id">
+	  <param name="id_col" type="text" label="ID Column" help="Column number (e.g. 1)">
+	    <validator type="regex" message="Oops! Set of columns in wrong format. Please, check help for more information.">^[1-9][0-9]*$</validator>
+	  </param>
+	  <param name="id_source" type="select" display="radio" label="Source">
+	    <option value="gene_symbol">Gene Symbol</option>
+	    <option value="uniprot">Uniprot Accession</option>
+	    <option value="ipi">IPI</option>
+	    <option value="tair">Tair</option>
+	    <option value="ensembl">ENSEMBL</option>
+	    <option value="refseq">RefSeq</option>
+	  </param>
+	</when>
+      </conditional>
+    </repeat>
+
+    <repeat name="sample" title="definition for samples">
+      <param name="spname" type="text" label="Sample name" help="Avoid using special characters (\/?!*, etc)">
+	<validator type="regex" message="Oops! Wrong type of character detected. Please, check help for more information.">^[-_A-Za-z0-9]*$</validator>
+      </param>
+      <param name="sset" type="text" label="Set of columns" help="Column interval must be hifen separated (e.g. 1-4, 2-2)">
+	<validator type="regex" message="Oops! Set of columns in wrong format. Please, check help for more information.">^[1-9][0-9]*-[1-9][0-9]*$</validator>
+      </param>
+    </repeat>
+
+    <repeat name="class" title="definition for class">
+      <param name="clname" format="txt" type="text" label="Class name">
+	<validator type="regex" message="Oops! Wrong type of character detected. Please, check help for more information.">^[-_A-Za-z0-9]*$</validator>
+      </param>
+      <param name="cset" type="text" label="Set of columns" help="Column interval must be hifen separated (e.g. 1-4, 2-2)">
+	<validator type="regex" message="Oops! Set of columns in wrong format. Please, check help for more information.">^[1-9][0-9]*-[1-9][0-9]*$</validator>
+      </param>
+    </repeat>
+
+  </inputs>
+  <outputs>
+    <data format="interval" name="out1" metadata_source="input"/>
+  </outputs>
+  <help>
+    Prepare a table for further analysis
+
+    Configure a table to have first two columns of id's and the rest with values.
+    The output could be several tables depending on number of data categorys of input table.
+  </help>
+</tool>

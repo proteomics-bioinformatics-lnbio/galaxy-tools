@@ -1,0 +1,72 @@
+<tool_dependency>
+  <package name="perl" version="5.18.1">
+    <repository name="package_perl_5_18" owner="iuc" prior_installation_required="True" />
+  </package>
+
+  <package name="perl_lwp_useragent" version="6.13">
+    <install version="1.0">
+      <actions>
+	<action type="setup_perl_environment">
+	  <repository name="package_perl_5_18" owner="iuc">
+	    <package name="perl" version="5.18.1" />
+	  </repository>
+          <package>http://www.cpan.org/authors/id/C/CJ/CJM/IO-HTML-1.001.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/E/ET/ETHER/URI-1.67.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Date-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.20.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Message-6.06.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/Encode-Locale-1.04.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/File-Listing-6.04.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.71.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Cookies-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Daemon-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Negotiate-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/M/MS/MSCHILLI/Net-HTTP-6.07.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/WWW-RobotRules-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/E/ET/ETHER/libwww-perl-6.13.tar.gz</package>
+	</action>
+      </actions>
+    </install>
+    <readme><![CDATA[
+    Perl package: LWP::UserAgent
+    ]]>
+    </readme>
+  </package>
+
+
+  <package name="perl_xml_twig" version="3.48">
+    <install version="1.0">
+      <actions>
+	<action type="setup_perl_environment">
+	  <repository name="package_perl_5_18" owner="iuc">
+	    <package name="perl" version="5.18.1" />
+	  </repository>
+          <package>http://www.cpan.org/authors/id/C/CJ/CJM/IO-HTML-1.001.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/E/ET/ETHER/URI-1.67.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Date-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.20.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Message-6.06.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/Encode-Locale-1.04.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/File-Listing-6.04.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.71.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Cookies-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Daemon-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/HTTP-Negotiate-6.01.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/M/MS/MSCHILLI/Net-HTTP-6.07.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/G/GA/GAAS/WWW-RobotRules-6.02.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/E/ET/ETHER/libwww-perl-6.13.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/T/TO/TODDR/XML-Parser-2.44.tar.gz</package>
+          <package>http://www.cpan.org/authors/id/M/MI/MIROD/XML-Twig-3.48.tar.gz</package>
+	</action>
+      </actions>
+    </install>
+    <readme><![CDATA[
+    Perl package: XML::Twig
+    ]]>
+    </readme>
+  </package>
+
+
+</tool_dependency>

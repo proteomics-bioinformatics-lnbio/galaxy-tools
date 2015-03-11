@@ -1,0 +1,22 @@
+<?xml version="."?>
+<tool id="rtest" name="CSV to data Converter" version="." hidden="false">
+<description>Converts a CSV file into .data file</description>
+ 
+<command interpreter="Rscript">
+    rtest.r --input=$input --output=$output
+</command>
+ 
+<inputs>
+  <param format="txt" name="input" type="data" label="Upload a table from Get Data menu"/>
+</inputs>
+ 
+<outputs>
+  <data format="tabular" name="output"/>
+</outputs>
+ 
+<help>
+**What it does**
+ 
+This tool executes a test R script.
+</help>
+</tool>

@@ -1,0 +1,276 @@
+uniprot_id	protein_name	modification_position	modification_description	reference
+B9A064	Immunoglobulin lambda-like polypeptide 5	136-195		PROSITE-ProRule: PRU00114
+P10599	Thioredoxin	32-35	Redox-active	PROSITE-ProRule: PRU00691
+P10599	Thioredoxin	32-35	Redox-active	http://www.ncbi.nlm.nih.gov/pubmed/17260951
+P10599	Thioredoxin	32-35	Redox-active	http://www.ncbi.nlm.nih.gov/pubmed/2001356
+P10599	Thioredoxin	73	Interchain; alternate	http://www.ncbi.nlm.nih.gov/pubmed/17260951
+P01023	Alpha-2-macroglobulin	48-86		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	251-299		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	269-287		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	278	Interchain (with C-431)	
+P01023	Alpha-2-macroglobulin	431	Interchain (with C-278)	
+P01023	Alpha-2-macroglobulin	470-563		
+P01023	Alpha-2-macroglobulin	595-771		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	642-689		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	821-849		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	847-883		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	921-1321		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	1079-1127		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01023	Alpha-2-macroglobulin	1352-1467		http://www.ncbi.nlm.nih.gov/pubmed/6203908
+P01031	Complement C5	567-810		
+P01031	Complement C5	634-669		
+P01031	Complement C5	698-724		
+P01031	Complement C5	699-731		
+P01031	Complement C5	711-732		
+P01031	Complement C5	856-883		
+P01031	Complement C5	866-1527		
+P01031	Complement C5	1101-1159		
+P01031	Complement C5	1375-1505		
+P01031	Complement C5	1405-1474		
+P01031	Complement C5	1520-1525		
+P01031	Complement C5	1532-1606		
+P01031	Complement C5	1553-1676		
+P01031	Complement C5	1654-1657		
+P01834	Ig kappa chain C region	26-86		PROSITE-ProRule: PRU00114
+P01834	Ig kappa chain C region	26-86		http://www.ncbi.nlm.nih.gov/pubmed/4923144
+P01834	Ig kappa chain C region	106	Interchain (with a heavy chain)	PROSITE-ProRule: PRU00114
+P01834	Ig kappa chain C region	106	Interchain (with a heavy chain)	http://www.ncbi.nlm.nih.gov/pubmed/4923144
+Q07954	Prolow-density lipoprotein receptor-related protein 1	27-40		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	34-53		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	47-64		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	72-85		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	79-98		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	92-108		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	115-124		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	120-133		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	135-148		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	154-164		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	160-173		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	175-188		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	478-493		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	489-504		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	506-519		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	807-818		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	814-827		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	829-842		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	854-866		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	861-879		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	873-890		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	895-907		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	902-920		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	914-931		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	936-948		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	943-961		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	955-971		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	976-989		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	984-1002		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	996-1011		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1015-1027		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1022-1040		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1034-1051		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1062-1075		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1069-1088		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1082-1097		
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1104-1118		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1112-1131		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1125-1140		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1145-1159		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1152-1172		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1166-1182		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1185-1196		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1192-1206		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1208-1221		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1227-1237		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1233-1246		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1248-1261		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1540-1553		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1549-1563		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1565-1578		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1850-1861		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1857-1871		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	1873-1886		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2159-2170		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2166-2180		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2182-2194		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2482-2493		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2489-2503		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2505-2517		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2524-2537		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2532-2550		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2544-2561		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2566-2578		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2573-2591		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2585-2600		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2605-2617		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2612-2630		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2624-2639		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2644-2666		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2660-2679		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2673-2688		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2696-2708		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2703-2721		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2715-2730		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2734-2746		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2741-2759		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2753-2769		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2774-2787		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2781-2800		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2794-2812		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2818-2830		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2825-2843		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2837-2853		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2858-2870		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2865-2884		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2878-2897		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2904-2917		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2912-2930		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2924-2939		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2944-2956		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2952-2965		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2967-2980		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2986-2996		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	2992-3005		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3007-3021		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3294-3305		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3301-3315		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3317-3330		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3334-3346		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3341-3359		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3353-3369		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3374-3386		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3381-3399		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3393-3408		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3413-3426		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3420-3439		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3433-3448		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3453-3466		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3460-3479		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3473-3489		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3494-3507		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3501-3520		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3514-3531		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3536-3548		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3543-3561		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3555-3570		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3575-3587		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3582-3600		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3594-3609		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3613-3625		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3620-3638		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3632-3647		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3654-3666		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3661-3679		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3673-3690		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3695-3709		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3703-3722		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3716-3731		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3741-3754		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3749-3767		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3761-3776		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3785-3798		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3792-3807		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3809-3822		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3828-3838		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3834-3847		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	3849-3860		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4151-4160		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4156-4169		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4171-4182		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4200-4210		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4204-4220		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4222-4231		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4236-4246		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4240-4256		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4258-4267		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4272-4282		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4276-4292		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4294-4303		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4308-4318		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4312-4328		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4330-4339		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4344-4352		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4347-4363		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4365-4374		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4377-4387		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4381-4397		ECO:0000250
+Q07954	Prolow-density lipoprotein receptor-related protein 1	4399-4408		ECO:0000250
+P02774	Vitamin D-binding protein	29-75		
+P02774	Vitamin D-binding protein	74-83		PROSITE-ProRule: PRU00769
+P02774	Vitamin D-binding protein	96-112		
+P02774	Vitamin D-binding protein	111-122		
+P02774	Vitamin D-binding protein	145-190		
+P02774	Vitamin D-binding protein	189-198		
+P02774	Vitamin D-binding protein	220-266		
+P02774	Vitamin D-binding protein	265-273		
+P02774	Vitamin D-binding protein	286-300		
+P02774	Vitamin D-binding protein	299-311		
+P02774	Vitamin D-binding protein	335-376		
+P02774	Vitamin D-binding protein	375-384		
+P02774	Vitamin D-binding protein	407-453		
+P02774	Vitamin D-binding protein	452-462		
+P02787	Serotransferrin	28-67		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	28-67		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	38-58		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	38-58		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	137-213		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	137-213		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	156-350		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	156-350		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	177-193		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	177-193		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	180-196		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	180-196		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	190-198		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	190-198		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	246-260		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	246-260		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	358-615		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	358-615		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	364-396		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	364-396		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	374-387		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	374-387		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	421-693		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	421-693		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	437-656		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	437-656		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	469-542		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	469-542		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	493-684		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	493-684		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	503-517		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	503-517		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	514-525		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	514-525		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	582-596		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	582-596		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02787	Serotransferrin	634-639		PROSITE-ProRule: PRU00741
+P02787	Serotransferrin	634-639		http://www.ncbi.nlm.nih.gov/pubmed/6953407
+P02790	Hemopexin	50-231		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P02790	Hemopexin	149-154		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P02790	Hemopexin	188-200		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P02790	Hemopexin	257-460		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P02790	Hemopexin	366-408		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P02790	Hemopexin	418-435		http://www.ncbi.nlm.nih.gov/pubmed/3855550
+P04217	Alpha-1B-glycoprotein	49-93		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	139-182		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	139-182		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	232-279		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	232-279		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	325-374		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	325-374		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	423-470		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	49-93		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	139-182		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	139-182		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	232-279		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	232-279		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	325-374		PROSITE-ProRule: PRU00114
+P04217	Alpha-1B-glycoprotein	325-374		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P04217	Alpha-1B-glycoprotein	423-470		http://www.ncbi.nlm.nih.gov/pubmed/3458201
+P07858	Cathepsin B	93-122		http://www.ncbi.nlm.nih.gov/pubmed/1868826
+P07858	Cathepsin B	105-150		http://www.ncbi.nlm.nih.gov/pubmed/1868826
+P07858	Cathepsin B	141-207		http://www.ncbi.nlm.nih.gov/pubmed/1868826
+P07858	Cathepsin B	142-146		http://www.ncbi.nlm.nih.gov/pubmed/1868826
+P07858	Cathepsin B	179-211		http://www.ncbi.nlm.nih.gov/pubmed/1868826
+P07858	Cathepsin B	187-198		http://www.ncbi.nlm.nih.gov/pubmed/1868826
