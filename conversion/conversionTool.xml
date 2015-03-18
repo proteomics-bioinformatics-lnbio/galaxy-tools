@@ -15,7 +15,7 @@
     </param>
   </inputs>
   <outputs>
-    <data format="txt" name="out" />
+    <data format="tabular" name="out" />
   </outputs>
   <help>
     Select a list of id's to be converted to uniprot accession number. The list must have one id by line.
