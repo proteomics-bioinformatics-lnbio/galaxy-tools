@@ -41,6 +41,7 @@ if (options$type == "lfqlog2") {
 # define the columns that will be taken in account for the t-test
 columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
+#TODO make it don't depende on hard coded "C" and "T"
 # two samples: control and treatment
 control_columns <- columns_names[gsub(regexpr, "\\1", columns_names) == "C"]
 treatment_columns <- columns_names[gsub(regexpr, "\\1", columns_names) == "T"]
@@ -57,10 +58,11 @@ for (i in seq(1, nrow(table_only_columns))) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  form <- paste0("table_only_columns[",
-    paste0(i, paste0(", control_columns]~",
-    paste0("table_only_columns[", paste0(i, ", treatment_columns]"))))
-  anovaresult[i] <- oneway.test(form, var.equal=TRUE)$p.value;
+  x <- c(table_only_columns[i, control_columns],
+    table_only_columns[i, treatment_columns], recursive=TRUE);
+  y <- factor(rep(letters[1:2],
+    c(length(table_only_columns[i, control_columns]), length(table_only_columns[i, treatment_columns]))),)
+  anovaresult[i] <- oneway.test(x~y, var.equal=TRUE)$p.value;
   if (is.na(anovaresult[i]))
     anovaresult[i] = 1.0
 }
