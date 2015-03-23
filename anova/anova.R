@@ -55,14 +55,15 @@ i <- 1;
 anovaresult <- c();
 anovasignificant <- c();
 for (i in seq(1, nrow(table_only_columns))) {
-  # the t-test arguments are the control values vector, the treatment values vector
-  # and some extra arguments. var.equal says it's a student t-test with stardard
-  # deviations assumed equal. mu=0 sets the hipothesis to be null.
+  # i make two lists that are going to be the arguments for the anova function
+  # the oneway.test. the first list is the all data
+  # the second list is a correlation to indentify of which categoty each data
   x <- c(table_only_columns[i, control_columns],
     table_only_columns[i, treatment_columns], recursive=TRUE);
   y <- factor(rep(c("C", "T"),
     c(length(table_only_columns[i, control_columns]),
     length(table_only_columns[i, treatment_columns]))),)
+  # i get the p-value for the test aplied on the current row.
   anovaresult[i] <- oneway.test(x~y, var.equal=TRUE)$p.value;
   if (is.na(anovaresult[i]))
     anovaresult[i] = 1.0
