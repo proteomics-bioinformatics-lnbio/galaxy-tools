@@ -60,8 +60,9 @@ for (i in seq(1, nrow(table_only_columns))) {
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
   x <- c(table_only_columns[i, control_columns],
     table_only_columns[i, treatment_columns], recursive=TRUE);
-  y <- factor(rep(letters[1:2],
-    c(length(table_only_columns[i, control_columns]), length(table_only_columns[i, treatment_columns]))),)
+  y <- factor(rep(c("C", "T"),
+    c(length(table_only_columns[i, control_columns]),
+    length(table_only_columns[i, treatment_columns]))),)
   anovaresult[i] <- oneway.test(x~y, var.equal=TRUE)$p.value;
   if (is.na(anovaresult[i]))
     anovaresult[i] = 1.0
@@ -76,9 +77,9 @@ anovasignificant[anovaresult > 0.05] <- ""
 # for siginificance
 #TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
 table[paste0("ANOVA.result.", code)] <- NA;
-table[paste0("ANOVA.result.", code)] <- ttestresult;
+table[paste0("ANOVA.result.", code)] <- anovaresult;
 table[paste0("ANOVA.significant.", code)] <- NA;
-table[paste0("ANOVA.significant.", code)] <- ttestsignificant;
+table[paste0("ANOVA.significant.", code)] <- anovasignificant;
 
 
 
