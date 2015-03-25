@@ -39,7 +39,11 @@ if (options$type == "lfqlog2") {
 }
 
 # define the columns that will be taken in account for the t-test
+if (!(TRUE %in% grepl(regexpr, colnames(table)))
+  sprintf("Error: No columns of type %s in input table", code);
+  q(1,s="no");
 columns_names <- grep(regexpr, colnames(table), value=TRUE);
+
 
 # two samples: control and treatment
 control_columns <- columns_names[gsub(regexpr, "\\1", columns_names) == "C"]
