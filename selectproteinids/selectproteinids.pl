@@ -13,12 +13,24 @@ seek(INFILE, 0, 0);
 my @lines = <INFILE>;
 shift @lines;
 
-my $out = $ARGV[1];
+# flag to see wheter maintain contaminants or not
+my $maintain_contaminants = $ARGV[1];
+
+# output file with table filtered
+my $out = $ARGV[2];
 open OUTFILE, ">", $out or die $!;
 
+# select first id of first column
 foreach(@lines){
     my @vec = split ' ', $_;
-    print OUTFILE $vec[0], "\n";
+    my @id = split ';', $vec[0];
+    if($id[0] =~ m/^CON__/){
+	if($maintain_contaminants eq "yes"){
+	    print OUTFILE $id[0] =~ s/^CON__//r, "\n";
+	}
+    } else{
+	print OUTFILE $id[0], "\n";
+    }
 }
 
 close INFILE;

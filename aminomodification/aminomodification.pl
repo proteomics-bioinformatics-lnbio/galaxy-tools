@@ -238,8 +238,12 @@ sub searchInUniprot {
 			    my $dbReference = $t->first_elt("evidence[\@key=$_]");
 			    if($dbReference->first_child('source')){
 				$dbReference = $dbReference->first_child('source')->first_child('dbReference');
-				my $type = $dbReference->att('type');
-				my $id = $dbReference->att('id');
+				my $type = "";
+				my $id = "";
+				if($dbReference){
+				    $type = $dbReference->att('type');
+				    $id = $dbReference->att('id');
+				}
 				if($type eq "PubMed"){
 				    $e = $pubmed_link.$id;
 				} else{

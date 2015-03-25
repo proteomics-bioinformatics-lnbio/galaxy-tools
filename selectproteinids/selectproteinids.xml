@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<tool id="selectproteinids" name="Filter ids" version="1.0" hidden="false">
+  <tests>
+    <test>
+      <param name="input" value="protein_ids_simple.csv"/>
+      <param name="maintaincon" value="yes"/>
+      <output name="out_file" file="proteinGroups_csv_filtered_with_contaminants.tabular"/>
+    </test>
+
+    <test>
+      <param name="input" value="protein_ids_simple.csv"/>
+      <param name="maintaincon" value="no"/>
+      <output name="out_file" file="proteinGroups_csv_filtered_without_contaminants.tabular"/>
+    </test>
+
+  </tests>
+  <description></description>
+  <command interpreter="perl">
+    selectproteinids.pl $input $maintaincon $output
+  </command>
+
+  <inputs>
+    <param format="tabular" name="input" type="data" label="Input table"/>
+
+    <param name="maintaincon" type="select" display="radio" label="Maintain contaminants">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+
+  </inputs>
+
+  <outputs>
+    <data format="tabular" name="output" label="${input.name} filtered"/>
+  </outputs>
+
+  <help>
+    ** What it does **
+
+    Remove all except first column wich have protein id's to use in latter analysis.
+  </help>
+</tool>
