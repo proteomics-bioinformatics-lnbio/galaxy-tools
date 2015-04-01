@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <tool id="anova" name="ANOVA" version="1.0" hidden="false">
     <description>
-        Returns a ANOVA One Way Analysis p-values table
     </description>
     <command interpreter="Rscript">
         anova.R --inputfile_name=$input --type=$type --outputfile_name=$output
