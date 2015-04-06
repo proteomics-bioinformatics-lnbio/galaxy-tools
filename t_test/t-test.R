@@ -39,18 +39,23 @@ if (options$type == "lfqlog2") {
 }
 
 # define the columns that will be taken in account for the t-test
-if (!(TRUE %in% grepl(regexpr, colnames(table)))
-  sprintf("Error: No columns of type %s in input table", code);
-  q(1,s="no");
 columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
+# here I extract the different experiment names in an array for easier
+# manipulation, ordering them
+experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
+                                    columns_names));
 
-# two samples: control and treatment
-control_columns <- columns_names[gsub(regexpr, "\\1", columns_names) == "C"]
-treatment_columns <- columns_names[gsub(regexpr, "\\1", columns_names) == "T"]
-
+# extract from the experiment names all the different categories in the table
+different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
+                                    experiment_names));
+i<-1;
+columns <- c();
+for (cat in different_categories) {
+  columns[i++] <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
+}
 # this is a filtered table to help with calculations
-table_only_columns <- table[c(control_columns, treatment_columns)]
+table_only_columns <- table[columns]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
@@ -61,8 +66,9 @@ for (i in seq(1, nrow(table_only_columns))) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  ttestresult[i] <- t.test(table_only_columns[i, control_columns],
-    table_only_columns[i, treatment_columns], var.equal=TRUE, mu=0)$p.value;
+  j<-0;
+  ttestresult[i] <- t.test(table_only_columns[i, columns[j++]],
+    table_only_columns[i, columns[j]], var.equal=TRUE, mu=0)$p.value;
   if (is.na(ttestresult[i]))
     ttestresult[i] = 1.0
 }
