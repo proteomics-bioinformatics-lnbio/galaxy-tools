@@ -1,18 +1,18 @@
 #!/usr/bin/env Rscript
 
-# t-test.R
+# fold_change.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
 # LAST REVISED: April 2015
 #
-# Required packages to work: (getopt", "gtools")
+# Required packages to work: (getopt", "gtools", "utils")
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
 # http://lnbio.cnpem.br/
 # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
 # All rights reserved.
-require('gtools', quietly=TRUE);
 require('getopt', quietly=TRUE);
-
+require('gtools', quietly=TRUE);
+require('utils', quietly=TRUE);
 #define de options input that the code will have
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
@@ -38,7 +38,12 @@ if (options$type == "lfqlog2") {
   code <- "MS";
 }
 
-# define the columns that will be taken in account for the t-test
+if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+  sprintf("Error: No columns of type %s in input table", code);
+  q(1,s="no");
+}
+
+# define the columns that will be taken in account for the anova
 columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
 # here I extract the different experiment names in an array for easier
@@ -49,6 +54,7 @@ experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
 # extract from the experiment names all the different categories in the table
 different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
                                     experiment_names));
+
 i<-1;
 columns <- list();
 aux <- c();
@@ -64,30 +70,25 @@ table_only_columns <- table[aux]
 # this loop computes the ttest result for each row
 # and adds it to a vector
 i <- 1;
-ttestresult <- c();
-ttestsignificant <- c();
+foldchangeresult <- c();
+standarddeviation <- c();
+aux <- combn(different_categories, 2)
 for (i in seq(1, nrow(table_only_columns))) {
-  # the t-test arguments are the control values vector, the treatment values vector
-  # and some extra arguments. var.equal says it's a student t-test with stardard
-  # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  ttestresult[i] <- t.test(table_only_columns[i, columns[[1]]],
-    table_only_columns[i, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
-  if (is.na(ttestresult[i]))
-    ttestresult[i] = 1.0
+  j <- 1;
+  for (j in 1:nrow(aux)) {
+    #TODO: falta colocar os valores de verdade aqui!!!!!!!!
+    foldchangeresult <- c(foldchangeresult, foldchange(aux[j, 1], aux[j, 2]))
+  }
 }
-
-# this defines if the p-value returned for each row is significant
-ttestsignificant[ttestresult <= 0.05] <- "+"
-ttestsignificant[ttestresult > 0.05] <- ""
 
 
 # create two extra rows on the table, one for p-values and other
 # for siginificance
 #TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
-table[paste0("T.test.result.", code)] <- NA;
-table[paste0("T.test.result.", code)] <- ttestresult;
-table[paste0("T.test.significant.", code)] <- NA;
-table[paste0("T.test.significant.", code)] <- ttestsignificant;
+table[paste0("ANOVA.result.", code)] <- NA;
+table[paste0("ANOVA.result.", code)] <- anovaresult;
+table[paste0("ANOVA.significant.", code)] <- NA;
+table[paste0("ANOVA.significant.", code)] <- anovasignificant;
 
 
 
