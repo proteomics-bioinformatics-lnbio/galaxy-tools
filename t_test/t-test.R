@@ -22,7 +22,10 @@ opt = matrix(c(
 
 # parse de input
 options = getopt(opt);
-
+if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+  sprintf("Error: No columns of type %s in input table", code);
+  q(1,s="no");
+}
 # reads the table from input
 table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 
