@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="output" label="Complete table with
+        <data format="txt" name="output" label="Complete table with
           p-values and significance on ${input.name}"/>
     </outputs>
 
