@@ -10,7 +10,7 @@
 # http://lnbio.cnpem.br/
 # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
 # All rights reserved.
-
+require('gtools', quietly=TRUE);
 require('getopt', quietly=TRUE);
 
 #define de options input that the code will have
@@ -50,12 +50,16 @@ experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
 different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
                                     experiment_names));
 i<-1;
-columns <- c();
+columns <- list();
+aux <- c();
 for (cat in different_categories) {
-  columns[i++] <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
+  col <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
+  aux <- c(aux, col);
+  columns[[i]] <- col;
+  i<-i+1;
 }
 # this is a filtered table to help with calculations
-table_only_columns <- table[columns]
+table_only_columns <- table[aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
@@ -66,9 +70,8 @@ for (i in seq(1, nrow(table_only_columns))) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  j<-0;
-  ttestresult[i] <- t.test(table_only_columns[i, columns[j++]],
-    table_only_columns[i, columns[j]], var.equal=TRUE, mu=0)$p.value;
+  ttestresult[i] <- t.test(table_only_columns[i, columns[[1]]],
+    table_only_columns[i, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
   if (is.na(ttestresult[i]))
     ttestresult[i] = 1.0
 }
