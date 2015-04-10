@@ -66,36 +66,29 @@ for (cat in different_categories) {
 }
 # this is a filtered table to help with calculations
 table_only_columns <- table[aux]
-
+aux <- combn(different_categories, 2)
 # this loop computes the ttest result for each row
 # and adds it to a vector
+for (j in 1:ncol(aux)) {
+  table[paste0(code, ".fold.change.result.", aux[1, j], ".vs.", aux[2, j])] <- NA;
+}
+for (j in 1:length(different_categories)) {
+  table[paste0(code, ".stddev.", different_categories[j])] <- NA;
+}
 i <- 1;
-foldchangeresult <- c();
-standarddeviation <- c();
-aux <- combn(different_categories, 2)
+
 for (i in seq(1, nrow(table_only_columns))) {
   j <- 1;
-  for (j in 1:ncol(unique(aux[1,]))) {
-    a <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, "\\1", columns_names) == aux[1, j]]];
-    b <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, '\\1', columns_names) == aux[2, j]]];
-    foldchangeresult <- c(foldchangeresult, foldchange(mean(a), mean(b))));
+  for (j in 1:ncol(aux)) {
+    a <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, "\\1", columns_names) == aux[1, j]]]);
+    b <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, '\\1', columns_names) == aux[2, j]]]);
+    table[i, paste0(code, ".fold.change.result.", aux[1, j], ".vs.", aux[2, j])] <- foldchange(mean(a), mean(b));
   }
   for (j in 1:length(different_categories)) {
-    a <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, "\\1", columns_names) == different_categories[j]]];
-    standarddeviation <- c(standarddeviation, sd(a));
+    a <- as.numeric(table_only_columns[i, columns_names[gsub(regexpr, "\\1", columns_names) == different_categories[j]]]);
+    table[i, paste0(code, ".stddev.", different_categories[j])] <- sd(a);
   }
 }
-
-print (foldchangeresult)
-# create two extra rows on the table, one for p-values and other
-# for siginificance
-#TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
-# table[paste0("ANOVA.result.", code)] <- NA;
-# table[paste0("ANOVA.result.", code)] <- anovaresult;
-# table[paste0("ANOVA.significant.", code)] <- NA;
-# table[paste0("ANOVA.significant.", code)] <- anovasignificant;
-
-q(save='n')
 
 
 # write out the table
