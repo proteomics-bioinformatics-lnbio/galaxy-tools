@@ -3,9 +3,9 @@
 # anova.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
-# LAST REVISED: November 2014
+# LAST REVISED: April 2015
 #
-# Required packages to work: (getopt", )
+# Required packages to work: (getopt", "gtools")
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
 # http://lnbio.cnpem.br/
 # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials

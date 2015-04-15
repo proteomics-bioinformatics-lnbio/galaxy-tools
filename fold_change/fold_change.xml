@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<tool id="fold-change" name="Fold-Change" version="1.0" hidden="false">
+    <description>
+    </description>
+    <command interpreter="Rscript">
+        fold_change.R --inputfile_name=$input --type=$type --outputfile_name=$output
+    </command>
+
+    <inputs>
+        <param format="txt" name="input" type="data" label="Input table"/>
+        <param format="txt" name="type" type="select" label="Type of T-test">
+          <option value="lfqlog2"> Log2 of LFQ Intensity </option>
+          <option value="intensity"> Intensity </option>
+          <option value="mscount"> MS Count </option>
+        </param>
+    </inputs>
+
+    <outputs>
+        <data format="txt" name="output" label="Complete table with
+          fold-changes and std deviations ${input.name}"/>
+    </outputs>
+
+    <help>
+        ** What it does **
+        This tool executes an RScript that produces a series of fold-changes
+        columns on the table, one for each combination of categories
+        (fold change of the mean of each category).
+        The script also prints another set of columns with the standard deviation
+        of the category, for further analysis of relevance of the fold change.
+    </help>
+</tool>
