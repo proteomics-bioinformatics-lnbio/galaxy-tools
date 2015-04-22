@@ -22,10 +22,7 @@ opt = matrix(c(
 
 # parse de input
 options = getopt(opt);
-if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
-  sprintf("Error: No columns of type %s in input table", code);
-  q(1,s="no");
-}
+
 # reads the table from input
 table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 
@@ -39,6 +36,10 @@ if (options$type == "lfqlog2") {
 } else {
   regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
   code <- "MS";
+}
+if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+  sprintf("Error: No columns of type %s in input table", code);
+  q(1,s="no");
 }
 
 # define the columns that will be taken in account for the t-test
