@@ -7,7 +7,7 @@
     </command>
 
     <inputs>
-        <param format="txt" name="input" type="data" label="Input table"/>
+        <param format="tabular" name="input" type="data" label="Input table"/>
         <param format="txt" name="type" type="select" label="Type of T-test">
           <option value="lfqlog2"> Log2 of LFQ Intensity </option>
           <option value="intensity"> Intensity </option>
@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="txt" name="output" label="Complete table with
+        <data format="tabular" name="output" label="Complete table with
           p-values and significance on ${input.name}"/>
     </outputs>
 

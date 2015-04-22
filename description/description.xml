@@ -37,27 +37,27 @@
       <validator type="regex" message="Oops! Tax id in wrong format. Please, check help for more information.">^[-_A-Za-z0-9]*$</validator>
     </param>
 
-    <param type="text" name="samples" label="Sample columns" help="You must separate you sample columns with comma">
+    <param type="text" name="samples" label="Sample columns number" help="You must separate you sample columns with comma">
       <validator type="regex" message="Oops! Wrong format. Please, check help for more information.">^[0-9]+(,[0-9]+)*$</validator>
     </param>
     <conditional name="new_samples_name">
       <param name="specify" type="boolean" label="Change samples name" checked="false" />
       <when value="false"></when>
       <when value="true">
-	<param type="text" name="samples_name" label="Samples name" help="You must separate you samples name with comma, in same order as described earlier.">
+	<param type="text" name="samples_name" label="New samples name" help="You must separate you samples name with comma, in same order as described earlier.">
 	  <validator type="regex" message="Oops! Wrong format. Please, check help for more information.">^[._-a-zA-Z0-9]+(,[._-a-zA-Z0-9]+)*$</validator>
 	</param>
       </when>
     </conditional>
 
-    <param type="text" name="classes" label="Class columns" help="You must separate you class columns with comma">
+    <param type="text" name="classes" label="Class columns number" help="You must separate you class columns with comma">
       <validator type="regex" message="Oops! Wrong format. Please, check help for more information.">^[0-9]+(,[0-9]+)*$</validator>
     </param>
     <conditional name="new_classes_name">
       <param name="specify" type="boolean" label="Change classes name" checked="false" />
       <when value="false"></when>
       <when value="true">
-	<param type="text" name="classes_name" label="Classes name" help="You must separate you classes name with comma, in same order as described earlier.">
+	<param type="text" name="classes_name" label="New classes name" help="You must separate you classes name with comma, in same order as described earlier.">
 	  <validator type="regex" message="Oops! Wrong format. Please, check help for more information.">^[-._a-zA-Z0-9]+(,[-._a-zA-Z0-9]+)*$</validator>
 	</param>
       </when>
@@ -101,7 +101,7 @@
 
   </inputs>
   <outputs>
-    <data format="interval" name="out1" metadata_source="input"/>
+    <data format="tabular" name="out1" metadata_source="input"/>
   </outputs>
   <help>
     Prepare a table for further analysis.
@@ -109,6 +109,10 @@
     Configure a table to have first two columns of id's and the rest with values.
     The output could be several tables depending on number of data categorys of input table.
 
-    To facilitate we recommend you open your table in excel and add a row above your current header. After that you could define a new name for each sample. Then you can select the range with the new names and copy them. When you paste to the "Samples name" field (after check the "Change samples name" cehckbox) you only have to change the tabs that divides the names with commas and you are done. You can repeat the same process to change classes name.
+
+    Change samples name:
+
+    To facilitate we recommend you open your table in excel and add a row above your current header. After that you could define a new name for each sample. Then you can select the range with the new names and copy them. When you paste to the "Samples name" field (after check the "Change samples name" checkbox) you only have to change the tabs that divides the names with commas and you are done. You can repeat the same process to change classes name.
   </help>
 </tool>
+

@@ -49,6 +49,6 @@ parser.add_option("--output")
 (options, args) = parser.parse_args()
 f = open(options.output, 'w')
 
-raw_file_info = setup_inputs(options.input_groups, f, table_data)
+raw_file_info = setup_inputs(options.input_groups, f)
 
 f.close()

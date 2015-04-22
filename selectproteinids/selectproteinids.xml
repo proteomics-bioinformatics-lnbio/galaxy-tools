@@ -34,8 +34,11 @@
   </outputs>
 
   <help>
-    ** What it does **
 
-    Remove all except first column wich have protein id's to use in latter analysis.
+    Input: Protein Groups from MaxQuant
+
+
+    Output: Table with id's got from MaxQuant Protein Groups
+
   </help>
 </tool>

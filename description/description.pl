@@ -224,17 +224,17 @@ sub write_on_file{
     my($id_hash, $header, $name, $maxcol, $arg, $lines) = @_;
 
     my $filename = $name =~ s/_/./r;
-    open my $fh, ">", "primary_".$arg."_".$filename."_visible_csv" or die $!;
+    open my $fh, ">", "primary_".$arg."_".$filename."_visible_tabular" or die $!;
 
     # print the table header (sample and class)
     foreach(0..1){
-	print $fh ",";
+	print $fh "\t";
 	my @row_data = split '\t', @$lines[$_];
 	my $j = 0;
 	while($$header[2][$j] ne $name){ $j++; }
 	while($j <= $maxcol && $$header[2][$j] eq $name){
 	    chomp($$header[$_][$j]);
-	    print $fh ",", $$header[$_][$j].".$name";
+	    print $fh "\t", $$header[$_][$j].".$name";
 	    $j++;
 	}
 	if($name eq "fold_change" || $name eq "log_ratio"){
@@ -242,7 +242,7 @@ sub write_on_file{
 	    while($j <= $maxcol && $$header[2][$j] ne "p_value"){ $j++; }
 	    while($j <= $maxcol && $$header[2][$j] eq "p_value"){
 		chomp($$header[$_][$j]);
-		print $fh ",", $$header[$_][$j].".p_value";
+		print $fh "\t", $$header[$_][$j].".p_value";
 		$j++;
 	    }
 	}
@@ -319,7 +319,7 @@ sub write_on_file{
 	    }
 	}
 	# prints the first and second table columns
-	print $fh $id_found,",",$gene_symbol."_".$uniprot_id;
+	print $fh $id_found,"\t",$gene_symbol."_".$uniprot_id;
 
 
 	# since the header is sorted by data category, class, sample; once we found
@@ -329,7 +329,7 @@ sub write_on_file{
 	while($$header[2][$j] ne $name){ $j++; }
 	while($j <= $maxcol && $$header[2][$j] eq $name){
 	    chomp($row_data[$$header[3][$j]]);
-	    print $fh ",", $row_data[$$header[3][$j]];
+	    print $fh "\t", $row_data[$$header[3][$j]];
 	    $j++;
 	}
 	# in case of Fold Change or Log_Ratio, we have to add the P-value columns if they exist
@@ -338,7 +338,7 @@ sub write_on_file{
 	    while($j <= $maxcol && $$header[2][$j] ne "p_value"){ $j++; }
 	    while($j <= $maxcol && $$header[2][$j] eq "p_value"){
 		chomp($row_data[$$header[3][$j]]);
-		print $fh ",", $row_data[$$header[3][$j]];
+		print $fh "\t", $row_data[$$header[3][$j]];
 		$j++;
 	    }	    
 	}

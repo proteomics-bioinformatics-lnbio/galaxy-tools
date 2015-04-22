@@ -13,7 +13,7 @@
     aminomodification.pl $input "$feat_key" "$nonstdmodres" "$modres" "$lipidation" "$glycosylation" "$crosslink" $out1 $out1.id $__new_file_path__
   </command>
   <inputs>
-    <param format="txt" name="input" type="data" label="Upload an uniprot id table from Get data"/>
+    <param format="tabular" name="input" type="data" label="Upload an uniprot id table from Get data"/>
 
     <param name="feat_key" type="select" multiple="true" display="checkboxes" label="Feature key">
       <option value="nonstd_res">Non-standard residue</option>
