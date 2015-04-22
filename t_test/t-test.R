@@ -38,8 +38,8 @@ if (options$type == "lfqlog2") {
   code <- "MS";
 }
 if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
-  sprintf("Error: No columns of type %s in input table", code);
-  q(1,s="no");
+  print (sprintf("Error: No columns of type %s in input table", code));
+  q(1,save="no");
 }
 
 # define the columns that will be taken in account for the t-test
@@ -70,6 +70,11 @@ table_only_columns <- table[aux]
 i <- 1;
 ttestresult <- c();
 ttestsignificant <- c();
+if (length(different_categories) < 2) {
+  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", code));
+  q(1,save="no");
+}
+
 for (i in seq(1, nrow(table_only_columns))) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
