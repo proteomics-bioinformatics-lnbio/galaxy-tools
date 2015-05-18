@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# anova.R
+# plsda.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
 # LAST REVISED: April 2015
@@ -42,7 +42,7 @@ if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
   sprintf("Error: No columns of type %s in input table", code);
   q(1,s="no");
 }
-# define the columns that will be taken in account for the anova
+# define the columns that will be taken in account for the plsda
 columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
 # here I extract the different experiment names in an array for easier
