@@ -30,26 +30,25 @@ get_cmd_options <- function (has_type) {
       regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
       code <- "MS";
     }
-  }
-
-  if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
-    sprintf("Error: No columns of type %s in input table", code);
-    return NULL;
-  } else {
-    if (has_type) {
-      entry <- list(length=4);
-      names(entry) <- c('options', 'table', 'regexpr', 'code');
+    if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+      sprintf("Error: No columns of type %s in input table", code);
+      return(NA);
+    } else {
+      entry.names <- c('options', 'table', 'regexpr', 'code');
+      entry <-vector('list', length(entry.names));
+      names(entry) <- entry.names;
       entry[[1]] <- options;
       entry[[2]] <- table;
       entry[[3]] <- regexpr;
       entry[[4]] <- code;
-      return entry;
-    } else {
-      entry <- list(length=2);
-      names(entry) <- c('options', 'table');
-      entry[[1]] <- options;
-      entry[[2]] <- table;
-      return entry;
+      return(invisible(entry))
     }
+  } else {
+    entry.names <- c('options', 'table');
+    entry <- vector('list', length(entry.names))
+    names(entry) <- entry.names;
+    entry[[1]] <- options;
+    entry[[2]] <- table;
+    return(invisible(entry))
   }
 }

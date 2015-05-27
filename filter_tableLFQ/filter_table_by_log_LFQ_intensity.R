@@ -65,7 +65,7 @@ replace_with_NaN <- function(table) {
 # package gtools to use "mixedsort" function
 require("gtools", quietly=TRUE);
 require('getopt', quietly=TRUE);
-source('../R_util/read-utils.R', quietly=TRUE);
+source('../R_util/read-utils.R');
 
 args <- get_cmd_options(FALSE);
 # this stores an array for the collumn names that has a pattern like
