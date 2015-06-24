@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <tool id="heatmap" name="HeatMap" version="1.0" hidden="false">
     <description>
-        Plots a heat map.
     </description>
     <command interpreter="Rscript">
         heatmap.R --input=$input_table --type=$type --output=$output
