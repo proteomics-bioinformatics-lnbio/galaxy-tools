@@ -2,13 +2,13 @@
   <description></description>
 
   <command interpreter="perl">
-    linkToDavid.pl $input $numerical_column $type $out_file1
+    linkToDavid.pl $input $numerical_column $id_type $out_file1
   </command>
 
   <inputs>
-    <param name="input" type="data" label="Dataset-TESTE" />
+    <param name="input" type="data" label="Dataset" />
     <param name="numerical_column" type="data_column" data_ref="input" label="Column with identifiers" />
-    <param name="type" label="Identifier type" type="select">
+    <param name="id_type" label="Identifier type" type="select">
       <option value="AFFYMETRIX_3PRIME_IVT_ID">AFFYMETRIX_3PRIME_IVT_ID</option>
       <option value="AFFYMETRIX_EXON_GENE_ID">AFFYMETRIX_EXON_GENE_ID</option>
       <option value="AFFYMETRIX_SNP_ID">AFFYMETRIX_SNP_ID</option>
@@ -58,11 +58,11 @@
     <test>
       <param name="input" ftype="tabular" value="linkToDavid.tabular" />
       <param name="numerical_column" value="1" />
-      <param name="type" value="ENTREZ_GENE_ID" />
+      <param name="id_type" value="ENTREZ_GENE_ID" />
       <output name="out_file1" file="linkToDavid_1.out" />
     </test>
   </tests>
-
+  
   <help>
     functional annotation for a list of genes
  .. class:: infomark
