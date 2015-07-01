@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <tool id="newscatterplot" name="ScatterPlot" version="1.0" hidden="false">
     <description>
-        Creates two scatterplot files, one containing one vs one scatterplots, and another with a general all vs all scatterplot.
     </description>
     <command interpreter="Rscript">
         newScatterplot.R --input=$input_table --onevsone=$onevsone --allvsall=$allvsall
