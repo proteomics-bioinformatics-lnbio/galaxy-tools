@@ -12,8 +12,11 @@
 # All rights reserved.
 require('gtools', quietly=TRUE);
 require('getopt', quietly=TRUE);
+#include and execute the read util script
+library('../r_utils/read_util.R');
+library('../r_utils/write_util.R');
 
-#define de options input that the code will have
+#define de options input that the read_util$code will have
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
     'type', 't', 1, 'character',
@@ -23,55 +26,27 @@ opt = matrix(c(
 # parse de input
 options = getopt(opt);
 
-# reads the table from input
-table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
+read_util <- read_function(options);
 
-# get the defined regex from the requested type
-if (options$type == "lfqlog2") {
-  regexpr <- "LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+";
-  code <- "LFQ";
-} else if (options$type == "intensity") {
-  regexpr <- "Intensity[.]([^[:digit:]]+)[[:digit:]]+";
-  code <- "INT";
-} else {
-  regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
-  code <- "MS";
-}
-if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
-  print (sprintf("Error: No columns of type %s in input table", code));
-  q(1,save="no");
-}
-
-# define the columns that will be taken in account for the t-test
-columns_names <- grep(regexpr, colnames(table), value=TRUE);
-
-# here I extract the different experiment names in an array for easier
-# manipulation, ordering them
-experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
-                                    columns_names));
-
-# extract from the experiment names all the different categories in the table
-different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
-                                    experiment_names));
 i<-1;
 columns <- list();
 aux <- c();
-for (cat in different_categories) {
-  col <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
+for (cat in read_util$diff_cat) {
+  col <- read_util$col_names[gsub(read_util$regex, "\\1", read_util$col_names) == cat]
   aux <- c(aux, col);
   columns[[i]] <- col;
   i<-i+1;
 }
-# this is a filtered table to help with calculations
-table_only_columns <- table[aux]
+# this is a filtered read_util$table to help with calculations
+table_only_columns <- read_util$table[aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
 i <- 1;
 ttestresult <- c();
 ttestsignificant <- c();
-if (length(different_categories) < 2) {
-  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", code));
+if (length(read_util$diff_cat) < 2) {
+  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", read_util$code));
   q(1,save="no");
 }
 
@@ -90,18 +65,16 @@ ttestsignificant[ttestresult <= 0.05] <- "+"
 ttestsignificant[ttestresult > 0.05] <- ""
 
 
-# create two extra rows on the table, one for p-values and other
+# create two extra rows on the read_util$table, one for p-values and other
 # for siginificance
 #TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
-table[paste0("T.test.result.", code)] <- NA;
-table[paste0("T.test.result.", code)] <- ttestresult;
-table[paste0("T.test.significant.", code)] <- NA;
-table[paste0("T.test.significant.", code)] <- ttestsignificant;
+read_util$table[paste0("T.test.result.", read_util$code)] <- NA;
+read_util$table[paste0("T.test.result.", read_util$code)] <- ttestresult;
+read_util$table[paste0("T.test.significant.", read_util$code)] <- NA;
+read_util$table[paste0("T.test.significant.", read_util$code)] <- ttestsignificant;
 
 
 
 
-# write out the table
-output_handler <- file(options$outputfile_name, "w")
-write.table(table, file=output_handler, sep="\t", row.names=FALSE);
-close(output_handler)
+# write out the read_util$table
+writeout(options$outputfile_name, read_util$table);
