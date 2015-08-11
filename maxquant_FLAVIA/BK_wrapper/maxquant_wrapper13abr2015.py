@@ -20,13 +20,6 @@ working_directory = os.getcwd()
 tmp_stderr_name = tempfile.NamedTemporaryFile(dir=working_directory, suffix='.stderr').name
 tmp_stdout_name = tempfile.NamedTemporaryFile(dir=working_directory, suffix='.stdout').name
 
-class Data:
-    def __init__(self, name, fraction, experiment):
-        self.name = name
-        self.fraction = fraction
-        self.experiment = experiment
-
-
 
 def stop_err(msg):
     sys.stderr.write("%s\n" % msg)
@@ -365,8 +358,11 @@ def parse_groups(inputs_file):
     groups = []
     while i < len(inputs_lines):
         groups.append({"path": inputs_lines[i],
-                       "name": re.sub(r'.raw$', "", inputs_lines[i+1])})
-        i += 2
+                       "name": re.sub(r'.raw$', "", inputs_lines[i+1]),
+                       "sample": inputs_lines[i+2],
+                       "experiment": inputs_lines[i+3],
+                       "group": inputs_lines[i+4]})
+        i += 5
     return groups
 
 
@@ -623,36 +619,16 @@ def setup_database(options):
         tree.write(database_conf)
     return os.path.abspath(database_destination)
 
-def read_expdesign(experimental_design):
-    table_data = []
-    with open(experimental_design, 'r') as e:
-        for line in e:
-            row_data = line.split('\t')
-            table_data.append(Data(row_data[0], row_data[1], row_data[2].rstrip()))
-    return table_data
 
-
-def find_data_expdesign(table, raw):
-    for row in table:
-        if row.name == raw:
-            return row
-
-def setup_inputs(input_groups_path, experimental_design):
+def setup_inputs(input_groups_path):
     parsed_groups = parse_groups(input_groups_path)
     
     names = [x['name'] for x in parsed_groups]
     paths = [os.path.abspath(name+".raw") for name in names]
     paths_intermediate = [x['path'] for x in parsed_groups]
-
-    samples = []
-    experiments = []
-    groups = []
-    for name in names:
-        table_row = find_data_expdesign(experimental_design, name)
-        samples.append(table_row.fraction)
-        experiments.append(table_row.experiment)
-        groups.append(1)
-
+    samples = [x['sample'] for x in parsed_groups]
+    experiments = [x['experiment'] for x in parsed_groups]
+    groups = [x['group'] for x in parsed_groups]
 
     for (name,path) in zip(names, paths_intermediate):
         symlink(path, name+".raw")
@@ -684,7 +660,6 @@ def split_mods(mods_string):
 def run_script():
     parser = optparse.OptionParser()
     parser.add_option("--input_groups")
-    parser.add_option("--exp_design")
     parser.add_option("--database")
     parser.add_option("--andromeda_config")
     parser.add_option("--database_name")
@@ -733,13 +708,13 @@ def run_script():
     parser.add_option("--score_threshold", default="0")
     parser.add_option("--filter_aacounts", default="true")
     parser.add_option("--second_peptide", default="true")
-    parser.add_option("--match_between_runs", default="true")
+    parser.add_option("--match_between_runs", default="false")
     parser.add_option("--match_between_runs_fdr", default="false")
     parser.add_option("--re_quantify", default="true")
     parser.add_option("--dependent_peptides", default="false")
     parser.add_option("--dependent_peptide_fdr", default="0.01")
     parser.add_option("--dependent_peptide_mass_bin", default="0.0055")
-    parser.add_option("--label_free", default="true")
+    parser.add_option("--label_free", default="false")
     parser.add_option("--lfq_min_edges_per_node", default="3")
     parser.add_option("--lfq_av_edges_per_node", default="6")
     parser.add_option("--hybrid_quantification", default="false")
@@ -802,9 +777,7 @@ def run_script():
 
     update_fragment_settings(options)
 
-    experimental_design = read_expdesign(options.exp_design)
-
-    raw_file_info = setup_inputs(options.input_groups, experimental_design)
+    raw_file_info = setup_inputs(options.input_groups)
 
     properties = get_properties(options)
     properties["raw_file_info"] = raw_file_info
