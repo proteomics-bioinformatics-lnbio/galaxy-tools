@@ -26,6 +26,13 @@ regex.intensity <- "^Intensity[.]([^[:digit:]]+)[[:digit:]]+$";
 regex.lfqintensity <- "^LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+$";
 regex.spectral <- "^MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+$";
 regex.proteinIDs <- "^Protein[.]IDs$"
+regex.id.uniprot.1 <- "^[OPQ][[:digit:]][[:upper:][:digit:]]{3}[[:digit:]]"
+regex.id.uniprot.2 <- "^[A-NR-Z][[:digit:]]([[:upper:]][[:upper:][:digit:]]{2}[[:digit:]]){1,2}"
+regex.id.ipi <- "^IPI[[:digit:]]+$"
+regex.id.tair <- "^A[Tt][1-5MC][:word:][[:digit:]]+$"
+regex.id.ensembl <- "^ENS[[:word:]]+$"
+regex.id.refseq <- "^AC_|^N[CGTWSZMR]_|^X[MR]_|^[ANYXZ]P_"
+regex.id.contaminant_reversed <- "^CON_|REV_"
 
 column_names.intensity <- grep(regex.intensity, colnames(table), value=TRUE);
 column_names.lfqintensity <- grep(regex.lfqintensity, colnames(table), value=TRUE);
@@ -36,24 +43,14 @@ categories.intensity <- gsub(regex.intensity, '\\1.intensity', column_names.inte
 categories.lfqintensity <- gsub(regex.lfqintensity, '\\1.lfq.intensity.', column_names.lfqintensity);
 categories.spectral <- gsub(regex.spectral, '\\1.speccount', column_names.spectral);
 
-#function that inserts a row in the row_index
-#insertRow <- function(existingdf, newrow, r_ind) {
-#    existingdf[seq(r_ind+1, nrow(existingdf)+1),] <- existingdf[seq(r_ind, nrow(existingdf)),];
-#    existingdf[r_ind,] <- newrow;
-#    return(existingdf);
-#}
-
-#add a column
+#add a blank column
 table <- cbind(table[,c(column_names.proteinIDs)], rep("", nrow(table)), table[,c(column_names.intensity, column_names.lfqintensity, column_names.spectral)])
+#rename the column names
 colnames(table) <- c(column_names.proteinIDs,"Blank",column_names.intensity, column_names.lfqintensity, column_names.spectral)
-
+#set the protein IDs column as character
 table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.character)
-
+#add a blank row
 table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensity, categories.spectral), table[seq(1, nrow(table)),])
-
-#table <- data.frame(table[1,], rep("", ncol(table)), table[seq(2, ncol(table)),])
-
-#table <- insertRow(table[,c(column_names.proteinIDs, column_names.intensity, column_names.lfqintensity, column_names.spectral)], c(NA, NA, categories.intensity, categories.lfqintensity, categories.spectral), 1);
 
 output_handler <- file(options$outputfile_name, "w")
 write.table(table, file=output_handler, sep="\t", row.names=FALSE);
