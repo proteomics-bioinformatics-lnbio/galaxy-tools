@@ -46,7 +46,7 @@ categories.spectral <- gsub(regex.spectral, '\\1.speccount', column_names.spectr
 #add a blank column
 table <- cbind(table[,c(column_names.proteinIDs)], rep("", nrow(table)), table[,c(column_names.intensity, column_names.lfqintensity, column_names.spectral)])
 #rename the column names
-colnames(table) <- c(column_names.proteinIDs,"Blank",column_names.intensity, column_names.lfqintensity, column_names.spectral)
+colnames(table) <- c(column_names.proteinIDs,"Major.Protein.IDs",column_names.intensity, column_names.lfqintensity, column_names.spectral)
 #set the protein IDs column as character
 table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.character)
 #add a blank row
