@@ -65,22 +65,13 @@ replace_with_NaN <- function(table) {
 # package gtools to use "mixedsort" function
 require("gtools", quietly=TRUE);
 require('getopt', quietly=TRUE);
+source('../R_util/read-utils.R');
 
-opt = matrix(c(
-    'inputfile_name', 'i', 1, 'character',
-    'outputfile_name', 'o', 1, 'character'
-),byrow=TRUE, ncol=4);
-
-options = getopt(opt);
-
-# reading of the input table from the file
-# (current working directory)/proteinGroups.txt
-table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
-
+args <- get_cmd_options(FALSE);
 # this stores an array for the collumn names that has a pattern like
 # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
 lfq_collumns_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
-                            colnames(table), value=TRUE);
+                            colnames(args$table), value=TRUE);
 
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
@@ -95,7 +86,7 @@ different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
 max_NaNs_allowed <- get_max_log_NaN(experiment_names, different_categories);
 
 # calculate the log on base 2 of the LFQ.intensity collumns of the input table
-table_log_LFQ_intensity <- log(table[lfq_collumns_names], base=2);
+table_log_LFQ_intensity <- log(args$table[lfq_collumns_names], base=2);
 
 # count the number of NaN logs in the log table, to get
 # which rows are going to be filtered out.
@@ -154,10 +145,10 @@ excluded_rows <- mixedsort(excluded_rows);
 # than the max number of NaNs allowed, have every row that belongs to the
 # intervall between 1 and the number of rows in the table, except the ones
 # that are in the excluded_rows array
-included_rows <- seq(1, nrow(table))[seq(1, nrow(table)) %in% excluded_rows == FALSE];
+included_rows <- seq(1, nrow(args$table))[seq(1, nrow(args$table)) %in% excluded_rows == FALSE];
 
 # the filtered table is the one that has only the included rows
-filtered_table <- table[included_rows,];
+filtered_table <- args$table[included_rows,];
 # with the log applied to it's LFQ collumns
 filtered_table[lfq_collumns_names] <- log(filtered_table[lfq_collumns_names], base=2);
 # and the "-Inf" replaced with NaN
@@ -165,7 +156,7 @@ filtered_table <- replace_with_NaN(filtered_table);
 # write the final table in a .txt file separated by tabs, just as the input
 # file was!
 
-output_handler <- file(options$outputfile_name, "w")
+output_handler <- file(args$options$outputfile_name, "w")
 
 write.table(filtered_table, file=output_handler, sep="\t", row.names=FALSE);
 
