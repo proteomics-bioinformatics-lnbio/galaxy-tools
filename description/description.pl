@@ -269,6 +269,10 @@ sub write_on_file{
 
 	my $id_found = $row_data[$$id_hash{$id_source}[0]];
 	my $gene_symbol = "";
+	if(defined $$id_hash{"gene_symbol"}){
+	    my @v = @{$$id_hash{"gene_symbol"}};
+	    $gene_symbol = $row_data[$v[0]] ;
+	}
 	my $uniprot_id = ($id_source eq "uniprot") ? $id_found : "";
 
 	# if the only id in the table is gene_symbol we have to find the specific uniprot
@@ -300,7 +304,7 @@ sub write_on_file{
 
 	    my @possible_gene_symbol = ();
 	    # if the got id is from uniprot, search for the gene symbol
-	    if($uniprot_id ne ""){
+	    if($uniprot_id ne "" and $gene_symbol eq ""){
 		$uniprot_id =~ s/-[0-9]//;
 		$select_synonym_sth->execute($uniprot_id) or die "SQL Error: $DBI::errstr\n";
 	      GENESYMBOL_SEARCH: while (my $gs = $select_synonym_sth->fetchrow()) {
