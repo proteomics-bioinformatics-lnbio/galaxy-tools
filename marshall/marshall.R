@@ -52,6 +52,10 @@ table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.ch
 #add a blank row
 table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensity, categories.spectral), table[seq(1, nrow(table)),])
 
+#finding the id type
+for (row in table[,column_names.proteinIDs]) {
+    row <- strsplit(row, ';')[[1]][1];
+}
 output_handler <- file(options$outputfile_name, "w")
 write.table(table, file=output_handler, sep="\t", row.names=FALSE);
 close(output_handler)
