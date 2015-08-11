@@ -10,7 +10,7 @@ from string import Template
 from xml.sax.saxutils import escape
 import xml.etree.ElementTree as ET
 
-import re
+import pprint
 
 log = logging.getLogger(__name__)
 
@@ -19,13 +19,6 @@ DEBUG = True
 working_directory = os.getcwd()
 tmp_stderr_name = tempfile.NamedTemporaryFile(dir=working_directory, suffix='.stderr').name
 tmp_stdout_name = tempfile.NamedTemporaryFile(dir=working_directory, suffix='.stdout').name
-
-class Data:
-    def __init__(self, name, fraction, experiment):
-        self.name = name
-        self.fraction = fraction
-        self.experiment = experiment
-
 
 
 def stop_err(msg):
@@ -154,7 +147,7 @@ class FileLock(object):
             os.close(self.fd)
             os.unlink(self.lockfile)
             self.is_locked = False
-            
+
     def __enter__(self):
         """ Activated when used in the with statement.
             Should automatically acquire a lock to be used in the with block.
@@ -265,7 +258,7 @@ TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
     </ParameterGroups>
   </groups>
   <qcSettings>
-    $qcSetting
+    <qcSetting xsi:nil="true" />
   </qcSettings>
   <msmsParams>
     $ftms_fragment_settings
@@ -278,7 +271,9 @@ TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
   <quantMode>$quant_mode</quantMode>
   <siteQuantMode>$site_quant_mode</siteQuantMode>
   <groupParams>
-      $group_params_multi
+    <groupParam>
+      $group_params
+    </groupParam>
   </groupParams>
 </MaxQuantParams>
 """
@@ -357,16 +352,37 @@ def build_isobaric_labels(reporter_type):
     return wrap(map(xml_string, labels), "isobaricLabels")
 
 
-def parse_groups(inputs_file):
+def parse_groups(inputs_file, group_parts=["num"], input_parts=["name", "path"]):
     inputs_lines = [line.strip() for line in open(inputs_file, "r").readlines()]
     inputs_lines = [line for line in inputs_lines if line and not line.startswith("#")]
-
+    cur_group = None
     i = 0
-    groups = []
+    group_prefixes = ["%s:" % group_part  for group_part in group_parts]
+    input_prefixes = ["%s:" % input_part for input_part in input_parts]
+    groups = {}
     while i < len(inputs_lines):
-        groups.append({"path": inputs_lines[i],
-                       "name": re.sub(r'.raw$', "", inputs_lines[i+1])})
-        i += 2
+        line = inputs_lines[i]
+        if line.startswith(group_prefixes[0]):
+            # Start new group
+            cur_group = line[len(group_prefixes[0]):]
+            group_data = {}
+            for j, group_prefix in enumerate(group_prefixes):
+                group_line = inputs_lines[i + j]
+                group_data[group_parts[j]] = group_line[len(group_prefix):]
+            i += len(group_prefixes)
+        elif line.startswith(input_prefixes[0]):
+            input = []
+            for j, input_prefix in enumerate(input_prefixes):
+                part_line = inputs_lines[i + j]
+                part = part_line[len(input_prefixes[j]):]
+                input.append(part)
+            if cur_group not in groups:
+                groups[cur_group] = {"group_data": group_data, "inputs": []}
+            groups[cur_group]["inputs"].append(input)
+            i += len(input_prefixes)
+        else:
+            # Skip empty line
+            i += 1
     return groups
 
 
@@ -411,37 +427,21 @@ def get_file_paths(files):
 def get_file_names(file_names):
     return wrap([xml_string(name) for name in file_names], "fileNames")
 
+
 def get_file_groups(file_groups):
     return wrap([xml_int(file_group) for file_group in file_groups], "paramGroups")
 
 
-def get_file_fractions(names, file_fractions):
-    return wrap([get_fraction(name, fraction) for name,fraction in zip(names, file_fractions)], "Fractions")
-
-def get_fraction(name, fraction):
-    return wrap(xml_type("Key", "string", name) + xml_type("Value", "short", fraction),"fraction")
-
-def get_file_experiments(names, file_experiments):
-    return wrap(wrap_with_param(wrap([get_experiment(name, exp) for name, exp in zip(names, file_experiments)], "Items"), "column", "Name", "Experiment"), "Values")
-
-def get_experiment(name, exp):
-    return wrap(xml_type("Key", "string", name) + xml_type("Value", "string", exp),"Item")    
-
 def wrap(values, tag):
     return "<%s>%s</%s>" % (tag, "".join(values), tag)
 
-def wrap_with_param(values, tag, param_type, param):
-    return "<%s %s=\"%s\">%s</%s>" % (tag, param_type, param, "".join(values), tag)
-
-
-def xml_type(tag, xml_type, value):
-    return "<%s xsi:type=\"xsd:%s\">%s</%s>" % (tag, xml_type, value, tag)
 
 def xml_string(str):
     if str:
         return "<string>%s</string>" % escape(str)
     else:
         return "<string />"
+
 
 def xml_int(value):
     return "<int>%d</int>" % int(value)
@@ -554,15 +554,22 @@ def get_properties(options):
 def which(program):
     import os
 
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
     fpath, fname = os.path.split(program)
-    path = os.getcwd()
-    drive, tail = os.path.splitdrive(path)
-    drive += '\\'
-    for root, dirs, files in os.walk(drive):
-        if fname in files:
-            return os.path.join(root, fname)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
 
     return None
+
 
 def get_unique_path(base, extension):
     """
@@ -606,11 +613,8 @@ def setup_database(options):
     symlink(database_path, database_destination)
 
     database_conf = get_env_property("MAXQUANT_DATABASE_CONF", None)
-
-
     if not database_conf:
-        exe_path = which("MaxQuantCmd.exe")
-
+        exe_path = "E:\MaxQuant_1.3.0.5\MaxQuant\\bin\MaxQuantCmd.exe"
         database_conf = os.path.join(os.path.dirname(exe_path), "conf", "databases.xml")
     with FileLock(database_conf + ".galaxy_lock"):
         tree = ET.parse(database_conf)
@@ -623,44 +627,47 @@ def setup_database(options):
         tree.write(database_conf)
     return os.path.abspath(database_destination)
 
-def read_expdesign(experimental_design):
-    table_data = []
-    with open(experimental_design, 'r') as e:
-        for line in e:
-            row_data = line.split('\t')
-            table_data.append(Data(row_data[0], row_data[1], row_data[2].rstrip()))
-    return table_data
 
-
-def find_data_expdesign(table, raw):
-    for row in table:
-        if row.name == raw:
-            return row
-
-def setup_inputs(input_groups_path, experimental_design):
+def setup_inputs(input_groups_path):
     parsed_groups = parse_groups(input_groups_path)
+
+    # DEBUG AREA
+    fo = open("foo.text", "w")
+    fo.write("\nparsed_groups:\n")
+    pprint.pprint(parsed_groups, fo)
+
+
+
+    paths = []
+    names = []
+    group_nums = []
+    for group, group_info in parsed_groups.iteritems():
+        files = group_info["inputs"]
+        group_num = group_info["group_data"]["num"]
+        for (name, path) in files:
+            name = os.path.basename(name)
+            if not name.lower().endswith(".raw"):
+                name = "%s.%s" % (name, ".RAW")
+            symlink(path, name)
+            paths.append(os.path.abspath(name))
+            names.append(os.path.splitext(name)[0])
+            group_nums.append(group_num)
+
+    fo.write("\npaths:\n")
+    pprint.pprint(paths, fo)
+    fo.write("\nnames:\n")
+    pprint.pprint(names, fo)
+    fo.write("\ngroup_nums:\n")
+    pprint.pprint(group_nums, fo)
     
-    names = [x['name'] for x in parsed_groups]
-    paths = [os.path.abspath(name+".raw") for name in names]
-    paths_intermediate = [x['path'] for x in parsed_groups]
+    file_data = (get_file_paths(paths), get_file_names(names), get_file_groups(group_nums))
 
-    samples = []
-    experiments = []
-    groups = []
-    for name in names:
-        table_row = find_data_expdesign(experimental_design, name)
-        samples.append(table_row.fraction)
-        experiments.append(table_row.experiment)
-        groups.append(1)
+    # DEBUG AREA
+    fo.write("\nfile_data:\n")
+    pprint.pprint(file_data, fo)
+    fo.close()
 
-
-    for (name,path) in zip(names, paths_intermediate):
-        symlink(path, name+".raw")
-
-    file_data = (get_file_paths(paths), get_file_names(names), get_file_groups(groups),
-                 get_file_fractions(names, samples), get_file_experiments(names, experiments))
-
-    return "<rawFileInfo>%s%s%s%s%s</rawFileInfo> " % file_data
+    return "<rawFileInfo>%s%s%s<Fractions/><Values/></rawFileInfo> " % file_data
 
 
 def set_group_params(properties, options):
@@ -684,9 +691,11 @@ def split_mods(mods_string):
 def run_script():
     parser = optparse.OptionParser()
     parser.add_option("--input_groups")
-    parser.add_option("--exp_design")
     parser.add_option("--database")
+
+    # Eu que inlcui isso aqui
     parser.add_option("--andromeda_config")
+
     parser.add_option("--database_name")
     parser.add_option("--num_cores", type="int", default=1)
     parser.add_option("--max_missed_cleavages", type="int", default=2)
@@ -733,13 +742,13 @@ def run_script():
     parser.add_option("--score_threshold", default="0")
     parser.add_option("--filter_aacounts", default="true")
     parser.add_option("--second_peptide", default="true")
-    parser.add_option("--match_between_runs", default="true")
+    parser.add_option("--match_between_runs", default="false")
     parser.add_option("--match_between_runs_fdr", default="false")
     parser.add_option("--re_quantify", default="true")
     parser.add_option("--dependent_peptides", default="false")
     parser.add_option("--dependent_peptide_fdr", default="0.01")
     parser.add_option("--dependent_peptide_mass_bin", default="0.0055")
-    parser.add_option("--label_free", default="true")
+    parser.add_option("--label_free", default="false")
     parser.add_option("--lfq_min_edges_per_node", default="3")
     parser.add_option("--lfq_av_edges_per_node", default="6")
     parser.add_option("--hybrid_quantification", default="false")
@@ -802,29 +811,20 @@ def run_script():
 
     update_fragment_settings(options)
 
-    experimental_design = read_expdesign(options.exp_design)
+    raw_file_info = setup_inputs(options.input_groups)
 
-    raw_file_info = setup_inputs(options.input_groups, experimental_design)
+    # file debug = open('debug.txt', 'w')
+    # debug.write(raw_file_info)
+    # debug.close()
 
     properties = get_properties(options)
     properties["raw_file_info"] = raw_file_info
     properties["isobaric_labels"] = build_isobaric_labels(options.reporter_type)
     set_group_params(properties, options)
-
-    number_of_raws = raw_file_info.count('<int>')
-    properties["group_params_multi"] = ""
-    properties["qcSetting"] = ""
-    for s in range(number_of_raws):
-        properties["qcSetting"] += "<qcSetting xsi:nil=\"true\" />\n"
-        properties["group_params_multi"] += "<groupParam>"+properties["group_params"]+"</groupParam>\n"
-
-
     driver_contents = Template(TEMPLATE).substitute(properties)
     open("mqpar.xml", "w").write(driver_contents)
     print driver_contents
-
-    execute("%s mqpar.xml %d" % (which("MaxQuantCmd.exe"),options.num_cores))
-
+    execute("E:\MaxQuant_1.3.0.5\MaxQuant\\bin\MaxQuantCmd.exe mqpar.xml %d" % options.num_cores)
     for key, basename in text_outputs.iteritems():
         attribute = "output_%s" % key
         destination = getattr(options, attribute, None)

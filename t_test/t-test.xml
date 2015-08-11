@@ -3,12 +3,12 @@
     <description>
     </description>
     <command interpreter="Rscript">
-        t-test.R --inputfile_name=$input --type=$type --outputfile_name=$output
+        t-test.R --inputfile_name=$input --type=$t_test_type --outputfile_name=$output
     </command>
 
     <inputs>
         <param format="tabular" name="input" type="data" label="Input table"/>
-        <param format="txt" name="type" type="select" label="Type of T-test">
+        <param format="txt" name="t_test_type" type="select" label="Type of T-test">
           <option value="lfqlog2"> Log2 of LFQ Intensity </option>
           <option value="intensity"> Intensity </option>
           <option value="mscount"> MS Count </option>

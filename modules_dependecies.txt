@@ -1,0 +1,28 @@
+#Dependencies for R
+R>=3.2
+getopt>=1.20
+gtools>=3.50
+ggplot2>=1.0
+GGally>=0.5
+scatterplot3d>=
+
+#Dependencies for Perl
+LWP::UserAgent>=
+XML::Twig>=
+FileHandle>=
+DBI>=
+Getopt::Std>=
+POSIX>=
+CPAN::FindDependencies>=
+Data::Dumper>=
+Data::Dumper::Simple>=
+
+#Dependencies for Python
+optparse>=
+shutil>=
+tempfile>=
+subprocess>=
+logging>=
+re>=
+galaxy.datatypes.converters.fasta_to_len>=
+

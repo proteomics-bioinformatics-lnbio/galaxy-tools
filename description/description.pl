@@ -4,6 +4,9 @@
 
 # teste(com mudanca de nome de classe e amostra) no terminal: perl description.pl /home/ABTLUS/mateus.ruivo/testes_Galaxy/teste_simples.csv saidaINFO 213 someth 9606 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 id,1,gene_symbol id,2,gene_symbol intensity,3-24
 
+# teste grande no terminal: perl description.pl testeGrande_description.csv saidaINFO 213 someth 9606 2,3,4,6,7,8,10,11,12,13,14,15,17,18,19 "" 2,3,4,6,7,8,10,11,12,13,14,15,17,18,19 "" id,1,ensembl id,5,gene_symbol id,9,tair id,16,ipi intensity,2-4 intensity,6-8 intensity,10-15 intensity,17-19
+
+
 use DBI;
 use strict;
 use warnings;
@@ -141,7 +144,7 @@ for(0..$numberofCols){
 
     # check if there is any column without sample or class
     if(!defined $input_header[0][$_] || !defined $input_header[1][$_]){
-	print OUTINFO "Your table must have class an sample for every data (unless id's)\n";
+	print OUTINFO "Your table must have class and sample for every data (unless id's)\n";
 	close_connection_and_files(1);
     }
     # check if the first row of data has the id's coming from the source that user is telling
@@ -266,6 +269,10 @@ sub write_on_file{
 
 	my $id_found = $row_data[$$id_hash{$id_source}[0]];
 	my $gene_symbol = "";
+	if(defined $$id_hash{"gene_symbol"}){
+	    my @v = @{$$id_hash{"gene_symbol"}};
+	    $gene_symbol = $row_data[$v[0]] ;
+	}
 	my $uniprot_id = ($id_source eq "uniprot") ? $id_found : "";
 
 	# if the only id in the table is gene_symbol we have to find the specific uniprot
@@ -297,7 +304,7 @@ sub write_on_file{
 
 	    my @possible_gene_symbol = ();
 	    # if the got id is from uniprot, search for the gene symbol
-	    if($uniprot_id ne ""){
+	    if($uniprot_id ne "" and $gene_symbol eq ""){
 		$uniprot_id =~ s/-[0-9]//;
 		$select_synonym_sth->execute($uniprot_id) or die "SQL Error: $DBI::errstr\n";
 	      GENESYMBOL_SEARCH: while (my $gs = $select_synonym_sth->fetchrow()) {
