@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# marshall.R
+# marshal.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
 # LAST REVISED: August 2015
