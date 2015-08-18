@@ -40,19 +40,19 @@ if (type == "lfqlog2") {
     lfq_collumns_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
                                colnames(table), value=TRUE);
     # calculate the log on base 2 of the LFQ.intensity collumns of the input table
-    table <- scale(data.matrix(table[1:nrow(table), lfq_collumns_names]));
+    table <- scale(data.matrix(table[2:nrow(table), lfq_collumns_names]));
 } else if (type == "intensity") {
     # this stores an array for the collumn names with a pattern as
     # "Intensity.[1 or more non numbers][1 or more numbers]"
     intensitynames<- grep("Intensity[.][^[:digit:]]+[[:digit:]]+",
                                colnames(table), value=TRUE);
-    table <- scale(data.matrix(table[1:nrow(table), intensitynames]));
+    table <- scale(data.matrix(table[2:nrow(table), intensitynames]));
 } else {
     # this stores an array for the collumn names with a pattern as
     # "MS.MS.Count.[1 or more non numbers][1 or more numbers]"
     mscountnames<- grep("MS[.]MS[.]Count[.][^[:digit:]]+[[:digit:]]+",
                                colnames(table), value=TRUE);
-    table <- scale(data.matrix(table[1:nrow(table), mscountnames]));
+    table <- scale(data.matrix(table[2:nrow(table), mscountnames]));
 }
 
 pdf(file=opt$output,
