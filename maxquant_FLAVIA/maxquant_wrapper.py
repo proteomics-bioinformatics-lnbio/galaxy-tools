@@ -733,7 +733,7 @@ def run_script():
     parser.add_option("--score_threshold", default="0")
     parser.add_option("--filter_aacounts", default="true")
     parser.add_option("--second_peptide", default="true")
-    parser.add_option("--match_between_runs", default="false")
+    parser.add_option("--match_between_runs", default="true")
     parser.add_option("--match_between_runs_fdr", default="false")
     parser.add_option("--re_quantify", default="true")
     parser.add_option("--dependent_peptides", default="false")

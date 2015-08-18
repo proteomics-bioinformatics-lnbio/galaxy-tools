@@ -1,6 +1,5 @@
 <tool id="hgv_david" name="DAVID" version="1.0.0">
   <description></description>
-
   <command interpreter="perl">
     linkToDavid.pl $input $numerical_column $id_type $out_file1
   </command>

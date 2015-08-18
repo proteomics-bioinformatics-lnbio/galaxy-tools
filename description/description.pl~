@@ -300,8 +300,6 @@ sub write_on_file{
 	    }
 	    # removes CON__ from beginning
 	    $uniprot_id =~ s/(CON__)(\w+)/$2/;
-	    # removes -n where n is some number after protein id
-	    $uniprot_id =~ s/-[0-9]*//;
 	    $id_found = $uniprot_id;
 	}
 
@@ -336,8 +334,7 @@ sub write_on_file{
 	    my @possible_gene_symbol = ();
 	    # if the got id is from uniprot, search for the gene symbol
 	    if($uniprot_id ne "" and $gene_symbol eq ""){
-		$uniprot_id =~ s/(CON__)(\w+)/$2/;
-		$uniprot_id =~ s/-[0-9]*//;
+		$uniprot_id =~ s/-[0-9]//;
 		$select_synonym_sth->execute($uniprot_id) or die "SQL Error: $DBI::errstr\n";
 	      GENESYMBOL_SEARCH: while (my $gs = $select_synonym_sth->fetchrow()) {
 		  push @possible_gene_symbol, $gs;
