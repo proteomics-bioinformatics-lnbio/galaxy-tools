@@ -16,6 +16,7 @@ library(RODBC)
 #define de options input that the code will have
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
+    'tax_id', 'i', 1, 'character',
     'outputfile_name', 'o', 1, 'character'
 ),byrow=TRUE, ncol=4);
 
@@ -67,6 +68,7 @@ table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.ch
 #add a blank row
 table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensity, categories.spectral), table[seq(1, nrow(table)),])
 
+cell.tax <- options$tax_id;
 #finding the id type
 for (row in seq(1, nrow(table)) {
     cell.row <- row;
