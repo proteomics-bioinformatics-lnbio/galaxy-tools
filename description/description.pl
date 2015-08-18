@@ -282,10 +282,8 @@ sub write_on_file{
 	  FOUND_UNIPROT: while(my @results = $select_all_sth->fetchrow()){
 	      # if the tax_id is the one that the user is looking for and the id is reviewed, then we found it
 	      if($results[4] eq $tax){
-		        $uniprot_id = $results[2];
-		        if($results[5] eq "YES"){
-                    last FOUND_UNIPROT;
-                }
+		  $uniprot_id = $results[2];
+		  if($results[5] eq "YES"){ last FOUND_UNIPROT; }
 	      }
 	  }
 	    # in case of uniprot not found
