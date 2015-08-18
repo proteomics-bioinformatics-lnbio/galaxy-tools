@@ -11,7 +11,7 @@
 # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
 # All rights reserved.
 require('getopt', quietly=TRUE);
-library(RODBC)
+require('RODBC', quietly=TRUE);
 
 #define de options input that the code will have
 opt = matrix(c(
