@@ -13,16 +13,16 @@ use warnings;
 use Data::Dumper;
 use Data::Dumper::Simple;
 
-my $connection = DBI->connect('dbi:mysql:conversionMarcelo;mysql_socket=/tmp/mysql.sock', 'galaxy', '123456') 
+my $connection = DBI->connect('dbi:mysql:conversionMarcelo;mysql_socket=/tmp/mysql.sock', 'galaxy', '123456')
     or die "Connection Error: $DBI::errstr\n";
 
-my $sql_select_synonym = "select synonyms 
+my $sql_select_synonym = "select synonyms
                           from Synonyms2Uniprot
                           where uniprot = ?";
-my $sql_select_uniprot = "select uniprot 
+my $sql_select_uniprot = "select uniprot
                           from Synonyms2Uniprot
                           where synonyms = ?";
-my $sql_select_all = "select * 
+my $sql_select_all = "select *
                       from Synonyms2Uniprot
                       where synonyms = ?";
 my $select_all_sth = $connection->prepare($sql_select_all);
@@ -67,7 +67,7 @@ foreach (@opts) {
 	push @log_ratio, [ split '-', $opt[1] ];
     } elsif($opt[0] eq "pvalue"){
 	push @p_value, [ split '-', $opt[1] ];
-    }   
+    }
 
 }
 
@@ -262,7 +262,7 @@ sub write_on_file{
 	elsif(defined $$id_hash{"refseq"}){ $id_source = "refseq"; }
 	else { $id_source = "gene_symbol"; }
     }
-    
+
     # iterates through the input table data
     foreach(2..$#$lines){
 	my @row_data = split '\t', @$lines[$_];
@@ -282,8 +282,10 @@ sub write_on_file{
 	  FOUND_UNIPROT: while(my @results = $select_all_sth->fetchrow()){
 	      # if the tax_id is the one that the user is looking for and the id is reviewed, then we found it
 	      if($results[4] eq $tax){
-		  $uniprot_id = $results[2];
-		  if($results[5] eq "YES"){ last FOUND_UNIPROT; }
+		        $uniprot_id = $results[2];
+		        if($results[5] eq "YES"){
+                    last FOUND_UNIPROT;
+                }
 	      }
 	  }
 	    # in case of uniprot not found
@@ -315,9 +317,9 @@ sub write_on_file{
 		  }
 	      }
 	    }
-	    
+
 	    if($gene_symbol eq ""){
-		# in case of gene_symbol not found until here, pick one in the list of possibilities with the 
+		# in case of gene_symbol not found until here, pick one in the list of possibilities with the
 		# priority of start with AT, ENS, IPI. Thats why the use of sort.
 		if(@possible_gene_symbol){
 		    @possible_gene_symbol = sort @possible_gene_symbol;
@@ -347,7 +349,7 @@ sub write_on_file{
 		chomp($row_data[$$header[3][$j]]);
 		print $fh "\t", $row_data[$$header[3][$j]];
 		$j++;
-	    }	    
+	    }
 	}
 	print $fh "\n";
     }
