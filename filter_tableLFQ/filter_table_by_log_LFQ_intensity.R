@@ -86,7 +86,7 @@ different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
 max_NaNs_allowed <- get_max_log_NaN(experiment_names, different_categories);
 
 # calculate the log on base 2 of the LFQ.intensity collumns of the input table
-table_log_LFQ_intensity <- log(args$table[lfq_collumns_names], base=2);
+table_log_LFQ_intensity <- log(args$table[-1, lfq_collumns_names], base=2);
 
 # count the number of NaN logs in the log table, to get
 # which rows are going to be filtered out.
@@ -131,8 +131,8 @@ for (categorie in different_categories) {
         # after all the counting, for this row, check if the counter
         # broke the max, and if so insert the corresponding row on the
         # array of excluded rows.. Also check if it's not there already
-        if(NaN_counter >= max_NaNs_allowed && !(row %in% excluded_rows)) {
-            excluded_rows[i] <- row;
+        if(NaN_counter >= max_NaNs_allowed && !(row+1 %in% excluded_rows)) {
+            excluded_rows[i] <- row+1;
             i<- i+1;
         }
     }
@@ -145,10 +145,10 @@ excluded_rows <- mixedsort(excluded_rows);
 # than the max number of NaNs allowed, have every row that belongs to the
 # intervall between 1 and the number of rows in the table, except the ones
 # that are in the excluded_rows array
-included_rows <- seq(1, nrow(args$table))[seq(1, nrow(args$table)) %in% excluded_rows == FALSE];
+included_rows <- seq(2, nrow(args$table))[seq(2, nrow(args$table)) %in% excluded_rows == FALSE];
 
 # the filtered table is the one that has only the included rows
-filtered_table <- args$table[included_rows,];
+filtered_table <- args$table[c(1, included_rows),];
 # with the log applied to it's LFQ collumns
 filtered_table[lfq_collumns_names] <- log(filtered_table[lfq_collumns_names], base=2);
 # and the "-Inf" replaced with NaN

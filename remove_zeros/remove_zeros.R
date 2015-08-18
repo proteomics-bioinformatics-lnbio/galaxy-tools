@@ -18,15 +18,15 @@ args <- get_cmd_options(TRUE);
 colnames <- grep(args$regexpr, colnames(args$table), value=TRUE);
 
 excluded_rows <- c();
-for (row in seq(1, nrow(args$table[colnames]))) {
+for (row in seq(2, nrow(args$table[colnames]))) {
   if (grepl(args$table[row,colnames], 0) == TRUE) {
     excluded_rows <- c(excluded_rows, row);
   }
 }
 
-included_rows <- seq(1, nrow(args$table))[seq(1, nrow(args$table)) %in% excluded_rows == FALSE];
+included_rows <- seq(2, nrow(args$table))[seq(2, nrow(args$table)) %in% excluded_rows == FALSE];
 
-result <- args$table[included_rows,];
+result <- args$table[c(1, included_rows),];
 
 output_handler <- file(args$options$outputfile_name, "w")
 

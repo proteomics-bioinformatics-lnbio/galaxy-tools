@@ -38,24 +38,24 @@ for (cat in read_util$diff_cat) {
   i<-i+1;
 }
 # this is a filtered read_util$table to help with calculations
-table_only_columns <- read_util$table[aux]
+table_only_columns <- read_util$table[-1, aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
-i <- 1;
-ttestresult <- c();
-ttestsignificant <- c();
+i <- 2;
+ttestresult <- c("");
+ttestsignificant <- c("");
 if (length(read_util$diff_cat) < 2) {
   print(sprintf("Can't calculate t-test. There is only one category for %s collumns", read_util$code));
   q(1,save="no");
 }
 
-for (i in seq(1, nrow(table_only_columns))) {
+for (i in seq(2, nrow(table_only_columns)+1)) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  ttestresult[i] <- t.test(table_only_columns[i, columns[[1]]],
-    table_only_columns[i, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
+  ttestresult[i] <- t.test(table_only_columns[i-1, columns[[1]]],
+    table_only_columns[i-1, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
   if (is.na(ttestresult[i]))
     ttestresult[i] = 1.0
 }

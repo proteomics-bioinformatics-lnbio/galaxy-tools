@@ -1,14 +1,14 @@
 #!/usr/bin/env Rscript
-                                        # newScatterplot.R
-                                        # AUTHOR: Daniel Travieso
-                                        # E-mail: danielgtravieso@gmail.com
-                                        # LAST REVISED: November 2014
-                                        #
-                                        # Required packages to work: (ggplot2, GGally, getopt, )
-                                        # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
-                                        # http://lnbio.cnpem.br/
-                                        # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
-                                        # All rights reserved.
+# newScatterplot.R
+# AUTHOR: Daniel Travieso
+# E-mail: danielgtravieso@gmail.com
+# LAST REVISED: November 2014
+#
+# Required packages to work: (ggplot2, GGally, getopt, )
+# Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
+# http://lnbio.cnpem.br/
+# Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
+# All rights reserved.
 require(ggplot2, quietly=TRUE)
 require(GGally, quietly=TRUE)
 require(getopt, quietly=TRUE)
@@ -24,7 +24,7 @@ opt = getopt(spec);
 df <- read.delim(opt$input, header=TRUE, fill=TRUE)
 cols <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
              colnames(df), value=TRUE)
-newdf <- df[cols]
+newdf <- df[-1, cols]
 lm_eqn <- function(df, col1, col2) {
     f <- paste(col1, "~", col2)
     m <- lm(f, data=df)

@@ -39,14 +39,14 @@ for (cat in different_categories) {
   i<-i+1;
 }
 # this is a filtered table to help with calculations
-table_only_columns <- args$table[aux]
+table_only_columns <- args$table[-1, aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
-i <- 1;
-anovaresult <- c();
-anovasignificant <- c();
-for (i in seq(1, nrow(table_only_columns))) {
+i <- 2;
+anovaresult <- c("");
+anovasignificant <- c("");
+for (i in seq(2, nrow(table_only_columns)+1)) {
   # i make two lists that are going to be the arguments for the anova function
   # the oneway.test. the first list is the all data
   # the second list is a correlation to indentify of which categoty each data
@@ -54,8 +54,8 @@ for (i in seq(1, nrow(table_only_columns))) {
   x<-c();
   aux1 <- c();
   for (j in 1:length(different_categories)) {
-    x <- c(x, table_only_columns[i, columns[[j]]], recursive=TRUE)
-    aux1 <- c(aux1, length(table_only_columns[i, columns[[j]]]))
+    x <- c(x, table_only_columns[i-1, columns[[j]]], recursive=TRUE)
+    aux1 <- c(aux1, length(table_only_columns[i-1, columns[[j]]]))
   }
   y <- factor(rep(different_categories,
     aux1),)

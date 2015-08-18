@@ -38,7 +38,7 @@ for (cat in different_categories) {
   i<-i+1;
 }
 # this is a filtered table to help with calculations
-table_only_columns <- args$table[aux]
+table_only_columns <- args$table[-1, aux]
 aux <- combn(different_categories, 2)
 # this loop computes the ttest result for each row
 # and adds it to a vector
@@ -55,11 +55,11 @@ for (i in seq(1, nrow(table_only_columns))) {
   for (j in 1:ncol(aux)) {
     a <- as.numeric(table_only_columns[i, columns_names[gsub(args$regexpr, "\\1", columns_names) == aux[1, j]]]);
     b <- as.numeric(table_only_columns[i, columns_names[gsub(args$regexpr, '\\1', columns_names) == aux[2, j]]]);
-    args$table[i, paste0(args$code, ".fold.change.result.", aux[1, j], ".vs.", aux[2, j])] <- foldchange(mean(a), mean(b));
+    args$table[i+1, paste0(args$code, ".fold.change.result.", aux[1, j], ".vs.", aux[2, j])] <- foldchange(mean(a), mean(b));
   }
   for (j in 1:length(different_categories)) {
     a <- as.numeric(table_only_columns[i, columns_names[gsub(args$regexpr, "\\1", columns_names) == different_categories[j]]]);
-    args$table[i, paste0(args$code, ".stddev.", different_categories[j])] <- sd(a);
+    args$table[i+1, paste0(args$code, ".stddev.", different_categories[j])] <- sd(a);
   }
 }
 
