@@ -8,7 +8,7 @@
 # Required packages to work: (getopt", "gtools")
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
 # http://lnbio.cnpem.br/
-# Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
+# Copyright CC BY-NC-SA (c) 2015  Brazilian Center for Research in Energy and Materials
 # All rights reserved.
 require('gtools', quietly=TRUE);
 require('getopt', quietly=TRUE);
@@ -17,9 +17,9 @@ library('../r_utils/read_util.R');
 library('../r_utils/write_util.R');
 
 #define de options input that the read_util$code will have
+    'type', 't', 1, 'character',
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
-    'type', 't', 1, 'character',
     'outputfile_name', 'o', 1, 'character'
 ),byrow=TRUE, ncol=4);
 
@@ -45,8 +45,8 @@ table_only_columns <- read_util$table[-1, aux]
 i <- 2;
 ttestresult <- c("");
 ttestsignificant <- c("");
-if (length(read_util$diff_cat) < 2) {
-  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", read_util$code));
+if (length(read_util$diff_cat) != 2) {
+  print(sprintf("Can't calculate t-test. Only 2 %s collumns allowed.", read_util$code));
   q(1,save="no");
 }
 
@@ -72,9 +72,6 @@ read_util$table[paste0("T.test.result.", read_util$code)] <- NA;
 read_util$table[paste0("T.test.result.", read_util$code)] <- ttestresult;
 read_util$table[paste0("T.test.significant.", read_util$code)] <- NA;
 read_util$table[paste0("T.test.significant.", read_util$code)] <- ttestsignificant;
-
-
-
 
 # write out the read_util$table
 writeout(options$outputfile_name, read_util$table);

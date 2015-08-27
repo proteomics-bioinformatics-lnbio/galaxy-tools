@@ -27,4 +27,4 @@ table_nozeros <- table[c(-1, which(rowSums(table[-1,-(1, 2)])>0)),-(1, 2)]
 dim(table)
 dim(table_nozeros)
 #write out
-write.csv(table_nozeros, file=opt$outputfilename, row.names=FALSE, col.names=FALSE)
+write.csv(table_nozeros, file=opt$outputfilename, row.names=FALSE, col.names=TRUE)
