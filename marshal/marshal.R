@@ -16,7 +16,7 @@ require('RMySQL', quietly=TRUE);
 #define de options input that the code will have
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
-    'tax_id', 'i', 1, 'character',
+    'tax_id', 't', 1, 'character',
     'outputfile_name', 'o', 1, 'character'
 ),byrow=TRUE, ncol=4);
 
