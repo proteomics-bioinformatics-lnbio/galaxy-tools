@@ -3,12 +3,12 @@
     <description>
     </description>
     <command interpreter="Rscript">
-        marshall.R --inputfile_name=$input --tax_id=$tax --outputfile_name=$output
+        marshal.R --inputfile_name=$input --tax_id=$tax --outputfile_name=$output
     </command>
 
     <inputs>
         <param format="txt" name="input" type="data" label="Input table"/>
-        <param format="txt" name="tax" type="data" label="Tax Id Number"/>
+        <param format="txt" name="tax" type="text" label="Tax Id Number"/>
     </inputs>
 
     <outputs>
