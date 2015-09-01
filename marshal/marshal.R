@@ -130,7 +130,7 @@ for (row in seq(1, nrow(table))) {
         cell.id <- "";
         cell.id.possibleid <- c();
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
-		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.uniprot.id));
+		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.id.uniprot));
 		print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
         for (row in seq(1, nrow(db.select.results))) {
