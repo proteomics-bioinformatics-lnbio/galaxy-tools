@@ -100,7 +100,7 @@ for (row in seq(1, nrow(table))) {
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
-			db.select.all <- dbEscapeString(db.connection, sprintf(db.sql.all, cell.id));
+			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (db.select.results[row, 4] == cell.tax) {
@@ -112,7 +112,7 @@ for (row in seq(1, nrow(table))) {
             }
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
-            db.select.all <- dbEscapeString(db.connection, sprintf(db.sql.uniprot, cell.id));
+            db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.uniprot, cell.id));
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (grepl(db.select.results[row], regex.id.uniprot.1) == TRUE ||
@@ -128,7 +128,7 @@ for (row in seq(1, nrow(table))) {
         cell.id <- "";
         cell.id.possibleid <- c();
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
-		db.select.synonym <- dbEscapeString(db.connection, sprintf(db.sql.synonym, cell.uniprot.id));
+		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.uniprot.id));
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
         for (row in seq(1, nrow(db.select.results))) {
             cell.id.possibleid <- c(cell.id.possibleid, db.select.results[row]);
