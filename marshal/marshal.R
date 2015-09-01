@@ -100,6 +100,7 @@ for (row in seq(1, nrow(table))) {
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
+			print(cell.id);
 			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
 			print("SQL FOR ALL");
 			print(db.select.all);
@@ -114,6 +115,7 @@ for (row in seq(1, nrow(table))) {
             }
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
+			print(cell.id);
             db.select.uniprot <- dbEscapeStrings(db.connection, sprintf(db.sql.uniprot, cell.id));
 			print("SQL FOR UNIPROT");
 			print(db.select.uniprot);
@@ -132,6 +134,7 @@ for (row in seq(1, nrow(table))) {
         cell.id <- "";
         cell.id.possibleid <- c();
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
+		print(cell.id.uniprot);
 		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.id.uniprot));
 		print("SLQ FOR SYNONYM");
 		print(db.select.synonym);
