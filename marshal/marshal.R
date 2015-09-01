@@ -71,7 +71,7 @@ table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensit
 cell.tax <- options$tax_id;
 #finding the id type
 for (row in seq(1, nrow(table))) {
-    cell.row <- row;
+    cell.row <- table[row,];
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
 	print(cell.value);
 	cell.id <- cell.value[1];
