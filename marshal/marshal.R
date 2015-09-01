@@ -73,6 +73,7 @@ cell.tax <- options$tax_id;
 for (row in seq(1, nrow(table))) {
     cell.row <- row;
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
+	cell.id <- cell.value[1];
     for (id_code in cell.value) {
         # remove contaminant or reversed protein ids from search. get the first valid id
         if(!grepl(regex.id.contaminant_reversed, id_code)) {
