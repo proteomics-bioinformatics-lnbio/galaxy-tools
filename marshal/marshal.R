@@ -41,7 +41,7 @@ regex.spectral <- "^MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+$";
 regex.proteinIDs <- "^Protein[.]IDs$";
 regex.id.uniprot.1 <- "^[OPQ][[:digit:]][[:upper:][:digit:]]{3}[[:digit:]]";
 regex.id.uniprot.2 <- "^[A-NR-Z][[:digit:]]([[:upper:]][[:upper:][:digit:]]{2}[[:digit:]]){1,2}";
-regex.id.ipi <- "^IPI[[:digit:]]+$".
+regex.id.ipi <- "^IPI[[:digit:]]+$";
 regex.id.tair <- "^A[Tt][1-5MC][:word:][[:digit:]]+$";
 regex.id.ensembl <- "^ENS[[:word:]]+$";
 regex.id.refseq <- "^AC_|^N[CGTWSZMR]_|^X[MR]_|^[ANYXZ]P_";
