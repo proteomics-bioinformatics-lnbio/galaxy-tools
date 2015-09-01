@@ -26,7 +26,7 @@ options = getopt(opt);
 table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 
 #Database connections and queries
-db.connection <- dbConnect(RMySQL::MySQL(), uid='galaxy', pwd='123456', dbname='dbi:mysql:conversionMarcelo;mysql_socket=/tmp/mysql.sock');
+db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
 db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = ?";
