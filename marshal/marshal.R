@@ -29,9 +29,9 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
-db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = \"%s\"";
-db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = \"%s\"";
-db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = \"%s\"";
+db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot =";
+db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms =";
+db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms =";
 
 
 #Definition of all regular expressions to be used
@@ -105,7 +105,9 @@ for (row in seq(2, nrow(table))) {
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
-			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
+			cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+            db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';");
+
 			print("SQL FOR ALL");
 			print(db.select.all);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
@@ -121,7 +123,9 @@ for (row in seq(2, nrow(table))) {
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
 			#print(cell.id);
-            db.select.uniprot <- dbEscapeStrings(db.connection, sprintf(db.sql.uniprot, cell.id));
+            cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+            db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';");
+
 			print("SQL FOR UNIPROT");
 			print(db.select.uniprot);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
@@ -141,7 +145,10 @@ for (row in seq(2, nrow(table))) {
         cell.id.possibleid <- c();
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
 		#print(cell.id.uniprot);
-		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.id.uniprot));
+
+        cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+        db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';");
+
 		print("SLQ FOR SYNONYM");
 		print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
