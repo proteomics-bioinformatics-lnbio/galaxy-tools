@@ -29,9 +29,9 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
-db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot =";
-db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms =";
-db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms =";
+db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = ";
+db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = ";
+db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = ";
 
 
 #Definition of all regular expressions to be used
@@ -106,7 +106,7 @@ for (row in seq(2, nrow(table))) {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
 			cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
-            db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';");
+            db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';", sep='');
 
 			print("SQL FOR ALL");
 			print(db.select.all);
@@ -124,7 +124,7 @@ for (row in seq(2, nrow(table))) {
         } else {
 			#print(cell.id);
             cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
-            db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';");
+            db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';", sep='');
 
 			print("SQL FOR UNIPROT");
 			print(db.select.uniprot);
@@ -147,7 +147,7 @@ for (row in seq(2, nrow(table))) {
 		#print(cell.id.uniprot);
 
         cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id.uniprot);
-        db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';");
+        db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';", sep='');
 
 		print("SLQ FOR SYNONYM");
 		print(db.select.synonym);
