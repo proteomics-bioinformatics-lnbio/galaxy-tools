@@ -29,9 +29,9 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
-db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = '%s'";
-db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = '%s'";
-db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = '%s'";
+db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = \"%s\"";
+db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = \"%s\"";
+db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = \"%s\"";
 
 
 #Definition of all regular expressions to be used
