@@ -26,7 +26,7 @@ options = getopt(opt);
 table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 
 #Database connections and queries
-#db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
+db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
 db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = %s";
@@ -73,8 +73,8 @@ cell.tax <- options$tax_id;
 for (row in seq(2, nrow(table))) {
     cell.row <- row;
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
-    print("Current table row:");
-	print(cell.value);
+    #print("Current table row:");
+	#print(cell.value);
 	cell.id <- "";
     for (id_code in cell.value) {
         # remove contaminant or reversed protein ids from search. get the first valid id
@@ -83,7 +83,7 @@ for (row in seq(2, nrow(table))) {
             break;
         }
     }
-    print(sprintf("Chosen id: %s", cell.id));
+    #print(sprintf("Chosen id: %s", cell.id));
     # discover the type of id
     if (grepl(regex.id.uniprot.1, cell.id) || grepl(regex.id.uniprot.2, cell.id)) {
         cell.hash <- 'uniprot';
@@ -100,14 +100,14 @@ for (row in seq(2, nrow(table))) {
     }
     # write the id in the first row of the new table
     table[cell.row, column_names.proteinIDs] <- cell.id;
-    print(sprintf("Cell hash: %s", cell.hash));
+    #print(sprintf("Cell hash: %s", cell.hash));
     # if the id is not uniprot type, get the correlant uniprot for that id
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
 			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
-			print("SQL FOR ALL");
-			print(db.select.all);
+			#print("SQL FOR ALL");
+			#print(db.select.all);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (db.select.results[row, 4] == cell.tax) {
@@ -119,10 +119,10 @@ for (row in seq(2, nrow(table))) {
             }
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
-			print(cell.id);
+			#print(cell.id);
             db.select.uniprot <- dbEscapeStrings(db.connection, sprintf(db.sql.uniprot, cell.id));
-			print("SQL FOR UNIPROT");
-			print(db.select.uniprot);
+			#print("SQL FOR UNIPROT");
+			#print(db.select.uniprot);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (grepl(db.select.results[row], regex.id.uniprot.1) == TRUE ||
@@ -138,10 +138,10 @@ for (row in seq(2, nrow(table))) {
         cell.id <- "";
         cell.id.possibleid <- c();
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
-		print(cell.id.uniprot);
+		#print(cell.id.uniprot);
 		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.id.uniprot));
-		print("SLQ FOR SYNONYM");
-		print(db.select.synonym);
+		#print("SLQ FOR SYNONYM");
+		#print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
         for (row in seq(1, nrow(db.select.results))) {
             cell.id.possibleid <- c(cell.id.possibleid, db.select.results[row]);
