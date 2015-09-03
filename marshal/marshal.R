@@ -72,14 +72,15 @@ cell.tax <- options$tax_id;
 #finding the id type
 for (row in seq(2, nrow(table))) {
     cell.row <- row;
-	print(table[cell.row, column_names.proteinIDs]);
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
 	print(cell.value);
-	cell.id <- cell.value[1];
-    for (id_code in cell.value) {
+	cell.id <- "";
+    found <- FALSE;
+    for (id_code in cell.value && !found) {
         # remove contaminant or reversed protein ids from search. get the first valid id
         if(!grepl(regex.id.contaminant_reversed, id_code)) {
             cell.id <- id_code;
+            found <- TRUE;
         }
     }
     # discover the type of id
@@ -102,7 +103,6 @@ for (row in seq(2, nrow(table))) {
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
-			print(cell.id);
 			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
 			print("SQL FOR ALL");
 			print(db.select.all);
