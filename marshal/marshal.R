@@ -73,6 +73,7 @@ cell.tax <- options$tax_id;
 for (row in seq(2, nrow(table))) {
     cell.row <- row;
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
+    print("Current table row:");
 	print(cell.value);
 	cell.id <- "";
     for (id_code in cell.value) {
@@ -82,6 +83,7 @@ for (row in seq(2, nrow(table))) {
             break;
         }
     }
+    print(sprintf("Chosen id: %s", cell.id));
     # discover the type of id
     if (grepl(regex.id.uniprot.1, cell.id) || grepl(regex.id.uniprot.2, cell.id)) {
         cell.hash <- 'uniprot';
@@ -98,6 +100,7 @@ for (row in seq(2, nrow(table))) {
     }
     # write the id in the first row of the new table
     table[cell.row, column_names.proteinIDs] <- cell.id;
+    print(sprintf("Cell hash: %s", cell.hash));
     # if the id is not uniprot type, get the correlant uniprot for that id
     if (cell.hash != 'uniprot') {
         # if is genesymbol use the database to search for a uniprot with same tax number
