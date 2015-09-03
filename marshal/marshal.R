@@ -108,14 +108,14 @@ for (row in seq(2, nrow(table))) {
 			cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
             db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';", sep='');
 
-			print("SQL FOR ALL");
-			print(db.select.all);
+			#print("SQL FOR ALL");
+			#print(db.select.all);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
             print(db.select.results);
-            for (row in seq(1, nrow(db.select.results))) {
-                if (db.select.results[row, 4] == cell.tax) {
-                    cell.id.uniprot <- db.select.results[row, 2];
-                    if (db.select.results[row, 5] == "YES") {
+            for (res in db.select.results) {
+                if (res[4] == cell.tax) {
+                    cell.id.uniprot <- res[2];
+                    if (res[5] == "YES") {
                         break;
                     }
                 }
@@ -126,14 +126,14 @@ for (row in seq(2, nrow(table))) {
             cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
             db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';", sep='');
 
-			print("SQL FOR UNIPROT");
-			print(db.select.uniprot);
+			#print("SQL FOR UNIPROT");
+			#print(db.select.uniprot);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
             print(db.select.results);
-            for (row in seq(1, nrow(db.select.results))) {
-                if (grepl(db.select.results[row], regex.id.uniprot.1) == TRUE ||
-                grepl(db.select.results[row], regex.id.uniprot.2) == TRUE) {
-                    cell.id.uniprot <- db.select.results[row];
+            for (res in db.select.results) {
+                if (grepl(res, regex.id.uniprot.1) == TRUE ||
+                grepl(res, regex.id.uniprot.2) == TRUE) {
+                    cell.id.uniprot <- res;
                     break;
                 }
             }
@@ -149,14 +149,14 @@ for (row in seq(2, nrow(table))) {
         cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id.uniprot);
         db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';", sep='');
 
-		print("SLQ FOR SYNONYM");
-		print(db.select.synonym);
+		#print("SLQ FOR SYNONYM");
+		#print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
         print(db.select.results);
-        for (row in seq(1, nrow(db.select.results))) {
-            cell.id.possibleid <- c(cell.id.possibleid, db.select.results[row]);
-            if (grepl('^IPI|^ENS|^A[Tt]',db.select.results[row])) {
-                cell.id <- db.select.results[row];
+        for (res in db.select.results) {
+            cell.id.possibleid <- c(cell.id.possibleid, res);
+            if (grepl('^IPI|^ENS|^A[Tt]',res)) {
+                cell.id <- res;
                 break;
             }
         }
