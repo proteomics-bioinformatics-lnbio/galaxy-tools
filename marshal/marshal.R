@@ -75,12 +75,10 @@ for (row in seq(2, nrow(table))) {
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
 	print(cell.value);
 	cell.id <- "";
-    found <- FALSE;
-    for (id_code in cell.value && !found) {
+    for (id_code in cell.value) {
         # remove contaminant or reversed protein ids from search. get the first valid id
         if(!grepl(regex.id.contaminant_reversed, id_code)) {
             cell.id <- id_code;
-            found <- TRUE;
         }
     }
     # discover the type of id
