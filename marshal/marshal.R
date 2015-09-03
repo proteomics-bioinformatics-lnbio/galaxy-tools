@@ -69,11 +69,9 @@ table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.ch
 table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensity, categories.spectral), table[seq(1, nrow(table)),])
 
 cell.tax <- options$tax_id;
-print(table[seq(2, 10),column_names.proteinIDs]);
 #finding the id type
-for (row in seq(1, nrow(table))) {
+for (row in seq(2, nrow(table))) {
     cell.row <- row;
-	print(cell.row);
 	print(table[cell.row, column_names.proteinIDs]);
     cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
 	print(cell.value);
