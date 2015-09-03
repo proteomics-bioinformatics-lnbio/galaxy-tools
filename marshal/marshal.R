@@ -29,9 +29,9 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 db.connection <- dbConnect(RMySQL::MySQL(), user='galaxy', host='localhost', dbname='conversionMarcelo', password='123456', unix.sock='/tmp/mysql.sock');
 
 # the '?' will be replaced in the query
-db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = %s";
-db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = %s";
-db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = %s";
+db.sql.synonym <- "SELECT synonyms FROM Synonyms2Uniprot WHERE uniprot = '%s'";
+db.sql.uniprot <- "SELECT uniprot FROM Synonyms2Uniprot WHERE synonyms = '%s'";
+db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = '%s'";
 
 
 #Definition of all regular expressions to be used
@@ -109,6 +109,7 @@ for (row in seq(2, nrow(table))) {
 			print("SQL FOR ALL");
 			print(db.select.all);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
+            print(db.select.results);
             for (row in seq(1, nrow(db.select.results))) {
                 if (db.select.results[row, 4] == cell.tax) {
                     cell.id.uniprot <- db.select.results[row, 2];
@@ -124,6 +125,7 @@ for (row in seq(2, nrow(table))) {
 			print("SQL FOR UNIPROT");
 			print(db.select.uniprot);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
+            print(db.select.results);
             for (row in seq(1, nrow(db.select.results))) {
                 if (grepl(db.select.results[row], regex.id.uniprot.1) == TRUE ||
                 grepl(db.select.results[row], regex.id.uniprot.2) == TRUE) {
@@ -143,6 +145,7 @@ for (row in seq(2, nrow(table))) {
 		print("SLQ FOR SYNONYM");
 		print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
+        print(db.select.results);
         for (row in seq(1, nrow(db.select.results))) {
             cell.id.possibleid <- c(cell.id.possibleid, db.select.results[row]);
             if (grepl('^IPI|^ENS|^A[Tt]',db.select.results[row])) {
