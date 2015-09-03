@@ -146,7 +146,7 @@ for (row in seq(2, nrow(table))) {
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
 		#print(cell.id.uniprot);
 
-        cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+        cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id.uniprot);
         db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';");
 
 		print("SLQ FOR SYNONYM");
