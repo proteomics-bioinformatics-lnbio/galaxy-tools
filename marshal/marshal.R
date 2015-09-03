@@ -106,8 +106,8 @@ for (row in seq(2, nrow(table))) {
         # if is genesymbol use the database to search for a uniprot with same tax number
         if (cell.hash == 'genesymbol') {
 			db.select.all <- dbEscapeStrings(db.connection, sprintf(db.sql.all, cell.id));
-			#print("SQL FOR ALL");
-			#print(db.select.all);
+			print("SQL FOR ALL");
+			print(db.select.all);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (db.select.results[row, 4] == cell.tax) {
@@ -121,8 +121,8 @@ for (row in seq(2, nrow(table))) {
         } else {
 			#print(cell.id);
             db.select.uniprot <- dbEscapeStrings(db.connection, sprintf(db.sql.uniprot, cell.id));
-			#print("SQL FOR UNIPROT");
-			#print(db.select.uniprot);
+			print("SQL FOR UNIPROT");
+			print(db.select.uniprot);
             db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
             for (row in seq(1, nrow(db.select.results))) {
                 if (grepl(db.select.results[row], regex.id.uniprot.1) == TRUE ||
@@ -140,8 +140,8 @@ for (row in seq(2, nrow(table))) {
         cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
 		#print(cell.id.uniprot);
 		db.select.synonym <- dbEscapeStrings(db.connection, sprintf(db.sql.synonym, cell.id.uniprot));
-		#print("SLQ FOR SYNONYM");
-		#print(db.select.synonym);
+		print("SLQ FOR SYNONYM");
+		print(db.select.synonym);
         db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
         for (row in seq(1, nrow(db.select.results))) {
             cell.id.possibleid <- c(cell.id.possibleid, db.select.results[row]);
