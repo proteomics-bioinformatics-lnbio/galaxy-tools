@@ -179,7 +179,7 @@ for (row in seq(2, nrow(table))) {
     # write the uniprot conversion cell
     table[cell.row, column_names.uniprot_conversion] <- paste0(cell.id, "_", cell.id.uniprot);
 }
-dbDisconnect(db.connection);
+#dbDisconnect(db.connection);
 #write out the file
 output_handler <- file(options$outputfile_name, "w")
 write.table(table, file=output_handler, sep="\t", row.names=FALSE);
