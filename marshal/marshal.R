@@ -112,16 +112,18 @@ for (row in seq(2, nrow(table))) {
 			#print(db.select.all);
             db.select.results <- dbGetQuery(db.connection, db.select.all);
             str(db.select.results);
-            for (res in db.select.results) {
-                str(res);
-                if (res[4] == cell.tax) {
-                    cell.id.uniprot <- res[2];
-                    if (res[5] == "YES") {
+
+            for (rrow in seq(1, nrow(db.select.results)) {
+                db.select.results.row <- db.select.results[row,];
+
+                if (db.select.results.row[[4]] == cell.tax) {
+                    cell.id.uniprot <- db.select.results.row[[2]];
+                    if (db.select.results.row[[5]] == "YES") {
                         break;
                     }
                 }
             }
-            dbClearResult(db.result.all);
+            dbClearResult(db.select.results);
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
 			#print(cell.id);
@@ -131,8 +133,9 @@ for (row in seq(2, nrow(table))) {
 			#print("SQL FOR UNIPROT");
 			#print(db.select.uniprot);
             db.select.results <- dbGetQuery(db.connection, db.select.uniprot);
+            db.select.results.ids <- as.vector(db.select.results[[1]]);
             str(db.select.results);
-            for (res in db.select.results) {
+            for (res in db.select.results.ids) {
                 str(res);
                 if (grepl(res, regex.id.uniprot.1) == TRUE ||
                 grepl(res, regex.id.uniprot.2) == TRUE) {
@@ -140,7 +143,7 @@ for (row in seq(2, nrow(table))) {
                     break;
                 }
             }
-            dbClearResult(db.result.uniprot);
+            dbClearResult(db.select.results);
         }
     } else {
         # if the id is already uniprot, do nothing and store the uniprot id value
@@ -156,8 +159,9 @@ for (row in seq(2, nrow(table))) {
 		#print("SLQ FOR SYNONYM");
 		#print(db.select.synonym);
         db.select.results <- dbGetQuery(db.connection, db.select.synonym);
+        db.select.results.ids <- as.vector(db.select.results[[1]]);
         str(db.select.results);
-        for (res in db.select.results) {
+        for (res in db.select.results.ids) {
             str(res);
             cell.id.possibleid <- c(cell.id.possibleid, res);
             if (grepl('^IPI|^ENS|^A[Tt]',res)) {
@@ -170,7 +174,7 @@ for (row in seq(2, nrow(table))) {
                 cell.id <- sort(cell.id.possibleid)[1]
             }
         }
-        dbClearResult(db.result.synonym);
+        dbClearResult(db.select.results);
     }
     # write the uniprot conversion cell
     table[cell.row, column_names.uniprot_conversion] <- paste0(cell.id, "_", cell.id.uniprot);
