@@ -70,114 +70,116 @@ table <- rbind(table[0,], c("", "", categories.intensity, categories.lfqintensit
 
 cell.tax <- options$tax_id;
 #finding the id type
-for (row in seq(2, nrow(table))) {
-    cell.row <- row;
-    cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
-    #print("Current table row:");
-	#print(cell.value);
-	cell.id <- "";
-    for (id_code in cell.value) {
-        # remove contaminant or reversed protein ids from search. get the first valid id
-        if(!grepl(regex.id.contaminant_reversed, id_code)) {
-            cell.id <- id_code;
-            break;
+if(FALSE) { 
+    for (row in seq(2, nrow(table))) {
+        cell.row <- row;
+        cell.value <- strsplit(table[cell.row, column_names.proteinIDs], ';')[[1]];
+        #print("Current table row:");
+    	#print(cell.value);
+    	cell.id <- "";
+        for (id_code in cell.value) {
+            # remove contaminant or reversed protein ids from search. get the first valid id
+            if(!grepl(regex.id.contaminant_reversed, id_code)) {
+                cell.id <- id_code;
+                break;
+            }
         }
-    }
-    #print(sprintf("Chosen id: %s", cell.id));
-    # discover the type of id
-    if (grepl(regex.id.uniprot.1, cell.id) || grepl(regex.id.uniprot.2, cell.id)) {
-        cell.hash <- 'uniprot';
-    } else if(grepl(regex.id.ipi, cell.id)) {
-        cell.hash <- 'ipi';
-    } else if(grepl(regex.id.tair, cell.id)) {
-        cell.hash <- 'tair';
-    } else if(grepl(regex.id.ensembl, cell.id)) {
-        cell.hash <- 'ensembl';
-    } else if(grepl(regex.id.refseq, cell.id)) {
-        cell.hash <- 'refseq'
-    } else {
-        cell.hash <- 'genesymbol'
-    }
-    # write the id in the first row of the new table
-    table[cell.row, column_names.proteinIDs] <- cell.id;
-    #print(sprintf("Cell hash: %s", cell.hash));
-    # if the id is not uniprot type, get the correlant uniprot for that id
-    if (cell.hash != 'uniprot') {
-        # if is genesymbol use the database to search for a uniprot with same tax number
-        if (cell.hash == 'genesymbol') {
-			cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
-            db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';", sep='');
+        #print(sprintf("Chosen id: %s", cell.id));
+        # discover the type of id
+        if (grepl(regex.id.uniprot.1, cell.id) || grepl(regex.id.uniprot.2, cell.id)) {
+            cell.hash <- 'uniprot';
+        } else if(grepl(regex.id.ipi, cell.id)) {
+            cell.hash <- 'ipi';
+        } else if(grepl(regex.id.tair, cell.id)) {
+            cell.hash <- 'tair';
+        } else if(grepl(regex.id.ensembl, cell.id)) {
+            cell.hash <- 'ensembl';
+        } else if(grepl(regex.id.refseq, cell.id)) {
+            cell.hash <- 'refseq'
+        } else {
+            cell.hash <- 'genesymbol'
+        }
+        # write the id in the first row of the new table
+        table[cell.row, column_names.proteinIDs] <- cell.id;
+        #print(sprintf("Cell hash: %s", cell.hash));
+        # if the id is not uniprot type, get the correlant uniprot for that id
+        if (cell.hash != 'uniprot') {
+            # if is genesymbol use the database to search for a uniprot with same tax number
+            if (cell.hash == 'genesymbol') {
+    			cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+                db.select.all <- paste(db.sql.all, "'", cell.id.escapeChars, "';", sep='');
 
-			#print("SQL FOR ALL");
-			#print(db.select.all);
-            db.select.results <- dbGetQuery(db.connection, db.select.all);
-            str(db.select.results);
+    			#print("SQL FOR ALL");
+    			#print(db.select.all);
+                db.select.results <- dbGetQuery(db.connection, db.select.all);
+                str(db.select.results);
 
-            for (rrow in seq(1, nrow(db.select.results))) {
-                db.select.results.row <- db.select.results[row,];
+                for (rrow in seq(1, nrow(db.select.results))) {
+                    db.select.results.row <- db.select.results[row,];
 
-                if (db.select.results.row[[4]] == cell.tax) {
-                    cell.id.uniprot <- db.select.results.row[[2]];
-                    if (db.select.results.row[[5]] == "YES") {
+                    if (db.select.results.row[[4]] == cell.tax) {
+                        cell.id.uniprot <- db.select.results.row[[2]];
+                        if (db.select.results.row[[5]] == "YES") {
+                            break;
+                        }
+                    }
+                }
+                dbClearResult(db.select.results);
+                # if is not genesymbol, query for all ids in the table, and get the result uniprot
+            } else {
+    			#print(cell.id);
+                cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
+                db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';", sep='');
+
+    			#print("SQL FOR UNIPROT");
+    			#print(db.select.uniprot);
+                db.select.results <- dbGetQuery(db.connection, db.select.uniprot);
+                db.select.results.ids <- as.vector(db.select.results[[1]]);
+                str(db.select.results);
+                for (res in db.select.results.ids) {
+                    str(res);
+                    if (grepl(res, regex.id.uniprot.1) == TRUE ||
+                    grepl(res, regex.id.uniprot.2) == TRUE) {
+                        cell.id.uniprot <- res;
                         break;
                     }
                 }
+                dbClearResult(db.select.results);
             }
-            dbClearResult(db.select.results);
-            # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
-			#print(cell.id);
-            cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id);
-            db.select.uniprot <- paste(db.sql.uniprot, "'", cell.id.escapeChars, "';", sep='');
+            # if the id is already uniprot, do nothing and store the uniprot id value
+            cell.id.uniprot <- cell.id;
+            cell.id <- "";
+            cell.id.possibleid <- c();
+            cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
+    		#print(cell.id.uniprot);
 
-			#print("SQL FOR UNIPROT");
-			#print(db.select.uniprot);
-            db.select.results <- dbGetQuery(db.connection, db.select.uniprot);
+            cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id.uniprot);
+            db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';", sep='');
+
+    		#print("SLQ FOR SYNONYM");
+    		#print(db.select.synonym);
+            db.select.results <- dbGetQuery(db.connection, db.select.synonym);
             db.select.results.ids <- as.vector(db.select.results[[1]]);
             str(db.select.results);
             for (res in db.select.results.ids) {
                 str(res);
-                if (grepl(res, regex.id.uniprot.1) == TRUE ||
-                grepl(res, regex.id.uniprot.2) == TRUE) {
-                    cell.id.uniprot <- res;
+                cell.id.possibleid <- c(cell.id.possibleid, res);
+                if (grepl('^IPI|^ENS|^A[Tt]',res)) {
+                    cell.id <- res;
                     break;
+                }
+            }
+            if (cell.id == "") {
+                if (!is.null(cell.id.possibleid)) {
+                    cell.id <- sort(cell.id.possibleid)[1]
                 }
             }
             dbClearResult(db.select.results);
         }
-    } else {
-        # if the id is already uniprot, do nothing and store the uniprot id value
-        cell.id.uniprot <- cell.id;
-        cell.id <- "";
-        cell.id.possibleid <- c();
-        cell.id.uniprot <- sub('-[[:digit:]]', '', cell.id.uniprot);
-		#print(cell.id.uniprot);
-
-        cell.id.escapeChars <- dbEscapeStrings(db.connection, cell.id.uniprot);
-        db.select.synonym <- paste(db.sql.synonym, "'", cell.id.escapeChars, "';", sep='');
-
-		#print("SLQ FOR SYNONYM");
-		#print(db.select.synonym);
-        db.select.results <- dbGetQuery(db.connection, db.select.synonym);
-        db.select.results.ids <- as.vector(db.select.results[[1]]);
-        str(db.select.results);
-        for (res in db.select.results.ids) {
-            str(res);
-            cell.id.possibleid <- c(cell.id.possibleid, res);
-            if (grepl('^IPI|^ENS|^A[Tt]',res)) {
-                cell.id <- res;
-                break;
-            }
-        }
-        if (cell.id == "") {
-            if (!is.null(cell.id.possibleid)) {
-                cell.id <- sort(cell.id.possibleid)[1]
-            }
-        }
-        dbClearResult(db.select.results);
+        # write the uniprot conversion cell
+        table[cell.row, column_names.uniprot_conversion] <- paste0(cell.id, "_", cell.id.uniprot);
     }
-    # write the uniprot conversion cell
-    table[cell.row, column_names.uniprot_conversion] <- paste0(cell.id, "_", cell.id.uniprot);
 }
 #dbDisconnect(db.connection);
 #write out the file
