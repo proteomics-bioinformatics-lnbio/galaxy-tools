@@ -113,7 +113,7 @@ for (row in seq(2, nrow(table))) {
             db.select.results <- dbGetQuery(db.connection, db.select.all);
             str(db.select.results);
 
-            for (rrow in seq(1, nrow(db.select.results)) {
+            for (rrow in seq(1, nrow(db.select.results))) {
                 db.select.results.row <- db.select.results[row,];
 
                 if (db.select.results.row[[4]] == cell.tax) {
