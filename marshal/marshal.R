@@ -110,7 +110,8 @@ for (row in seq(2, nrow(table))) {
 
 			#print("SQL FOR ALL");
 			#print(db.select.all);
-            db.select.results <- fetch(dbSendQuery(db.connection, db.select.all), n=-1);
+            db.result.all <- dbSendQuery(db.connection, db.select.all);
+            db.select.results <- dbFetch(db.result.all, n=-1);
             print(db.select.results);
             for (res in db.select.results) {
                 if (res[4] == cell.tax) {
@@ -120,6 +121,7 @@ for (row in seq(2, nrow(table))) {
                     }
                 }
             }
+            dbClearResult(db.result.all);
             # if is not genesymbol, query for all ids in the table, and get the result uniprot
         } else {
 			#print(cell.id);
@@ -128,7 +130,8 @@ for (row in seq(2, nrow(table))) {
 
 			#print("SQL FOR UNIPROT");
 			#print(db.select.uniprot);
-            db.select.results <- fetch(dbSendQuery(db.connection, db.select.uniprot), n=-1);
+            db.result.uniprot <- dbSendQuery(db.connection, db.select.uniprot);
+            db.select.results <- dbFetch(db.result.uniprot, n=-1);
             print(db.select.results);
             for (res in db.select.results) {
                 if (grepl(res, regex.id.uniprot.1) == TRUE ||
@@ -137,6 +140,7 @@ for (row in seq(2, nrow(table))) {
                     break;
                 }
             }
+            dbClearResult(db.result.uniprot);
         }
     } else {
         # if the id is already uniprot, do nothing and store the uniprot id value
@@ -151,7 +155,8 @@ for (row in seq(2, nrow(table))) {
 
 		#print("SLQ FOR SYNONYM");
 		#print(db.select.synonym);
-        db.select.results <- fetch(dbSendQuery(db.connection, db.select.synonym), n=-1);
+        db.result.synonym <- dbSendQuery(db.connection, db.select.synonym);
+        db.select.results <- dbFetch(db.result.synonym, n=-1);
         print(db.select.results);
         for (res in db.select.results) {
             cell.id.possibleid <- c(cell.id.possibleid, res);
@@ -161,15 +166,16 @@ for (row in seq(2, nrow(table))) {
             }
         }
         if (cell.id == "") {
-            if (cell.id.possibleid) {
+            if (!is.null(cell.id.possibleid)) {
                 cell.id <- sort(cell.id.possibleid)[1]
             }
         }
+        dbClearResult(db.result.synonym);
     }
     # write the uniprot conversion cell
     table[cell.row, column_names.uniprot_conversion] <- paste0(cell.id, "_", cell.id.uniprot);
 }
-
+dbDisconnect(db.connection);
 #write out the file
 output_handler <- file(options$outputfile_name, "w")
 write.table(table, file=output_handler, sep="\t", row.names=FALSE);
