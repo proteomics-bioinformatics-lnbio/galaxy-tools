@@ -110,8 +110,7 @@ for (row in seq(2, nrow(table))) {
 
 			#print("SQL FOR ALL");
 			#print(db.select.all);
-            db.result.all <- dbSendQuery(db.connection, db.select.all);
-            db.select.results <- dbFetch(db.result.all, n=-1);
+            db.select.results <- dbGetQuery(db.connection, db.select.all);
             str(db.select.results);
             for (res in db.select.results) {
                 str(res);
@@ -131,8 +130,7 @@ for (row in seq(2, nrow(table))) {
 
 			#print("SQL FOR UNIPROT");
 			#print(db.select.uniprot);
-            db.result.uniprot <- dbSendQuery(db.connection, db.select.uniprot);
-            db.select.results <- dbFetch(db.result.uniprot, n=-1);
+            db.select.results <- dbGetQuery(db.connection, db.select.uniprot);
             str(db.select.results);
             for (res in db.select.results) {
                 str(res);
@@ -157,8 +155,7 @@ for (row in seq(2, nrow(table))) {
 
 		#print("SLQ FOR SYNONYM");
 		#print(db.select.synonym);
-        db.result.synonym <- dbSendQuery(db.connection, db.select.synonym);
-        db.select.results <- dbFetch(db.result.synonym, n=-1);
+        db.select.results <- dbGetQuery(db.connection, db.select.synonym);
         str(db.select.results);
         for (res in db.select.results) {
             str(res);
