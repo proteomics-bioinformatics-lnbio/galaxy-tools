@@ -3,12 +3,16 @@
     <description>
     </description>
     <command interpreter="Rscript">
-        marshal.R --inputfile_name=$input --tax_id=$tax --outputfile_name=$output
+        marshal.R --inputfile_name=$input --tax_id=$tax --keepcon=$keepcon --outputfile_name=$output
     </command>
 
     <inputs>
         <param format="txt" name="input" type="data" label="Input table"/>
         <param format="txt" name="tax" type="text" label="Tax Id Number"/>
+	<param format="txt" name="keepcon" type="select" label="Keep Contaminant ID?">
+	  <option value="Yes">Yes</option>
+	  <option value="No">No</option>
+	</param>
     </inputs>
 
     <outputs>
