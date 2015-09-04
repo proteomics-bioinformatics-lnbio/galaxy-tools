@@ -112,6 +112,7 @@ for (row in seq(2, nrow(table))) {
 			#print(db.select.all);
             db.result.all <- dbSendQuery(db.connection, db.select.all);
             db.select.results <- dbFetch(db.result.all, n=-1);
+            typeof(get(db.select.results));
             print(db.select.results);
             for (res in db.select.results) {
                 if (res[4] == cell.tax) {
@@ -132,6 +133,7 @@ for (row in seq(2, nrow(table))) {
 			#print(db.select.uniprot);
             db.result.uniprot <- dbSendQuery(db.connection, db.select.uniprot);
             db.select.results <- dbFetch(db.result.uniprot, n=-1);
+            typeof(get(db.select.results));
             print(db.select.results);
             for (res in db.select.results) {
                 if (grepl(res, regex.id.uniprot.1) == TRUE ||
@@ -157,6 +159,7 @@ for (row in seq(2, nrow(table))) {
 		#print(db.select.synonym);
         db.result.synonym <- dbSendQuery(db.connection, db.select.synonym);
         db.select.results <- dbFetch(db.result.synonym, n=-1);
+        typeof(get(db.select.results));
         print(db.select.results);
         for (res in db.select.results) {
             cell.id.possibleid <- c(cell.id.possibleid, res);
