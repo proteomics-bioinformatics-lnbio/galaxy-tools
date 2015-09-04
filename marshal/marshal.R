@@ -114,6 +114,7 @@ for (row in seq(2, nrow(table))) {
             db.select.results <- dbFetch(db.result.all, n=-1);
             str(db.select.results);
             for (res in db.select.results) {
+                str(res);
                 if (res[4] == cell.tax) {
                     cell.id.uniprot <- res[2];
                     if (res[5] == "YES") {
@@ -134,6 +135,7 @@ for (row in seq(2, nrow(table))) {
             db.select.results <- dbFetch(db.result.uniprot, n=-1);
             str(db.select.results);
             for (res in db.select.results) {
+                str(res);
                 if (grepl(res, regex.id.uniprot.1) == TRUE ||
                 grepl(res, regex.id.uniprot.2) == TRUE) {
                     cell.id.uniprot <- res;
@@ -159,6 +161,7 @@ for (row in seq(2, nrow(table))) {
         db.select.results <- dbFetch(db.result.synonym, n=-1);
         str(db.select.results);
         for (res in db.select.results) {
+            str(res);
             cell.id.possibleid <- c(cell.id.possibleid, res);
             if (grepl('^IPI|^ENS|^A[Tt]',res)) {
                 cell.id <- res;
