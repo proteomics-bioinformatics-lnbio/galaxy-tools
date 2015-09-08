@@ -24,7 +24,7 @@ open OUTFILE, ">", $out or die $!;
 foreach(@lines){
     my @vec = split ' ', $_;
     my @id = split ';', $vec[0];
-    if($id[0] =~ m/^CON__/){
+    if($id[0] =~ m/^CON__/ ){
 	if($maintain_contaminants eq "yes"){
 	    print OUTFILE $id[0] =~ s/^CON__//r, "\n";
 	}

@@ -1,0 +1,49 @@
+Installing and Configuring Galaxy to run MaxQuant
+
+Ubuntu side
+
+- download Galaxy from Galaxy webpage and make sure to get the stable version;
+- in the file universe_wsgi.ini in galaxy-dist directory:
+  - change the line 34 setting the corret IP of linux machine
+  - uncomment line 135 so the shed_tool_conf.xml gets available
+  - uncomment line 668 and set the admin user (it'll be necessary for the MaxQuant installation in the tool shed)
+- change the job_conf.xml.sample_basic to job_conf.xml and make this updates:
+  - add this line ('<plugin id="lwr" type="runner" load="galaxy.jobs.runners.lwr:LwrJobRunner"/>') in the plugins section
+  - add this line ('<handler id="lwr_handler">
+    	                 <plugin id="lwr"/>
+                    </handler>') in the handlers section
+  - add this line ('<destination id="lwr" runner="lwr">
+                        <param id="url">http://WindowsIP:8913/</param>
+        	    </destination>') in the destinations section changing WindowsIP for the correct Windows IP
+  - add this line ('<tools>
+    	              <tool id="maxquant" destination="lwr"/>
+		    </tools>') after tag destinations
+- run Galaxy and click in the label Admin in the top panel (after logged in)
+- in the left menu click on Search and browse tool sheds (Tools sheds menu)
+- select Galaxy main tool shed
+- click on proteomics
+- install packages maxquant and proteomics_datatypes
+- in the MaxQuant wrapper(shed_tools/toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/d4b6c9eae635/maxquant/maxquant_wrapper.py):
+  - line 596 change the exe_path putting the path in Windows machine of MaxQuant executable
+  - line 775 change the execute command putting the path in Windows machine of MaxQuant (same as last item)
+
+
+Windows side
+
+- get the python version 2.7.8
+- download LWR from https://lwr.readthedocs.org/en/latest/ and follow the instructions
+- test the LWR with the available tester
+- update line 13 of server.ini in LWR folder with the correct windows IP
+/*CHECK THIS PART LATER BECAUSE THE DIRECTORY IS STILL BEING CLEANED*/
+- if you do not want the staging directory to be cleaned comment the line 30 in ..lwr\lwr\lwr_client\staging
+
+To run LWR on Windows: in the folder of LWR type the following command in terminal(DOS): C:\Python278\Scripts\paster.exe serve server.ini
+
+
+Changes that I made
+
+- I've added in Galaxy the option to select the type of id in the fasta (Andromeda config)
+- in the MaxQuant wrapper(shed_tools/toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/d4b6c9eae635/maxquant/maxquant_wrapper.py):
+  - in the function run_script I've added this command: parser.add_option("--andromeda_config"); so we can select the correct regex for andromeda config
+  - in the function setup_database I've added the regex based on parameter of id got from Galaxy
+

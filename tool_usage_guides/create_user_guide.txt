@@ -1,0 +1,8 @@
+To access Galaxy type the following IP address on a browser url: 10.0.2.169:8080 
+
+1. CREATING USER:
+
+1.1) On top panel, click in the button 'User' (the last one) to logon or create user;
+1.2) To create user, click 'Register';
+1.3) Complete the form with your personal info. Be aware in 'Public name' field: you only allowed to use lower-case letters, numbers, and hyphen;
+1.4) Click 'Submit' button to finish.
