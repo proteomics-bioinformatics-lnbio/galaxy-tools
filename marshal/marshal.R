@@ -94,8 +94,7 @@ for (row in seq(2, nrow(table))) {
         # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
-            print(sprintf("Cell id: '%s'", cell.id));
-            if (cell.id == 'NA') {
+            if (!cell.id) {
                 table <- table[-(row),];
                 row.deleted <- TRUE;
             } else {
