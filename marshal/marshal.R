@@ -94,7 +94,7 @@ for (row in seq(2, nrow(table))) {
         # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
-            if (!cell.id) {
+            if (is.na(cell.id)) {
                 table <- table[-(row),];
                 row.deleted <- TRUE;
             } else {
@@ -105,7 +105,6 @@ for (row in seq(2, nrow(table))) {
             table <- table[-(row),];
         }
     }
-    print("got here")
     if (!row.deleted) {
                                         #print(sprintf("Chosen id: %s", cell.id));
                                         # discover the type of id
@@ -128,7 +127,6 @@ for (row in seq(2, nrow(table))) {
                                         # if the id is not uniprot type, get the correlant uniprot for that id
                                         #TODO TIRAR ISSO PELAMOR
         cell.id.uniprot <- cell.hash;
-        print(sprintf("hash: %s", cell.id.uniprot))
         if(FALSE) {
             if (cell.hash != 'uniprot') {
                                         # if is genesymbol use the database to search for a uniprot with same tax number
@@ -206,7 +204,6 @@ for (row in seq(2, nrow(table))) {
             }
         }
                                         # write the uniprot conversion cell
-        print("ok here")
         if (cell.id.notfound) {
             cell.id <- paste0("CON__", cell.id);
         }
