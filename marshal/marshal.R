@@ -129,7 +129,7 @@ for (row in seq(2, nrow(table))) {
                                         # if the id is not uniprot type, get the correlant uniprot for that id
                                         #TODO TIRAR ISSO PELAMOR
         cell.id.uniprot <- cell.hash;
-        print(sprintf("hash: %s", cell.id.uniprot))
+        print(sprintf("hash: %s", cell.id.uniprots))
         if(FALSE) {
             if (cell.hash != 'uniprot') {
                                         # if is genesymbol use the database to search for a uniprot with same tax number
@@ -207,6 +207,7 @@ for (row in seq(2, nrow(table))) {
             }
         }
                                         # write the uniprot conversion cell
+        print("ok here")
         if (cell.id.notfound) {
             cell.id <- paste0("CON__", cell.id);
         }
