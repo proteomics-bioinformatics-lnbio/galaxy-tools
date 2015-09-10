@@ -106,7 +106,7 @@ for (row in seq(2, nrow(table))) {
             table <- table[-(row),];
         }
     }
-
+    print("got here")
     if (!row.deleted) {
                                         #print(sprintf("Chosen id: %s", cell.id));
                                         # discover the type of id
@@ -129,6 +129,7 @@ for (row in seq(2, nrow(table))) {
                                         # if the id is not uniprot type, get the correlant uniprot for that id
                                         #TODO TIRAR ISSO PELAMOR
         cell.id.uniprot <- cell.hash;
+        print(sprintf("hash: %s", cell.id.uniprot))
         if(FALSE) {
             if (cell.hash != 'uniprot') {
                                         # if is genesymbol use the database to search for a uniprot with same tax number
