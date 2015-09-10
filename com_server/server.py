@@ -1,5 +1,7 @@
 import os
 import subprocess
+import multiprocessing
+import signal, psutil
 from socket import *
 host = ""
 port = 13000
@@ -15,12 +17,18 @@ while True:
     if data == "exit":
         break
     elif data == "pull":
-	git_pull = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
-	output = process.communicate()[0]
+	git_pull = subprocess.Popen(["git", "pull", "origin", "fix_marshal"], stdout=subprocess.PIPE)
+	output = git_pull.communicate()[0]
+	print(output)
     elif data == "kill":
-	os.kill(galaxy_pid, signal.SIGUSR1)
+	for child in galaxy.children(recursive=True):
+	   child.send_signal(signal.SIGINT)
     elif data == "start":
-    	galaxy = subprocess.Popen("sh ../../../run.sh", shell=True)
-	galaxy_pid = galaxy.pid
+	galaxy = psutil.Popen(["/bin/sh", "/home/ABTLUS/mateus.ruivo/galaxy-dist/run.sh"], )
+	#galaxy = multiprocessing.Process(target=os.system, args=('sh /home/ABTLUS/mateus.ruivo/galaxy-dist/run.sh',))
+	#galaxy.start()
+	print(os.getpid())
+	print(galaxy.pid)
+	
 UDPSock.close()
 os._exit(0)
