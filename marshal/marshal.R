@@ -91,7 +91,7 @@ for (row in seq(2, nrow(table))) {
     }
     if (cell.id == "") {
         cell.id.notfound <- TRUE;
-        # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed
+        # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed)
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
             if (is.na(cell.id)) {
@@ -104,7 +104,6 @@ for (row in seq(2, nrow(table))) {
             row.deleted <- TRUE;
             table <- table[-(row),];
         }
-        cell.id <- "";
     }
     if (!row.deleted) {
                                         #print(sprintf("Chosen id: %s", cell.id));
