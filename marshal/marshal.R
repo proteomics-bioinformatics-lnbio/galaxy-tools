@@ -95,7 +95,7 @@ for (row in seq(2, nrow(table))) {
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
             print(sprintf("Cell id: '%s'", cell.id));
-            if (is.null(cell.id)) {
+            if (cell.id == 'NA') {
                 table <- table[-(row),];
                 row.deleted <- TRUE;
             } else {
