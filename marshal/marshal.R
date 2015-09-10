@@ -104,6 +104,7 @@ for (row in seq(2, nrow(table))) {
             row.deleted <- TRUE;
             table <- table[-(row),];
         }
+        cell.id <- "";
     }
     if (!row.deleted) {
                                         #print(sprintf("Chosen id: %s", cell.id));
