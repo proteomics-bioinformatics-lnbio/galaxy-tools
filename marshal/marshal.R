@@ -94,6 +94,7 @@ for (row in seq(2, nrow(table))) {
         # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
+            print(sprintf("Cell id: '%s'", cell.id));
             if (is.null(cell.id)) {
                 table <- table[-(row),];
                 row.deleted <- TRUE;
@@ -123,7 +124,7 @@ for (row in seq(2, nrow(table))) {
             cell.hash <- 'genesymbol'
         }
                                         # write the id in the first row of the new table
-        
+
                                         #print(sprintf("Cell hash: %s", cell.hash));
                                         # if the id is not uniprot type, get the correlant uniprot for that id
                                         #TODO TIRAR ISSO PELAMOR
