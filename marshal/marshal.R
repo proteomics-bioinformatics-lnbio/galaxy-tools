@@ -55,7 +55,7 @@ column_names.intensity <- grep(regex.intensity, colnames(table), value=TRUE);
 column_names.lfqintensity <- grep(regex.lfqintensity, colnames(table), value=TRUE);
 column_names.spectral <- grep(regex.spectral, colnames(table), value=TRUE);
 column_names.proteinIDs <- grep(regex.proteinIDs, colnames(table), value=TRUE);
-column_names.uniprot_conversion <- "Uniprot.Conversion";
+column_names.uniprot_conversion <- "Uniprot.Conversion.ID";
 
 #create names of categories for extra row to be included
 categories.intensity <- gsub(regex.intensity, '\\1.intensity', column_names.intensity);
