@@ -1,0 +1,68 @@
+** To use this workflow, the user has to be logged in and have the workflow available. To make the workflow available you can select it in top menu 'Shared Data\Published Workflows'. After that, click on workflow name (T-test_Flavia) and select 'import' option. In case the workflow that you want doesn't appear, you can access it via link[1].
+
+
+DATA:
+
+    Input: Raw files;
+    	   Experimental design;
+	   Fasta database.
+
+    Output: Table with T-test in protein data got from MaxQuant.
+
+
+0. INITIAL PAGE:
+
+0.1) To get back to initial page you can click 'Analyze Data' button on top pannel;
+
+1. UPLOAD YOUR FILES:
+
+1.1) On the left panel, at the top, click in the button beside 'Tools' to upload a file;
+1.2) Drag and drop your raw and fasta database files into the box and click start button at the bottom;
+1.3) After the files were uploaded, you could see it on the right pannel in a green color;
+
+2. CREATE EXPERIMENTAL DESIGN:
+
+2.1) Click the 'Experimental design' tool in the left pannel, inside 'IDENTIFICATION' menu;
+2.2) Click in Add sample as many times you have raw files. Select your raw files and set the fraction and class accordingly;
+2.3) Click 'Execute' button to generate you experimental design file;
+
+3. CREATE DATA SET:
+
+3.1) On the right pannel, inside the blue box, click the 'check' button to make an operation on multiple datasets;
+3.2) Select your raw files and click on the button 'For all selected...' (below the 'check' button clicked earlier) and select 'Build Dataset List' option;
+3.3) A new Dataset List will appear in the right pannel;
+
+
+4. CREATE WORKFLOW:
+
+4.1) Click in the 'All workflows' tool in the left pannel, inside 'Workflows' menu (it's the last one);
+4.2) Select 'T-test_Flavia' workflow;
+
+4.3) Step 1:
+
+4.3.1) Select the Dataset List created in (3.3);
+4.3.2) Leave 'type to filter' blank;
+
+4.4) Step 2:
+
+4.4.1) In Experimental Design menu, select your Experimental Design file created in (2.3);
+4.4.2) In FASTA Database menu, select your .fasta uploaded in (1.3);
+4.4.3) In Andromeda config, select the id type of your input data (e.g. uniprot); 
+* You can change the other parameters according the type of analysis you want, by clicking in the pencil button.
+
+4.5) Step 3: Nothing to be done here.
+
+4.6) Step 4:
+
+4.6.1) Select t-test type that you want to execute in output table;
+
+
+5. You could send the results to a new history by checking this option above 'Run workflow' button;
+
+6. Click 'Run workflow' button to execute.
+
+
+
+References
+
+[1] http://10.0.2.169:8080/u/mateusbellomo/w/t-test

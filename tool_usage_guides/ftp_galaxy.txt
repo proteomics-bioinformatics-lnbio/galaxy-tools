@@ -1,0 +1,14 @@
+To enter in ftp:
+
+- Open a terminal
+- type: ftp 10.0.2.80 (Linux IP)
+- user: the e-mail of a registered user
+  password: the password
+- DONE!
+
+To upload a file:
+
+- !ls -> list files in the current folder;
+- put filename.txt -> upload file do server
+- now the file appears in the selecet box of 'Choose FTP file' in Galaxy
+	

@@ -1,0 +1,71 @@
+Installing and Configuring Galaxy to run MaxQuant
+
+------------------------------------------------------------------------------------------
+
+Ubuntu side
+
+- download Galaxy from Galaxy webpage and make sure to get the stable version;
+- in the file config/galaxy.ini.sample in galaxy-dist directory:
+  - change the line 36 setting the corret IP of linux machine
+  - uncomment line 139 so the shed_tool_conf.xml gets available
+  - uncomment line 728 and set the admin user e-mail (it'll be necessary for the MaxQuant installation in the tool shed)
+- change the job_conf.xml.sample_basic to job_conf.xml and make this updates:
+  - add this line ('<plugin id="lwr" type="runner" load="galaxy.jobs.runners.lwr:LwrJobRunner"/>') in the plugins section
+  - add this line ('<handler id="lwr_handler">
+    	                 <plugin id="lwr"/>
+                    </handler>') in the handlers section
+  - add this line ('<destination id="lwr" runner="lwr">
+                        <param id="url">http://WindowsIP:8913/</param>
+        	    </destination>') in the destinations section changing WindowsIP for the correct Windows IP
+  - add this line ('<tools>
+    	              <tool id="maxquant" destination="lwr"/>
+		    </tools>') after tag destinations
+  - in handlers tag add this parameter: default="main"	
+  - in destinations tag add this parameter: default="local"
+- run Galaxy and click User->register and register your e-mail that you put on galaxy.ini.sample	
+- after logged in, click in the label Admin in the top panel
+- in the left menu click on Search and browse tool sheds (Tools sheds menu)
+- select Galaxy main tool shed
+- click on proteomics
+- install packages maxquant and proteomics_datatypes
+
+(Maybe you don't have to do the 3 next steps. Try not to do it and see if it runs ok. In other case you should try to do the next 3 steps)
+
+- in the MaxQuant wrapper(shed_tools/toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/d4b6c9eae635/maxquant/maxquant_wrapper.py):
+  - line 596 change the exe_path putting the path in Windows machine of MaxQuant executable
+  - line 775 change the execute command putting the path in Windows machine of MaxQuant (same as last item)
+
+------------------------------------------------------------------------------------------
+
+Windows side
+
+- get the python version 2.7.9 (make sure to get the 32-bit version of python - we've got some codec problems whit 64-bit version)
+- download LWR from https://lwr.readthedocs.org/en/latest/ and follow the instructions
+- get the LWR dependencies: C:\Python27\Scripts\pip.exe install -r C:\lwr\requirements.txt (in windows terminal)
+- test the LWR with the available tester
+- update line 13 of server.ini in LWR folder with the correct windows IP
+/*CHECK THIS PART LATER BECAUSE THE DIRECTORY IS STILL BEING CLEANED*/
+- if you do not want the staging directory to be cleaned comment the line 30 in ..lwr\lwr\lwr_client\staging
+
+To run LWR on Windows: in the folder of LWR type the following command in terminal(DOS): C:\Python278\Scripts\paster.exe serve server.ini
+
+------------------------------------------------------------------------------------------
+
+Changes that I made
+
+- I've added in Galaxy the option to select the type of id in the fasta (Andromeda config)
+- in the MaxQuant wrapper(shed_tools/toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/d4b6c9eae635/maxquant/maxquant_wrapper.py):
+  - in the function run_script I've added this command: parser.add_option("--andromeda_config"); so we can select the correct regex for andromeda config
+  - in the function setup_database I've added the regex based on parameter of id got from Galaxy
+
+
+------------------------------------------------------------------------------------------
+
+Configuring FTP for Galaxy
+
+- after installing proftpd type this line in terminal to create a user:
+	sudo /usr/local/proftpd-1.3.5/bin/ftpasswd --file /usr/local/proftpd-1.3.5/etc/passwd --passwd --home /tmp/ --name USER --shell /bin/bash --uid NUM
+	where USER is the username that you want to create and NUM is the group id
+- to start ftp in terminal: ftp localhost			
+
+
