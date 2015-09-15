@@ -47,7 +47,7 @@ regex.id.ipi <- "^IPI[[:digit:]]+$";
 regex.id.tair <- "^A[Tt][1-5MC][:alnum:][[:digit:]]+$";
 regex.id.ensembl <- "^ENS[[:alnum:]]+$";
 regex.id.refseq <- "^AC_|^N[CGTWSZMR]_|^X[MR]_|^[ANYXZ]P_";
-regex.id.contaminant_reversed <- "^CON__|REV__";
+regex.id.contaminant_reversed <- "^(CON__|REV__)";
 regex.id.contaminant <- "^CON__";
 
 #get the names for the columns and separate them for better use
@@ -84,7 +84,7 @@ for (row in seq(2, nrow(table))) {
     cell.id <- "";
     for (id_code in cell.value) {
                                         # remove contaminant or reversed protein ids from search. get the first valid id
-        if(!grepl(regex.id.contaminant_reversed, id_code)) {
+        if(!is.na(id_code) && !grepl(regex.id.contaminant_reversed, id_code)) {
             cell.id <- id_code;
             break;
         }
@@ -94,6 +94,8 @@ for (row in seq(2, nrow(table))) {
         # NOT FOUND ANY RELEVANT IDs (All contaminat or reversed)
         if (options$keepcon == "Yes") {
             cell.id <- grep(regex.id.contaminant, cell.value, value=TRUE)[1];
+            print(cell.id);
+            print(is.na(cell.id));
             if (is.na(cell.id)) {
                 table <- table[-(row),];
                 row.deleted <- TRUE;
