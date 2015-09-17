@@ -3,7 +3,7 @@
 # filter_table_by_log_LFQ_intensity.R
 # AUTHOR: Daniel Travieso (modified from script by MY Friend)
 # E-mail: danielgtravieso@gmail.com
-# LAST REVISED: November 2014
+# LAST REVISED: September 2015
 #
 # Required packages to work: ("gtools", "getopt", )
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
@@ -14,7 +14,7 @@
 # DECLARATION OF FUNCTIONS USED IN THE SCRIPT
 
 #' Gets the max number of NaN logs permitted by the filter
-#' Which is the number of experiment the categorie that
+#' Which is the number of experiment the category that
 #' has the least number of experiments, divided by 2
 #' technically: floor(min(num_experiments_per_categorie)/2)
 #'
@@ -27,8 +27,8 @@
 get_max_log_NaN <- function(experiments, categories) {
     i<- 1
     all_sums <- array()
-    for (categorie in categories) {
-        all_sums[i] <- sum(grepl(categorie, experiments)==TRUE)
+    for (category in categories) {
+        all_sums[i] <- sum(grepl(category, experiments)==TRUE)
         i<-i+1
     }
     return(as.integer(min(all_sums)/2))
@@ -48,12 +48,12 @@ get_max_log_NaN <- function(experiments, categories) {
 #'[3,]  2.666  NaN  3
 replace_with_NaN <- function(table) {
     replaced_table <- table
-    for(row in seq(1, nrow(replaced_table))) {
+    for(row in seq(2, nrow(replaced_table))) {
         range <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+", names(replaced_table))
         for (collumn in seq(1, ncol(replaced_table))) {
             if (collumn %in% range) {
                 if (grepl("-Inf", replaced_table[row, collumn])==TRUE) {
-                    replaced_table[row, collumn] <- "NaN"
+                    replaced_table[row, collumn] <- "NA"
                 }
             }
         }
@@ -65,98 +65,73 @@ replace_with_NaN <- function(table) {
 # package gtools to use "mixedsort" function
 require("gtools", quietly=TRUE);
 require('getopt', quietly=TRUE);
-source('../R_util/read-utils.R');
 
-args <- get_cmd_options(FALSE);
+opt <- matrix(c(
+    'inputfile_name', 'i', 1, 'character',
+    'outputfile_name', 'o', 1, 'character'
+    ),byrow=TRUE, ncol=4);
+
+options <- getopt(opt);
+
+table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE, stringsAsFactors=FALSE);
+
 # this stores an array for the collumn names that has a pattern like
 # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
-lfq_collumns_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
-                            colnames(args$table), value=TRUE);
-
+lfq_column_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
+                            colnames(table), value=TRUE);
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
 experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
-                                    lfq_collumns_names));
-
+                                    lfq_column_names));
 # extract from the experiment names all the different categories in the table
 different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
                                     experiment_names));
-
 # get the maximum of NaN's permitted by the filter
 max_NaNs_allowed <- get_max_log_NaN(experiment_names, different_categories);
-
-# calculate the log on base 2 of the LFQ.intensity collumns of the input table
-table_log_LFQ_intensity <- log(args$table[-1, lfq_collumns_names], base=2);
-
+#TODO NEED TO SET ALL LFQ COLUMNS AS NUMERIC FOR LOG TO WORK
+# calculate the log on base 2 of the LFQ.intensity column of the input table
+number_of_rows <- nrow(table[-1, lfq_column_names]);
+table_log_LFQ_intensity <- lapply(table[-1,lfq_column_names], function(x) { log(as.numeric(as.character(x)), base=2)})
 # count the number of NaN logs in the log table, to get
 # which rows are going to be filtered out.
-
 # initial definitions
+table_log_LFQ_intensity <- data.frame(matrix(unlist(table_log_LFQ_intensity), nrow=number_of_rows, byrow=TRUE), stringsAsFactors=FALSE)
+colnames(table_log_LFQ_intensity) <- lfq_column_names;
+
 i<-1;
-excluded_rows <- array();
-
-# filter first for each categorie that presents more than the max
+counter <- c();
+# filter first for each category that presents more than the max
 # allowed number of NaN's logs
-for (categorie in different_categories) {
+for (category in different_categories) {
     # iterate in the rows of this table
-    for(row in seq(1, nrow(table_log_LFQ_intensity))) {
-        # reset the counter for this row
-        NaN_counter <- 0;
-
-        # here this range defines which categorie or group of
-        # lfq intensities will be checked if there is or not
-        # a number greater than the max allowed NaNs on the logs.
-        range <- grep(paste0("LFQ[.]intensity[.]", categorie, "[[:digit:]]+.*"),
-                        names(table_log_LFQ_intensity));
-
-        # iterate in the collumns of the table
-        for (collumn in seq(1, ncol(table_log_LFQ_intensity))) {
-            # check if current collumn corresponds the the range of
-            # log LFQ values being investigated
-            if (collumn %in% range) {
-                # if the log result was "-Inf", it is a NaN, so the counter gets
-                # incremented
-                if (grepl("-Inf", table_log_LFQ_intensity[row, collumn])) {
-                    NaN_counter <- NaN_counter + 1;
-                }
-            }
-
-            # to reserve some time, check if the counter already broke the
-            # maximum allowed, if so, stop the counting
-            if(NaN_counter >= max_NaNs_allowed) {
-                break;
-            }
-        }
-
-        # after all the counting, for this row, check if the counter
-        # broke the max, and if so insert the corresponding row on the
-        # array of excluded rows.. Also check if it's not there already
-        if(NaN_counter >= max_NaNs_allowed && !(row+1 %in% excluded_rows)) {
-            excluded_rows[i] <- row+1;
-            i<- i+1;
-        }
+    print(category);
+    range <- grep(paste0("LFQ[.]intensity[.]", category, "[[:digit:]]+.*"),colnames(table_log_LFQ_intensity), value=TRUE);
+    counter.tmp <- as.vector(by(table_log_LFQ_intensity[,range], seq(1, nrow(table_log_LFQ_intensity)),  function(x) { sum(grepl("-Inf", x))>=max_NaNs_allowed }));
+    print(length(counter))
+    print(length(counter.tmp))
+    if (length(counter) == nrow(table_log_LFQ_intensity)) {
+        counter <- counter.tmp & counter;
+    } else {
+        counter <- counter.tmp;
     }
 }
-
 # sort the array of excluded rows for better organization
-excluded_rows <- mixedsort(excluded_rows);
 
 # the array of rows that are included, that is, that does not have more
 # than the max number of NaNs allowed, have every row that belongs to the
 # intervall between 1 and the number of rows in the table, except the ones
 # that are in the excluded_rows array
-included_rows <- seq(2, nrow(args$table))[seq(2, nrow(args$table)) %in% excluded_rows == FALSE];
+included_rows <- !counter;
 
 # the filtered table is the one that has only the included rows
-filtered_table <- args$table[c(1, included_rows),];
-# with the log applied to it's LFQ collumns
-filtered_table[lfq_collumns_names] <- log(filtered_table[lfq_collumns_names], base=2);
+filtered_table <- table[included_rows,];
+# with the log applied to it's LFQ column
+filtered_table[-1,lfq_column_names] <- lapply(filtered_table[-1,lfq_column_names], function(x) {log(as.numeric(as.character(x)), base=2)})
 # and the "-Inf" replaced with NaN
 filtered_table <- replace_with_NaN(filtered_table);
 # write the final table in a .txt file separated by tabs, just as the input
 # file was!
-
-output_handler <- file(args$options$outputfile_name, "w")
+output_handler <- file(options$outputfile_name, "w")
 
 write.table(filtered_table, file=output_handler, sep="\t", row.names=FALSE);
 

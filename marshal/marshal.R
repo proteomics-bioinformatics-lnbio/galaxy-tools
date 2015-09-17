@@ -194,6 +194,7 @@ for (row in seq(2, nrow(table))) {
         }
     }
 }
+table[-1, -c(1, 2)] <- apply(table[-c(1),-c(1, 2)], 2, as.numeric);
 table <- table[-rows.excluded,];
 #dbDisconnect(db.connection);
 #write out the file

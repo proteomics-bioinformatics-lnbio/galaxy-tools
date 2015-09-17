@@ -7,7 +7,7 @@
     </command>
 
     <inputs>
-        <param format="txt" name="input" type="data" label="Input table"/>
+        <param format="tabular" name="input" type="data" label="Input table"/>
         <param format="txt" name="tax" type="text" label="Tax Id Number"/>
 	<param format="txt" name="keepcon" type="select" label="Keep Contaminant ID?">
 	  <option value="Yes">Yes</option>
@@ -16,13 +16,15 @@
     </inputs>
 
     <outputs>
-        <data format="txt" name="output" label="Complete marshall table ${input.name}"/>
+        <data format="tabular" name="output" label="Complete marshall table ${input.name}"/>
     </outputs>
 
     <help>
         ** What it does **
         This tool defaults all MaxQuant "ProteinGroups" tables to look like the
         tables that a user can insert and make a description using the description tool
-        You need to input the tax number for the ids, as maxquant doesn't output that
+        You need to input the tax number for the ids, as maxquant doesn't output that.
+        The resulting table has two columns of protein IDs (genesymbol as possible) and
+        uniprot conversion.
     </help>
 </tool>
