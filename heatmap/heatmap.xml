@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="pdf" name="output" label="HeatMap ${type} for ${input_table}"/>
+        <data format="pdf" name="output" label="HeatMap ${type.name} for ${input_table.name}"/>
     </outputs>
 
     <help>

@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="outputfile_name" label="Zeroes Removed from ${type} - ${input_table}"/>
+        <data format="tabular" name="outputfile_name" label="Zeroes Removed from ${type.name} - ${input_table.name}"/>
     </outputs>
 
     <help>

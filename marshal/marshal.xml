@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="output" label="Corrected - ${input}"/>
+        <data format="tabular" name="output" label="Corrected - ${input.name}"/>
     </outputs>
 
     <help>

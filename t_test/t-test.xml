@@ -16,11 +16,11 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="output" label="T-test p-value significance of ${type} - ${input}"/>
+        <data format="tabular" name="output" label="T-test p-value significance of ${type.name} - ${input.name}"/>
     </outputs>
 
     <help>
         ** What it does **
-        This tool executes an RScript that produces a p-values colum on the table.
+        This tool executes an RScript that produces a p-values colum on the table of T-test analysis.
     </help>
 </tool>

@@ -130,10 +130,6 @@ number_of_rows <- nrow(filtered_table);
 # initial definitions
 filtered_table[-1,lfq_column_names] <- table_log_LFQ_intensity[included_rows,];
 
-print(included_rows_right);
-print(seq(1, length(included_rows_right)));
-print(seq(1, length(included_rows_right))[included_rows_right])
-
 # and the "-Inf" replaced with NA
 filtered_table <- replace_with_NA(filtered_table);
 # write the final table in a .txt file separated by tabs, just as the input
