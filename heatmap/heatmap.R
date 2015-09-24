@@ -39,7 +39,6 @@ if (type == "lfqlog2") {
     # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
     lfq_collumns_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
                                colnames(table), value=TRUE);
-    # calculate the log on base 2 of the LFQ.intensity collumns of the input table
     table <- scale(data.matrix(table[2:nrow(table), lfq_collumns_names]));
 } else if (type == "intensity") {
     # this stores an array for the collumn names with a pattern as

@@ -13,10 +13,6 @@
 require('gtools', quietly=TRUE);
 require('getopt', quietly=TRUE);
 #include and execute the read util script
-library('../r_utils/read_util.R');
-library('../r_utils/write_util.R');
-
-#define de options input that the read_util$code will have
 opt = matrix(c(
     'inputfile_name', 'i', 1, 'character',
     'type', 't', 1, 'character',
@@ -26,55 +22,81 @@ opt = matrix(c(
 # parse de input
 options = getopt(opt);
 
-read_util <- read_function(options);
+table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
+
+if (options$type == "lfqlog2") {
+  regexpr <- "LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "LFQ";
+} else if (options$type == "intensity") {
+  regexpr <- "Intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "INT";
+} else {
+  regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "MS";
+}
+if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+  sprintf("Error: No columns of type %s in input table", code);
+}
+#define de options input that the code will have
+
+# define the columns that will be taken in account for the anova
+columns_names <- grep(regexpr, colnames(table), value=TRUE);
+
+# here I extract the different experiment names in an array for easier
+# manipulation, ordering them
+experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
+                                    columns_names));
+
+# extract from the experiment names all the different categories in the table
+different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
+                                    experiment_names));
 
 i<-1;
 columns <- list();
 aux <- c();
-for (cat in read_util$diff_cat) {
-  col <- read_util$col_names[gsub(read_util$regex, "\\1", read_util$col_names) == cat]
+for (cat in different_categories) {
+  col <- columns_names[gsub(regex, "\\1", columns_names) == cat]
   aux <- c(aux, col);
   columns[[i]] <- col;
   i<-i+1;
 }
-# this is a filtered read_util$table to help with calculations
-table_only_columns <- read_util$table[-1, aux]
+# this is a filtered table to help with calculations
+table_only_columns <- table[-1, aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
-i <- 2;
+i <- 1;
 ttestresult <- c("");
 ttestsignificant <- c("");
-if (length(read_util$diff_cat) < 2) {
-  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", read_util$code));
+if (length(different_categories) < 2) {
+  print(sprintf("Can't calculate t-test. There is only one category for %s collumns", code));
   q(1,save="no");
 }
 
-for (i in seq(2, nrow(table_only_columns)+1)) {
+for (i in seq(1, nrow(table_only_columns)+1)) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  ttestresult[i] <- t.test(table_only_columns[i-1, columns[[1]]],
-    table_only_columns[i-1, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
-  if (is.na(ttestresult[i]))
-    ttestresult[i] = 1.0
+  ttestresult[i] <- t.test(table_only_columns[i, columns[[1]]],
+    table_only_columns[i, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
+  if (is.na(ttestresult[i+1]))
+    ttestresult[i+1] = 1.0
 }
 
 # this defines if the p-value returned for each row is significant
-ttestsignificant[ttestresult <= 0.05] <- "+"
-ttestsignificant[ttestresult > 0.05] <- ""
+ttestsignificant[as.numeric(ttestresult) <= 0.05] <- "+"
+ttestsignificant[as.numeric(ttestresult) > 0.05] <- ""
+ttestsignificant[1] <- "";
 
-
-# create two extra rows on the read_util$table, one for p-values and other
+# create two extra rows on the table, one for p-values and other
 # for siginificance
-#TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
-read_util$table[paste0("T.test.result.", read_util$code)] <- NA;
-read_util$table[paste0("T.test.result.", read_util$code)] <- ttestresult;
-read_util$table[paste0("T.test.significant.", read_util$code)] <- NA;
-read_util$table[paste0("T.test.significant.", read_util$code)] <- ttestsignificant;
+table[paste0("T.test.result.", code)] <- NA;
+table[paste0("T.test.result.", code)] <- ttestresult;
+table[paste0("T.test.significant.", code)] <- NA;
+table[paste0("T.test.significant.", code)] <- ttestsignificant;
 
 
 
 
-# write out the read_util$table
-writeout(options$outputfile_name, read_util$table);
+# write out the table
+writeout(options$outputfile_name, table);
