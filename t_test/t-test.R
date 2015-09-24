@@ -73,12 +73,11 @@ if (length(different_categories) < 2) {
   q(1,save="no");
 }
 
-for (i in seq(1, nrow(table_only_columns)+1)) {
+for (i in seq(1, nrow(table_only_columns))) {
   # the t-test arguments are the control values vector, the treatment values vector
   # and some extra arguments. var.equal says it's a student t-test with stardard
   # deviations assumed equal. mu=0 sets the hipothesis to be null.
-  ttestresult[i] <- t.test(table_only_columns[i, columns[[1]]],
-    table_only_columns[i, columns[[2]]], var.equal=TRUE, mu=0)$p.value;
+  ttestresult[i+1] <- t.test(as.numeric(table_only_columns[i, columns[[1]]]), as.numeric(table_only_columns[i, columns[[2]]]), var.equal=TRUE, mu=0)$p.value;
   if (is.na(ttestresult[i+1]))
     ttestresult[i+1] = 1.0
 }
@@ -99,4 +98,6 @@ table[paste0("T.test.significant.", code)] <- ttestsignificant;
 
 
 # write out the table
-writeout(options$outputfile_name, table);
+output_handler <- file(options$outputfile_name, "w")
+write.table(table, file=output_handler, sep="\t", row.names=FALSE);
+close(output_handler)

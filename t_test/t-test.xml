@@ -8,7 +8,7 @@
 
     <inputs>
         <param format="tabular" name="input" type="data" label="Input table"/>
-        <param format="txt" name="t_test_type" type="select" label="Type of T-test">
+        <param format="txt" name="t_test_type" type="select" label="Type to T-test">
           <option value="lfqlog2"> Log2 of LFQ Intensity </option>
           <option value="intensity"> Intensity </option>
           <option value="mscount"> MS Count </option>
@@ -16,8 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="output" label="Complete table with
-          p-values and significance on ${input.name}"/>
+        <data format="tabular" name="output" label="T-test p-value significance of ${type} - ${input}"/>
     </outputs>
 
     <help>

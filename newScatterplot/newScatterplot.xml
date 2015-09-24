@@ -11,8 +11,8 @@
     </inputs>
 
     <outputs>
-        <data format="pdf" name="onevsone" label="One vs One Scatterplots"/>
-        <data format="pdf" name="allvsall" label="General View Scatterplot"/>
+        <data format="pdf" name="onevsone" label="1v1 Scatterplots - ${inputfile_name}"/>
+        <data format="pdf" name="allvsall" label="General Scatterplot - ${inputfile_name}"/>
     </outputs>
 
     <help>

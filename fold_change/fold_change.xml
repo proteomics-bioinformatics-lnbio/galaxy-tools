@@ -16,8 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="txt" name="output" label="Complete table with
-          fold-changes and std deviations ${input.name}"/>
+        <data format="txt" name="output" label="Fold-Change and STDDEV of ${type} - ${input}"/>
     </outputs>
 
     <help>

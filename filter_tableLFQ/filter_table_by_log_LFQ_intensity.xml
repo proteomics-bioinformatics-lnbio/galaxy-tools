@@ -11,7 +11,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="outputfile_name" label="${input_table.name} filtered"/>
+        <data format="tabular" name="outputfile_name" label="Filtered by LFQ - ${input_table.name}"/>
     </outputs>
 
     <help>

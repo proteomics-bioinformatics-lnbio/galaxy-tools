@@ -8,7 +8,7 @@
 
     <inputs>
         <param format="tabular" name="input_table" type="data" label="Input table"/>
-        <param format="txt" name="type" type="select" label="Type of T-test">
+        <param format="txt" name="type" type="select" label="Type to Remove Zeroes">
           <option value="lfqlog2"> Log2 of LFQ Intensity </option>
           <option value="intensity"> Intensity </option>
           <option value="mscount"> MS Count </option>
@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="outputfile_name" label="${input_table.name} filtered"/>
+        <data format="tabular" name="outputfile_name" label="Zeroes Removed from ${type} - ${input_table}"/>
     </outputs>
 
     <help>
