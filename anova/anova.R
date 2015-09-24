@@ -12,13 +12,34 @@
 # All rights reserved.
 
 require('gtools', quietly=TRUE);
-source('../R_util/read-utils.R');
+require('getopt', quietly=TRUE);
+opt <- matrix(c(
+    'inputfile_name', 'i', 1, 'character',
+    'type', 't', 1, 'character',
+    'outputfile_name', 'o', 1, 'character'
+),byrow=TRUE, ncol=4);
 
-args <- get_cmd_options(TRUE);
+options <- getopt(opt);
+
+table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
+
+if (options$type == "lfqlog2") {
+  regexpr <- "LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "LFQ";
+} else if (options$type == "intensity") {
+  regexpr <- "Intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "INT";
+} else {
+  regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
+  code <- "MS";
+}
+if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
+  sprintf("Error: No columns of type %s in input table", code);
+}
 #define de options input that the code will have
 
 # define the columns that will be taken in account for the anova
-columns_names <- grep(args$regexpr, colnames(args$table), value=TRUE);
+columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
@@ -33,20 +54,20 @@ i<-1;
 columns <- list();
 aux <- c();
 for (cat in different_categories) {
-  col <- columns_names[gsub(args$regexpr, "\\1", columns_names) == cat]
+  col <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
   aux <- c(aux, col);
   columns[[i]] <- col;
   i<-i+1;
 }
 # this is a filtered table to help with calculations
-table_only_columns <- args$table[-1, aux]
+table_only_columns <- table[-1, aux]
 
 # this loop computes the ttest result for each row
 # and adds it to a vector
-i <- 2;
+i <- 1;
 anovaresult <- c("");
 anovasignificant <- c("");
-for (i in seq(2, nrow(table_only_columns)+1)) {
+for (i in seq(1, nrow(table_only_columns))) {
   # i make two lists that are going to be the arguments for the anova function
   # the oneway.test. the first list is the all data
   # the second list is a correlation to indentify of which categoty each data
@@ -54,34 +75,32 @@ for (i in seq(2, nrow(table_only_columns)+1)) {
   x<-c();
   aux1 <- c();
   for (j in 1:length(different_categories)) {
-    x <- c(x, table_only_columns[i-1, columns[[j]]], recursive=TRUE)
-    aux1 <- c(aux1, length(table_only_columns[i-1, columns[[j]]]))
+    x <- c(x, table_only_columns[i, columns[[j]]], recursive=TRUE)
+    aux1 <- c(aux1, length(table_only_columns[i, columns[[j]]]))
   }
   y <- factor(rep(different_categories,
     aux1),)
   # i get the p-value for the test aplied on the current row.
-  anovaresult[i] <- oneway.test(x~y, var.equal=TRUE)$p.value;
-  if (is.na(anovaresult[i]))
-    anovaresult[i] = 1.0
+  anovaresult[i+1] <- oneway.test(x~y, var.equal=TRUE)$p.value;
+  if (is.na(anovaresult[i+1]))
+    anovaresult[i+1] = 1.0
 }
 
 # this defines if the p-value returned for each row is significant
-anovasignificant[anovaresult <= 0.05] <- "+"
-anovasignificant[anovaresult > 0.05] <- ""
+anovasignificant[as.numeric(anovaresult) <= 0.05] <- "+"
+anovasignificant[as.numeric(anovaresult) > 0.05] <- ""
+anovasignificant[1] <- "";
 
 
 # create two extra rows on the table, one for p-values and other
 # for siginificance
-#TODO: ou colocar perto da intensidade que se refere ou na 3ª coluna
-args$table[paste0("ANOVA.result.", args$code)] <- NA;
-args$table[paste0("ANOVA.result.", args$code)] <- anovaresult;
-args$table[paste0("ANOVA.significant.", args$code)] <- NA;
-args$table[paste0("ANOVA.significant.", args$code)] <- anovasignificant;
-
-
+table[paste0("ANOVA.result.", code)] <- NA;
+table[paste0("ANOVA.result.", code)] <- anovaresult;
+table[paste0("ANOVA.significant.", code)] <- NA;
+table[paste0("ANOVA.significant.", code)] <- anovasignificant;
 
 
 # write out the table
-output_handler <- file(args$options$outputfile_name, "w")
-write.table(args$table, file=output_handler, sep="\t", row.names=FALSE);
+output_handler <- file(options$outputfile_name, "w")
+write.table(table, file=output_handler, sep="\t", row.names=FALSE);
 close(output_handler)
