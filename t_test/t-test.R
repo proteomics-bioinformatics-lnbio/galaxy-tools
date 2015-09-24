@@ -55,7 +55,7 @@ i<-1;
 columns <- list();
 aux <- c();
 for (cat in different_categories) {
-  col <- columns_names[gsub(regex, "\\1", columns_names) == cat]
+  col <- columns_names[gsub(regexpr, "\\1", columns_names) == cat]
   aux <- c(aux, col);
   columns[[i]] <- col;
   i<-i+1;
