@@ -1,0 +1,19 @@
+<tool id="ontologymap" name="Ontology map" version="1">
+  <description></description>
+  <command interpreter="perl">
+    ontologymap.pl $input $option $out 
+  </command>
+  <inputs>
+    <param format="tabular" name="input" type="data" label="Input table"/>
+    <param name="option" type="select" display="radio" label="Database">
+      <option value="KEGG">KEGG</option>
+      <option value="GO">Gene ontology</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="out" />
+  </outputs>
+  <help>
+    Input intensity table with uniprot id's in first column to be mapped into KEGG or GO databases.
+  </help>
+</tool>
