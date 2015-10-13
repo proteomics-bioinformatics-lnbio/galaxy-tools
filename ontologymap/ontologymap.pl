@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-#teste terminal: perl ontologymap.pl primary_213_intensity_visible_tabular.csv GO out.csv
+#teste terminal: perl ontologymap.pl Description_on_data_406_(intensity).csv GO test1_map.csv
 
 use DBI;
 use strict;
@@ -15,13 +15,12 @@ my $db_to_use = $ARGV[1];
 
 
 my $driver   = "SQLite"; 
-my $database = "go_annotation.db";
+my $database = "/home/ABTLUS/mateus.ruivo/galaxy-dist/tools/galaxy_proteomics/ontologymap/go_annotation.db";
 my $dsn = "DBI:$driver:dbname=$database";
 my $userid = "";
 my $password = "";
 my $dbh = DBI->connect($dsn, $userid, $password, { RaiseError => 1 }) 
                       or die $DBI::errstr;
-print $dbh->trace(2);
 
 # $hash{GO_ID}{GO_TERM} = [uniprot ids list]
 my %hash = ();
@@ -32,7 +31,7 @@ my $sth = $dbh->prepare("select GO_ID from $table where DB_OBJECT_ID = ?");
 
 
 my $parser = new GO::Parser({handler=>'obj'}); # create parser object
-$parser->parse("go.obo"); # parse file -> objects
+$parser->parse("/home/ABTLUS/mateus.ruivo/galaxy-dist/tools/galaxy_proteomics/ontologymap/go.obo"); # parse file -> objects
 my $graph = $parser->handler->graph;  # get L<GO::Model::Graph> object
 
 open DATA, $ARGV[0];
@@ -79,7 +78,6 @@ sub print_to_file{
 sub select_db{
 
     my $uniprot = shift(@_);
-    print "uniprot = ", $uniprot, "\n";
 
     my $rv = $sth->execute($uniprot) or die $DBI::errstr;
     if($rv < 0){
