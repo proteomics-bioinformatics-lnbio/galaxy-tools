@@ -37,12 +37,9 @@ db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = ";
 
 
 #Definition of all regular expressions to be used
-regex.intensity <- "^Intensity[.]([^[:digit:]]+)[[:digit:]]+$";
-regex.intensity.exp <- "^Intensity[.]([^[:digit:]]+[[:digit:]]+)$";
-regex.lfqintensity <- "^LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+$";
-regex.lfqintensity.exp <- "^LFQ[.]intensity[.]([^[:digit:]]+[[:digit:]]+)$";
-regex.spectral <- "^MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+$";
-regex.spectral.exp <- "^MS[.]MS[.]Count[.]([^[:digit:]]+[[:digit:]]+)$";
+regex.intensity <- "^Intensity[.]([^[:digit:]]+)([[:digit:]]+)$";
+regex.lfqintensity <- "^LFQ[.]intensity[.]([^[:digit:]]+)([[:digit:]]+)$";
+regex.spectral <- "^MS[.]MS[.]Count[.]([^[:digit:]]+)([[:digit:]]+)$";
 regex.proteinIDs <- "^Protein[.]IDs$";
 regex.id.uniprot.1 <- "^[OPQ][[:digit:]][[:upper:][:digit:]]{3}[[:digit:]]";
 regex.id.uniprot.2 <- "^[A-NR-Z][[:digit:]]([[:upper:]][[:upper:][:digit:]]{2}[[:digit:]]){1,2}";
@@ -55,11 +52,11 @@ regex.id.contaminant <- "^CON__";
 
 #get the names for the columns and separate them for better use
 column_names.intensity <- grep(regex.intensity, colnames(table), value=TRUE);
-column_names.intensity.new <- gsub(regex.intensity.exp, "\\1.intensity", column_names.intensity)
+column_names.intensity.new <- gsub(regex.intensity, "\\2\\1.intensity", column_names.intensity)
 column_names.lfqintensity <- grep(regex.lfqintensity, colnames(table), value=TRUE);
-column_names.lfqintensity.new <- gsub(regex.lfqintensity.exp, "\\1.lfq.intensity", column_names.lfqintensity)
+column_names.lfqintensity.new <- gsub(regex.lfqintensity, "\\2\\1.lfq.intensity", column_names.lfqintensity)
 column_names.spectral <- grep(regex.spectral, colnames(table), value=TRUE);
-column_names.spectral.new <- gsub(regex.spectral.exp, "\\1.speccount", column_names.spectral)
+column_names.spectral.new <- gsub(regex.spectral, "\\2\\1.speccount", column_names.spectral)
 column_names.proteinIDs <- grep(regex.proteinIDs, colnames(table), value=TRUE);
 column_names.uniprot_conversion <- "Uniprot.Conversion.ID";
 
