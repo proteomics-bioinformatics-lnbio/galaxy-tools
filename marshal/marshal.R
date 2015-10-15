@@ -38,8 +38,11 @@ db.sql.all <- "SELECT * FROM Synonyms2Uniprot WHERE synonyms = ";
 
 #Definition of all regular expressions to be used
 regex.intensity <- "^Intensity[.]([^[:digit:]]+)[[:digit:]]+$";
+regex.intensity.exp <- "^Intensity[.]([^[:digit:]]+[[:digit:]]+)$";
 regex.lfqintensity <- "^LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+$";
+regex.lfqintensity.exp <- "^LFQ[.]intensity[.]([^[:digit:]]+[[:digit:]]+)$";
 regex.spectral <- "^MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+$";
+regex.spectral.exp <- "^MS[.]MS[.]Count[.]([^[:digit:]]+[[:digit:]]+)$";
 regex.proteinIDs <- "^Protein[.]IDs$";
 regex.id.uniprot.1 <- "^[OPQ][[:digit:]][[:upper:][:digit:]]{3}[[:digit:]]";
 regex.id.uniprot.2 <- "^[A-NR-Z][[:digit:]]([[:upper:]][[:upper:][:digit:]]{2}[[:digit:]]){1,2}";
@@ -52,10 +55,14 @@ regex.id.contaminant <- "^CON__";
 
 #get the names for the columns and separate them for better use
 column_names.intensity <- grep(regex.intensity, colnames(table), value=TRUE);
+column_names.intensity.new <- gsub(regex.intensity.exp, "\\1.intensity", column_names.intensity)
 column_names.lfqintensity <- grep(regex.lfqintensity, colnames(table), value=TRUE);
+column_names.lfqintensity.new <- gsub(regex.lfqintensity.exp, "\\1.lfq.intensity", column_names.lfqintensity)
 column_names.spectral <- grep(regex.spectral, colnames(table), value=TRUE);
+column_names.spectral.new <- gsub(regex.spectral.exp, "\\1.speccount", column_names.spectral)
 column_names.proteinIDs <- grep(regex.proteinIDs, colnames(table), value=TRUE);
 column_names.uniprot_conversion <- "Uniprot.Conversion.ID";
+
 
 #create names of categories for extra row to be included
 categories.intensity <- gsub(regex.intensity, '\\1.intensity', column_names.intensity);
@@ -65,7 +72,7 @@ categories.spectral <- gsub(regex.spectral, '\\1.speccount', column_names.spectr
 #add a blank column
 table <- cbind(table[,c(column_names.proteinIDs)], rep("", nrow(table)), table[,c(column_names.intensity, column_names.lfqintensity, column_names.spectral)])
 #rename the column names
-colnames(table) <- c(column_names.proteinIDs,column_names.uniprot_conversion,categories.intensity, categories.lfq.intensity, categories.speccount);
+colnames(table) <- c(column_names.proteinIDs,column_names.uniprot_conversion,column_names.intensity.new, column_names.lfqintensity.new, column_names.spectral.new);
 #set the protein IDs column as character
 table[,column_names.proteinIDs] <- sapply(table[,column_names.proteinIDs], as.character);
 #add a blank row

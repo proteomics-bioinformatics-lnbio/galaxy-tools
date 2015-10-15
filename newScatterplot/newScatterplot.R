@@ -22,7 +22,7 @@ spec = matrix( c(
 opt = getopt(spec);
 # Load datasets
 df <- read.delim(opt$input, header=TRUE, fill=TRUE)
-cols <- grep("[^[:digit:]]+[[:digit:]]+[.]lfq[.]intensity",
+cols <- grep("[^[:digit:]]+.*[[:digit:]]+[.]lfq[.]intensity",
              colnames(df), value=TRUE)
 newdf <- df[-1, cols]
 lm_eqn <- function(df, col1, col2) {
