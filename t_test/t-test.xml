@@ -16,7 +16,7 @@
     </inputs>
 
     <outputs>
-        <data format="tabular" name="output" label="T-test p-value significance of ${type.name} - ${input.name}"/>
+        <data format="tabular" name="output" label="T-test p-value significance of ${t_test_type.name} - ${input.name}"/>
     </outputs>
 
     <help>

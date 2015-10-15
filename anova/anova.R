@@ -3,9 +3,9 @@
 # anova.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
-# LAST REVISED: April 2015
+# LAST REVISED: October 2015
 #
-# Required packages to work: (getopt", "gtools")
+# Required packages to work: ("getopt", "gtools")
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
 # http://lnbio.cnpem.br/
 # Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
@@ -62,7 +62,7 @@ for (cat in different_categories) {
 # this is a filtered table to help with calculations
 table_only_columns <- table[-1, aux]
 
-# this loop computes the ttest result for each row
+# this loop computes the anova result for each row
 # and adds it to a vector
 i <- 1;
 anovaresult <- c("");
