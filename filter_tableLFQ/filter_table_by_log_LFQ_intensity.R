@@ -50,11 +50,11 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE, stringsAsFac
 
 # this stores an array for the collumn names that has a pattern like
 # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
-lfq_column_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
+lfq_column_names <- grep("[^[:digit:]]+[[:digit:]]+[.]lfq[.]intensity",
                             colnames(table), value=TRUE);
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
-experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+)", "\\1",
+experiment_names <- mixedsort(gsub("([^[:digit:]]+[[:digit:]]+)[.].*", "\\1",
                                     lfq_column_names));
 # extract from the experiment names all the different categories in the table
 different_categories <- unique(gsub("([^[:digit:]]+).*", "\\1",
@@ -71,7 +71,7 @@ for (row in seq(2, nrow(table))) {
     nacount <- 0;
     for(exp in experiment_names) {
       #current col name
-      col <- paste0("LFQ.intensity.", exp);
+      col <- paste0(exp, ".lfq.intensity");
       if (gsub("([^[:digit:]]+).*", "\\1", exp) == category) {
         #the log fo the number on the current cell
         logresult <- log(as.numeric(as.character(table[row, col])), base=2);

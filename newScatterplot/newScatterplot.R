@@ -2,7 +2,7 @@
 # newScatterplot.R
 # AUTHOR: Daniel Travieso
 # E-mail: danielgtravieso@gmail.com
-# LAST REVISED: November 2014
+# LAST REVISED: October 2015
 #
 # Required packages to work: (ggplot2, GGally, getopt, )
 # Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
@@ -22,7 +22,7 @@ spec = matrix( c(
 opt = getopt(spec);
 # Load datasets
 df <- read.delim(opt$input, header=TRUE, fill=TRUE)
-cols <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
+cols <- grep("[^[:digit:]]+[[:digit:]]+[.]lfq[.]intensity",
              colnames(df), value=TRUE)
 newdf <- df[-1, cols]
 lm_eqn <- function(df, col1, col2) {

@@ -26,13 +26,13 @@ table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE);
 
 #get the type to work with
 if (options$type == "lfqlog2") {
-  regexpr <- "LFQ[.]intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  regexpr <- "([^[:digit:]]+)[[:digit:]]+[.]lfq[.]intensity";
   code <- "LFQ";
 } else if (options$type == "intensity") {
-  regexpr <- "Intensity[.]([^[:digit:]]+)[[:digit:]]+";
+  regexpr <- "([^[:digit:]]+)[[:digit:]]+[.]intensity";
   code <- "INT";
 } else {
-  regexpr <- "MS[.]MS[.]Count[.]([^[:digit:]]+)[[:digit:]]+";
+  regexpr <- "([^[:digit:]]+)[[:digit:]]+[.]speccount";
   code <- "MS";
 }
 if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
@@ -44,7 +44,7 @@ columns_names <- grep(regexpr, colnames(table), value=TRUE);
 
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
-experiment_names <- mixedsort(gsub(".*[.]([^[:digit:]]+[[:digit:]]+).*", "\\1",
+experiment_names <- mixedsort(gsub("([^[:digit:]]+[[:digit:]]+)[.].*", "\\1",
                                     columns_names));
 
 # extract from the experiment names all the different categories in the table
