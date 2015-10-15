@@ -36,7 +36,8 @@ if (options$type == "lfqlog2") {
   code <- "MS";
 }
 if (!(TRUE %in% grepl(regexpr, colnames(table)))) {
-  sprintf("Error: No columns of type %s in input table", code);
+  write(sprintf("Error: No columns of type %s in input table", code), stderr());
+  q(status=3);
 }
 
 # define the columns that will be taken in account for the foldchange

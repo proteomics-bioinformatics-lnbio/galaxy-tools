@@ -48,10 +48,15 @@ options <- getopt(opt);
 
 table <- read.delim(options$inputfile_name, header=TRUE, fill=TRUE, stringsAsFactors=FALSE);
 
+if (!(TRUE %in% grepl("[^[:digit:]]+.*[[:digit:]]+[.]lfq[.]intensity", colnames(table)))) {
+  write("Error: No columns of type lfq.intensity in input table", stderr());
+  q(status=3);
+}
 # this stores an array for the collumn names that has a pattern like
 # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
 lfq_column_names <- grep("[^[:digit:]]+.*[[:digit:]]+[.]lfq[.]intensity",
                             colnames(table), value=TRUE);
+                           }
 # here I extract the different experiment names in an array for easier
 # manipulation, ordering them
 experiment_names <- mixedsort(gsub("([^[:digit:]]+.*[[:digit:]]+)[.].*", "\\1",

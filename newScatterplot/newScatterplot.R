@@ -22,6 +22,10 @@ spec = matrix( c(
 opt = getopt(spec);
 # Load datasets
 df <- read.delim(opt$input, header=TRUE, fill=TRUE)
+if (!(TRUE %in% grepl("[^[:digit:]]+.*[[:digit:]]+[.]lfq[.]intensity", colnames(table)))) {
+  write("Error: No columns of type lfq.intensity in input table", stderr());
+  q(status=3);
+}
 cols <- grep("[^[:digit:]]+.*[[:digit:]]+[.]lfq[.]intensity",
              colnames(df), value=TRUE)
 newdf <- df[-1, cols]
