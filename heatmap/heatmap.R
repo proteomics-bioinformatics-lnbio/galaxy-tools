@@ -37,31 +37,31 @@ table <- read.delim(file=opt$input, header=TRUE, fill=TRUE);
 if (type == "lfqlog2") {
     # this stores an array for the collumn names that has a pattern like
     # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
-    if (!(TRUE %in% grepl("^[[:digit:]]+.*[^[:digit:]]+[.]lfq[.]intensity$", colnames(table)))) {
+    if (!(TRUE %in% grepl("[[:digit:]]+.*[^[:digit:]]+[.]lfq[.]intensity$", colnames(table)))) {
       write(sprintf("Error: No columns of type %s in input table", type), stderr());
       q(status=3);
     }
-    lfq_collumns_names <- grep("^[[:digit:]]+.*[^[:digit:]]+[.]lfq[.]intensity$",
+    lfq_collumns_names <- grep("[[:digit:]]+.*[^[:digit:]]+[.]lfq[.]intensity$",
                                colnames(table), value=TRUE);
     table <- scale(data.matrix(table[2:nrow(table), lfq_collumns_names]));
 } else if (type == "intensity") {
     # this stores an array for the collumn names with a pattern as
     # "Intensity.[1 or more non numbers][1 or more numbers]"
-    if (!(TRUE %in% grepl("^[[:digit:]]+.*[^[:digit:]]+[.]intensity$", colnames(table)))) {
+    if (!(TRUE %in% grepl("[[:digit:]]+.*[^[:digit:]]+[.]intensity$", colnames(table)))) {
       write(sprintf("Error: No columns of type %s in input table", type), stderr());
       q(status=3);
     }
-    intensitynames<- grep("^[[:digit:]]+.*[^[:digit:]]+[.]intensity$",
+    intensitynames<- grep("[[:digit:]]+.*[^[:digit:]]+[.]intensity$",
                                colnames(table), value=TRUE);
     table <- scale(data.matrix(table[2:nrow(table), intensitynames]));
 } else {
     # this stores an array for the collumn names with a pattern as
     # "MS.MS.Count.[1 or more non numbers][1 or more numbers]"
-    if (!(TRUE %in% grepl("^[[:digit:]]+.*[^[:digit:]]+[.]speccount$", colnames(table)))) {
+    if (!(TRUE %in% grepl("[[:digit:]]+.*[^[:digit:]]+[.]speccount$", colnames(table)))) {
       write(sprintf("Error: No columns of type %s in input table", type), stderr());
       q(status=3);
     }
-    mscountnames<- grep("^[[:digit:]]+.*[^[:digit:]]+[.]speccount$",
+    mscountnames<- grep("[[:digit:]]+.*[^[:digit:]]+[.]speccount$",
                                colnames(table), value=TRUE);
     table <- scale(data.matrix(table[2:nrow(table), mscountnames]));
 }
