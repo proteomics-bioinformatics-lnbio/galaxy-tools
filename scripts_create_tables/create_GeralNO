@@ -1,0 +1,165 @@
+set sql_safe_updates=0;
+
+################################################################ PHOSIDA ######################################
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Bacillus subtilis", "17218307", "Not defined"
+from modification_gabriela.Bsubtilis_Macek2007 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.symbol = s.synonyms and s.NCBI_taxon = "224308";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Caenorhabditis elegans", "19530675", "Not defined"
+from modification_gabriela.Celegans_Zielinska2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "6239";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Drosophila melanogaster", "19429919", "Not defined"
+from modification_gabriela.Dmelanogaster_Hilger2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.symbol = s.synonyms and s.NCBI_taxon="7227";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Escherichia coli", "17938405", "Not defined"
+from modification_gabriela.Ecoli_Macek2008 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.symbol = s.synonyms and s.NCBI_taxon = "83333";
+
+
+#### Adicionar _ depois de OE na tabela do PHOSIDA antes de fazer a query #### 
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Halobacterium salinarum", "Not defined", "Not defined"
+from modification_gabriela.Hsalinarium_Aivaliotis2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "478009";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Homo sapiens", "Not defined", "Not defined"
+from modification_gabriela.Hsapiens_Choudhary2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "9606";
+
+
+INSERT INTO modification_gabriela.GeralNO (  `original_id` ,  `source` ,  `uniprot_ac` ,  `tax_id` ,  `taxon_IIS` ,  `position` ,  `amino_acid` ,  `peptideModified` ,  `species` , `pubMed` ,  `kinases` ) 
+SELECT p.accession,  "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence,  "Homo sapiens",  "17192257", "Not defined"
+FROM modification_gabriela.Hsapiens_Daub2007 p
+LEFT OUTER JOIN conversionMarcelo.Synonyms2UniprotNO s
+ON p.accession = s.synonyms and s.NCBI_taxon = "9606";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Homo sapiens", "17081983", "Not defined"
+from modification_gabriela.Hsapiens_Olsen2006 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "9606";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Homo sapiens", "20068231", "Not defined"
+from modification_gabriela.Hsapiens_Olsen2006 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "9606";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Homo sapiens", "19369195", "Not defined"
+from modification_gabriela.Hsapiens_Oppermann2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "9606";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Lactococcus lactis", "18668697", "Not defined"
+from modification_gabriela.Llactis_Soufi2007 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "1358";
+
+
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Mus musculus", "18846507", "Not defined"
+from modification_gabriela.Mmusculus_Pan2008 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "10090";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Mus musculus", "20531401", "Not defined"
+from modification_gabriela.Mmusculus_Weintz2010 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "10090";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Mus musculus", "19367708", "Not defined"
+from modification_gabriela.Mmusculus_Zanivan2008 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "10090";
+
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Mus musculus", "20510933", "Not defined"
+from modification_gabriela.Mmusculus_Zielinska2010 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "10090";
+
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.accession, "PHOSIDA", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.amino_acid, p.surrounding_sequence, "Saccharomyces cerevisiae", "19795423", "Not defined"
+from modification_gabriela.Scerevisiae_Gnad2009 p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.accession = s.synonyms and s.NCBI_taxon = "559292";
+
+
+################################################################ PHOSPHAT ######################################
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.protein, "PhosPhAt", s.uniprot, s.NCBI_taxon, s.IIS_taxon, "Not defined", "Not defined", p.peptideModified, p.species, p.pubMed, "Not defined"
+from modification_gabriela.Phosphat p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.protein = s.synonyms;
+
+################################################################ PHOSPHOELM ######################################
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.acc, "PhosphoELM", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.code, "Not defined", p.species, p.pmids, p.kinases
+from modification_gabriela.PhosphoELM p
+left outer join conversionMarcelo.Synonyms2UniprotNO s
+on p.acc = s.synonyms;
+
+INSERT INTO modification_gabriela.GeralNO(`original_id`, `source`, `uniprot_ac`, `tax_id`, `taxon_IIS`, `position`, `amino_acid`, `peptideModified`, `species`, `pubMed`, `kinases`) 
+
+select p.acc, "PhosphoELM", s.uniprot, s.NCBI_taxon, s.IIS_taxon, p.position, p.code, "Not defined", p.species, p.pmids, p.kinases
+from modification_gabriela.PhosphoELM p
+left outer join conversionMarcelo.NoduplicatesMarceloNO s
+on p.acc = s.uniprot;

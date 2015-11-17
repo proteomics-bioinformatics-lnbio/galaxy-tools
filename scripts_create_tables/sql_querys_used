@@ -1,0 +1,65 @@
+INSERT INTO `Phosphat`(`protein`, `version`, `uniprot_id`, `tax_id`, `species`, `peptide`, `peptideModified`, `precursor`, `charge`, `no_pSTY`, `pubMed`, `treatment`, `cellCompartment`, `iInstrument`, `enrichment`, `tissue`, `genotype`)
+SELECT protein, version, tu.uniprot_id, taxu.tax_id, species, peptide, peptideModified, precursor, charge, no_pSTY, pubMed, treatment, cellCompartment, instrument, enrichment, tissue, genotype
+FROM phosphatTest pw
+inner join TairToUniprot tu
+on pw.protein = tu.tair_id
+inner join TaxUniprot taxu
+on tu.uniprot_id = taxu.uniprot_id
+
+
+/* Procura campos repetidos */
+SELECT  `uniprot` , COUNT( * ) c
+FROM  `test` 
+GROUP BY  `synonyms` 
+HAVING c >1
+LIMIT 0 , 30
+
+
+
+/*diego - Seleciona dados que sejam iguais nos campos passados */
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM  `test` 
+WHERE 1 
+LIMIT 0 , 30
+
+
+
+/* Insere na tabela test os ipi's pegando informaçoes da tabela do marcelo sem
+   contar as replicatas dela */
+INSERT INTO test(  `id` ,  `synonyms` ,  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) 
+SELECT * 
+FROM conversionsDavid.`IPIToUniprot` a
+LEFT OUTER JOIN (
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM conversãoMarcelo.`test`
+)b ON a.`uniprot_id` = b.uniprot
+
+
+
+/* Cria tabela filtrada sem linhas replicadas da tabela original do Marcelo de conversões */
+INSERT INTO  `NoduplicatesMarcelo` (  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) (
+
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM conversãoMarcelo.Synonyms2Uniprot
+WHERE 1 
+LIMIT 100
+)
+
+/** Mesma coisa do anterior só que agora cria uma tabela só com reviewed = YES **/
+INSERT INTO  `NoduplicatesMarceloYES` (  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) (
+
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM conversionMarcelo.Synonyms2Uniprot
+WHERE `reviewed` = "YES"
+)
+
+
+
+
+/* Insere id's do IPI na tabela Synonyms2Uniprot do marcelo pegando informacoes da 
+   tabela sem replicatas */
+INSERT INTO Synonyms2Uniprot(  `id` ,  `synonyms` ,  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) 
+SELECT null, a.ipi_id, b.uniprot, b.IIS_taxon, b.NCBI_taxon, b.reviewed
+FROM conversionsDavid.`IPIToUniprot` a
+LEFT OUTER JOIN NoduplicatesMarcelo b
+ON a.`uniprot_id` = b.uniprot

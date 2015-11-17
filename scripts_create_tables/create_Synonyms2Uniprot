@@ -1,0 +1,27 @@
+/* Cria tabela filtrada sem linhas replicadas da tabela original do Marcelo de conversões */
+INSERT INTO  `NoduplicatesMarcelo` (  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) (
+
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM conversãoMarcelo.Synonyms2Uniprot
+WHERE 1 
+LIMIT 100
+)
+
+/** Mesma coisa do anterior só que agora cria uma tabela só com reviewed = YES **/
+INSERT INTO  `NoduplicatesMarceloYES` (  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) (
+
+SELECT DISTINCT  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` 
+FROM conversionMarcelo.Synonyms2Uniprot
+WHERE `reviewed` = "YES"
+)
+
+
+
+
+/* Insere id's do IPI na tabela Synonyms2Uniprot do marcelo pegando informacoes da 
+   tabela sem replicatas */
+INSERT INTO Synonyms2Uniprot(  `id` ,  `synonyms` ,  `uniprot` ,  `IIS_taxon` ,  `NCBI_taxon` ,  `reviewed` ) 
+SELECT null, a.ipi_id, b.uniprot, b.IIS_taxon, b.NCBI_taxon, b.reviewed
+FROM conversionsDavid.`IPIToUniprot` a
+LEFT OUTER JOIN NoduplicatesMarcelo b
+ON a.`uniprot_id` = b.uniprot
