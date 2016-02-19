@@ -1,12 +1,14 @@
 # Galaxy-Tools
 
-Galaxy-Tools is a online repository for proteomics statistical analysis tools designed by LNBio's team on proteomics. The team is composed of:
+Galaxy-Tools is a online repository for proteomics bioinformatics and statistical analysis tools designed by our research team on proteomics. The team is composed of:
 
-  - Daniel Germano Travieso
-  - Flavia Vischi Winck
-  - Mateus Bellomo Ruivo
+  - Daniel Germano Travieso (LNBio)
+  - Flavia Vischi Winck     (USP)
+  - Mateus Bellomo Ruivo    (LNBio- UNICAMP)
+  - Guilherme Telles        (UNICAMP)
+  - Adriana Franco Paes Leme  (LNBio)
 
-The team works on [CNPEM]'s [LNBio].
+The members of our team work on [CNPEM]'s [LNBio], University of São Paulo (USP) and State University of Campinas (UNICAMP) .
 
 ### Version
 0.0.1
