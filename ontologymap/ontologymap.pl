@@ -15,7 +15,8 @@ my $regex = '(\w*)(([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-
 my $db_to_use = $ARGV[1];
 
 
-my $dbh = DBI->connect('dbi:mysql:ontology;mysql_socket=/tmp/mysql.sock', 'galaxy', '123456')
+#my $dbh = DBI->connect('dbi:mysql:ontology;mysql_socket=/tmp/mysql.sock', 'galaxy', '123456')
+my $dbh = DBI->connect('dbi:mysql:ontology', 'galaxy', '123456')
     or die "Connection Error: $DBI::errstr\n";
 
 
@@ -31,7 +32,7 @@ my $select_pathwayterm_KEGG = $dbh->prepare("select pathway_term from KEGG_pathw
 my $graph;
 if($db_to_use eq "GO"){
     my $parser = new GO::Parser({handler=>'obj'}); # create parser object
-    $parser->parse("/home/ABTLUS/mateus.ruivo/galaxy-dist/tools/galaxy_proteomics/ontologymap/go.obo"); # parse file -> objects
+    $parser->parse("/home/mateus/galaxy/tools/galaxy_proteomics/ontologymap/go.obo"); # parse file -> objects
     $graph = $parser->handler->graph;  # get L<GO::Model::Graph> object
 }
 

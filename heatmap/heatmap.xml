@@ -3,24 +3,19 @@
     <description>
     </description>
     <command interpreter="Rscript">
-        heatmap.R --input=$input_table --type=$type --output=$output
+        heatmap.R --input=$input_table --output=$output
     </command>
 
     <inputs>
-        <param format="txt" name="input_table" type="data" label="Input table"/>
-        <param format="txt" name="type" type="select" label="Type of Heatmap">
-          <option value="lfqlog2"> Log2 of LFQ Intensity </option>
-          <option value="intensity"> Intensity </option>
-          <option value="mscount"> MS Count </option>
-        </param>
+        <param format="tabular" name="input_table" type="data" label="Input table"/>
     </inputs>
 
     <outputs>
-        <data format="pdf" name="output" label="HeatMap of type ${type}"/>
+        <data format="pdf" name="output" label="HeatMap"/>
     </outputs>
 
     <help>
         ** What it does **
-        This tool executes an RScript that produces two scatterplot files in PDF.
+        This tool creates a heatmap of the input data.
     </help>
 </tool>

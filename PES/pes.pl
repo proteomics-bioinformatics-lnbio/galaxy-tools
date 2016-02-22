@@ -33,6 +33,7 @@ if($f > 1 || $f < 0){
 }
 
 open OUT, ">", $ARGV[5]; # file with output
+open OUTPVALUES, ">", $ARGV[6]; # file with p-values for future heatmap
 
 
 my %hash_mean; # protein -> mean
@@ -60,6 +61,8 @@ separateConditions();
 close(DATA);
 close(GOTERM);
 close(OUT);
+close(OUTPVALUES);
+
 
 # generate a random permutation of @array in place
 sub fisher_yates_shuffle {
@@ -608,6 +611,18 @@ sub print_to_file{
 	    print OUT $k, "\t", $v, "\t", $hash_PESratio{$k},"\n";
 	}
     }
+
+    my $cond1 = $$ref_conditions[0] =~ s/([-_\w]+).([-_\w]+)/$1/r;
+    my $cond2 = $$ref_conditions[1] =~ s/([-_\w]+).([-_\w]+)/$1/r;
+
+    print OUTPVALUES "\t", $cond1, "\t", $cond2,"\n";
+    while(my($goid, $pv1) = each %{$hash_pvalue{$$ref_conditions[0]}}){
+	my $pv2 = $hash_pvalue{$$ref_conditions[1]}{$goid};
+	if($pv1 <= $PVALUE && $pv2 <= $PVALUE){
+	    print OUTPVALUES $goid,"\t", $pv1,"\t", $pv2,"\n";
+	}
+    }
+
 
 }
 

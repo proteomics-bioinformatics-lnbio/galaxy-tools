@@ -1,62 +1,75 @@
-#!/usr/bin/env Rscript
-# heatmap.R
-# AUTHOR: Daniel Travieso
-# E-mail: danielgtravieso@gmail.com
-# LAST REVISED: November 2014
-#
-# Required packages to work: (getopt, )
-# Laboratory of Mass Spectrometry at Brazilian Biosciences National Laboratory
-# http://lnbio.cnpem.br/
-# Copyright CC BY-NC-SA (c) 2014  Brazilian Center for Research in Energy and Materials
-# All rights reserved.
+#########################################################
+### A) Installing and loading required packages
+#########################################################
+
+## if (!require("gplots")) {
+##    install.packages("gplots", dependencies = TRUE)
+##    library(gplots)
+##    }
+## if (!require("RColorBrewer")) {
+##    install.packages("RColorBrewer", dependencies = TRUE)
+##    library(RColorBrewer)
+##    }
+
 require(getopt, quietly=TRUE)
-# Specification of how arguments will work
+require("gplots", quietly=TRUE)
+## require(RColorBrewer, quietly=TRUE)
+#########################################################
+### B) Reading in data and transform it into matrix format
+#########################################################
+
 spec = matrix(c(
     'input', 'i', 1, "character",
-    'type', 't', 1, "character",
     'output', 'o', 1, "character"
     ), byrow = TRUE, ncol=4);
 opt <- getopt(spec);
 
-# sets the type the user wants for the heatmap
-if (!is.null(opt$type)) {
-    type = opt$type;
-    # sees if the type is known if not, halt
-    if (type != "lfqlog2" && type != "intensity"
-        && type != "mscount") {
-        write("Error, unknown type", stderr());
-        q(status=3);
-    }
-} else {
-    # default type
-    type = "lfqlog2";
-}
 
-table <- read.delim(file=opt$input, header=TRUE, fill=TRUE);
+data <- read.csv(opt$input, sep="\t", comment.char="#")
+rnames <- data[,1]                            # assign labels in column 1 to "rnames"
+mat_data <- data.matrix(data[,2:ncol(data)])  # transform column 2-n into a matrix
+rownames(mat_data) <- rnames                  # assign row names 
 
-if (type == "lfqlog2") {
-    # this stores an array for the collumn names that has a pattern like
-    # "LFQ.intensity.[1 or more non numbers][1 or more numbers]"
-    lfq_collumns_names <- grep("LFQ[.]intensity[.][^[:digit:]]+[[:digit:]]+",
-                               colnames(table), value=TRUE);
-    # calculate the log on base 2 of the LFQ.intensity collumns of the input table
-    table <- scale(data.matrix(table[2:nrow(table), lfq_collumns_names]));
-} else if (type == "intensity") {
-    # this stores an array for the collumn names with a pattern as
-    # "Intensity.[1 or more non numbers][1 or more numbers]"
-    intensitynames<- grep("Intensity[.][^[:digit:]]+[[:digit:]]+",
-                               colnames(table), value=TRUE);
-    table <- scale(data.matrix(table[2:nrow(table), intensitynames]));
-} else {
-    # this stores an array for the collumn names with a pattern as
-    # "MS.MS.Count.[1 or more non numbers][1 or more numbers]"
-    mscountnames<- grep("MS[.]MS[.]Count[.][^[:digit:]]+[[:digit:]]+",
-                               colnames(table), value=TRUE);
-    table <- scale(data.matrix(table[2:nrow(table), mscountnames]));
-}
 
-pdf(file=opt$output,
-    pointsize = 6);
-invisible(heatmap(table, Rowv=NA, Colv=NA, na.rm=TRUE, keep.dendro=FALSE, verbose=FALSE));
-dev.off();
-q(status=0);
+#########################################################
+### C) Customizing and plotting the heat map
+#########################################################
+
+# creates a own color palette from red to green
+my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 299)
+
+# creates a 5 x 5 inch image
+pdf(paste(opt$output,".pdf",sep=""),    # create PNG for the heat map        
+  pointsize = 8)        # smaller font size
+
+row_distance = dist(mat_data, method = "euclidean")
+row_cluster = hclust(row_distance, method = "ward")
+col_distance = dist(t(mat_data), method = "euclidean")
+col_cluster = hclust(col_distance, method = "ward")
+
+## heatmap(mat_data,
+##         Rowv = as.dendrogram(row_cluster),
+##         Colv = as.dendrogram(col_cluster),
+##         col = my_palette,
+##         scale="row",
+##         margins=c(10,10),
+##         keep.dendro=TRUE
+##         )
+
+
+heatmap.2(mat_data,
+  cellnote = mat_data,  # same data set for cell labels
+  main = "Correlation", # heat map title
+  notecol="black",      # change font color of cell labels to black
+  density.info="none",  # turns off density plot inside color legend
+  trace="none",         # turns off trace lines inside the heat map
+  margins =c(12,9),     # widens margins around plot
+  col=my_palette,       # use on color palette defined earlier 
+  ## breaks=col_breaks,    # enable color transition at specified limits
+  dendrogram="row",     # only draw a row dendrogram
+  scale="row",
+  Rowv = as.dendrogram(row_cluster),
+  Colv = as.dendrogram(col_cluster))
+
+
+dev.off()               # close the pdf device
